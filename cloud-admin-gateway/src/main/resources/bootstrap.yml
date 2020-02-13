@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: cloud-admin-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 47.96.79.54:8848
+        namespace: cloud-admin
+        group: cloud-admin-group
+    sentinel:
+      transport:
+        port: 8721
+        dashboard: 47.96.79.54:8408
+    gateway:
+      enabled: true
+  main:
+    allow-bean-definition-overriding: true
+server:
+  port: 1010
+feign:
+  sentinel:
+    enabled: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
