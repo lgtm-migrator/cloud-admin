@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -36,7 +37,7 @@ public class DynamicRouteServiceImpl implements RouteDefinitionRepository {
     /**
      * 路由远程调用
      */
-    @Autowired
+    @Resource
     IRemoteRouterClient remoteRouterClient;
 
     @Override

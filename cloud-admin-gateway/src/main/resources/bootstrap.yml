@@ -5,7 +5,7 @@ spring:
     nacos:
       discovery:
         server-addr: 47.96.79.54:8848
-        namespace: cloud-admin
+        namespace: aff3eac8-1bcc-4272-ba98-94b54fb1c016
         group: cloud-admin-group
     sentinel:
       transport:

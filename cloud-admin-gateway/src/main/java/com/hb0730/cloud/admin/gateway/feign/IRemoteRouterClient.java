@@ -28,7 +28,7 @@ public interface IRemoteRouterClient {
      *
      * @return 路由集
      */
-    @GetMapping("/system/router/routers")
+    @GetMapping("/admin/system/router/routers")
     ResultJson getRouters();
 
     /**
@@ -38,7 +38,7 @@ public interface IRemoteRouterClient {
      *
      * @param routeDefinition 路由
      */
-    @PostMapping("/system/router/add")
+    @PostMapping("/admin/system/router/add")
     void add(@RequestBody GatewayRouteDefinition routeDefinition);
 
     /**
@@ -48,7 +48,7 @@ public interface IRemoteRouterClient {
      *
      * @param id 路由id
      */
-    @GetMapping("/system/router/delete/{id}")
+    @GetMapping("/admin/system/router/delete/{id}")
     void delete(@PathVariable String id);
 
     /**
@@ -58,7 +58,7 @@ public interface IRemoteRouterClient {
      *
      * @param routeDefinition 路由id
      */
-    @PostMapping("/system/router/update")
+    @PostMapping("/admin/system/router/update")
     void update(@RequestBody GatewayRouteDefinition routeDefinition);
 
     /**
@@ -69,6 +69,6 @@ public interface IRemoteRouterClient {
      * @param id id
      * @return 详情
      */
-    @GetMapping("/system/router/info/{id}")
+    @GetMapping("/admin/system/router/info/{id}")
     ResultJson getInfo(@PathVariable String id);
 }

@@ -46,6 +46,8 @@
         <module>cloud-admin-commons-web</module>
         <module>cloud-admin-gateway</module>
         <module>cloud-admin-server-router</module>
+        <module>cloud-admin-commons-domain</module>
+        <module>cloud-admin-commons-service</module>
     </modules>
 
     <dependencyManagement>

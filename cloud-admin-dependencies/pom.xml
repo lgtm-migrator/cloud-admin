@@ -63,12 +63,12 @@
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
-                <version>${mybatis-plus-boot}</version>
+                <version>${mybatis-plus-boot.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.pagehelper</groupId>
                 <artifactId>pagehelper-spring-boot-starter</artifactId>
-                <version>${pagehelper-spring-boot}</version>
+                <version>${pagehelper-spring-boot.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.alicp.jetcache</groupId>
