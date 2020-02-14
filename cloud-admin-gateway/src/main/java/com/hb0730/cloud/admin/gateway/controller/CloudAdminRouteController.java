@@ -4,9 +4,9 @@ import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
 import com.hb0730.cloud.admin.gateway.model.GatewayRouteDefinition;
 import com.hb0730.cloud.admin.gateway.service.ICloudAdminRouteService;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -20,10 +20,13 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/route")
-@AllArgsConstructor
 public class CloudAdminRouteController {
-    @Autowired
-    ICloudAdminRouteService service;
+
+    private ICloudAdminRouteService cloudAdminRouteService;
+
+    public CloudAdminRouteController(ICloudAdminRouteService cloudAdminRouteService) {
+        this.cloudAdminRouteService = cloudAdminRouteService;
+    }
 
     /**
      * 获取路由
@@ -32,53 +35,7 @@ public class CloudAdminRouteController {
      */
     @GetMapping("routers")
     public ResultJson getRouter() {
-        List<GatewayRouteDefinition> routers = service.getRouters();
+        List<GatewayRouteDefinition> routers = cloudAdminRouteService.getRouters();
         return new ResultJson<>(CodeStatusEnum.SUCCESS.getCode(), CodeStatusEnum.SUCCESS.getMessage(), routers);
-    }
-
-    /**
-     * 新增路由
-     *
-     * @param gatewayRouteDefinition GatewayRouteDefinition
-     * @return 是否成功
-     */
-    @PostMapping("/add")
-    public ResultJson add(@RequestBody GatewayRouteDefinition gatewayRouteDefinition) {
-        service.add(gatewayRouteDefinition);
-        return new ResultJson<>(CodeStatusEnum.SUCCESS.getCode(), CodeStatusEnum.SUCCESS.getMessage(), "新增成功");
-    }
-
-    /**
-     * <p>
-     * 获取路由详情
-     * </p>
-     *
-     * @param id 路由id
-     * @return 详情
-     */
-    @GetMapping("/router/{id}")
-    public ResultJson getRouterInfo(@PathVariable String id) {
-        GatewayRouteDefinition routerInfo = service.getRouterInfo(id);
-        return new ResultJson<>(CodeStatusEnum.SUCCESS.getCode(), CodeStatusEnum.SUCCESS.getMessage(), routerInfo);
-    }
-
-    /**
-     * <p>
-     * 删除路由
-     * </p>
-     *
-     * @param id 路由id
-     * @return 是否成功
-     */
-    @GetMapping("/deleteRouter/{id}")
-    public ResultJson delete(@PathVariable String id) {
-        service.delete(id);
-        return new ResultJson<>(CodeStatusEnum.SUCCESS.getCode(), CodeStatusEnum.SUCCESS.getMessage(), "删除成功");
-    }
-
-    @PostMapping("/updateRouter")
-    public ResultJson update(@RequestBody GatewayRouteDefinition routeDefinition) {
-        service.update(routeDefinition);
-        return new ResultJson<>(CodeStatusEnum.SUCCESS.getCode(), CodeStatusEnum.SUCCESS.getMessage(), "更新成功");
     }
 }
