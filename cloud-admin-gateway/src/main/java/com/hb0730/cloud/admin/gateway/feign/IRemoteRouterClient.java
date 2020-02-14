@@ -31,4 +31,37 @@ public interface IRemoteRouterClient {
     @GetMapping("/routers")
     ResultJson getRouters();
 
+    /**
+     * <p>
+     * 保存路由
+     * </p>
+     *
+     * @param definition 路由
+     * @return 是否成功
+     */
+    @PostMapping("/add")
+    ResultJson save(@RequestBody GatewayRouteDefinition definition);
+
+    /**
+     * <p>
+     * 更新路由
+     * </p>
+     *
+     * @param definition 路由
+     * @return 是否成功
+     */
+    @PostMapping("/update")
+    ResultJson update(@RequestBody GatewayRouteDefinition definition);
+
+    /**
+     * <p>
+     * 删除路由
+     * </p>
+     *
+     * @param id 路由id
+     * @return 是否成功
+     */
+    @GetMapping("/delete/{id}")
+    ResultJson delete(@PathVariable("id") String id);
+
 }

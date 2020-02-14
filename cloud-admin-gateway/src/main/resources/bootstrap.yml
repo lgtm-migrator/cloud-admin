@@ -24,10 +24,11 @@ feign:
   sentinel:
     enabled: true
   client:
-    default:
-      connectTimeout: 50000
-      readTimeout: 50000
-      loggerLevel: BASIC
+    config:
+      default:
+        connectTimeout: 50000
+        readTimeout: 50000
+        loggerLevel: BASIC
   hystrix:
     enabled: true
   okhttp:
