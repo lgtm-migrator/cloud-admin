@@ -126,6 +126,20 @@ public class SystemUserController extends AbstractBaseController<SystemUserEntit
 
     /**
      * <p>
+     * 根据登录名查找
+     * </p>
+     *
+     * @param login 登录账号
+     * @return 用户
+     */
+    @GetMapping("/findUser/{login}")
+    public ResultJson findUserByLogin(@PathVariable String login) {
+        SystemUserEntity userEntity = getUserEntity(login);
+        return ResponseResult.resultSuccess(userEntity);
+    }
+
+    /**
+     * <p>
      * 用户登出
      * </p>
      *

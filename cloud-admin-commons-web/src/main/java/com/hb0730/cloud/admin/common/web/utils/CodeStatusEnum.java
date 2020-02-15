@@ -42,6 +42,14 @@ public enum CodeStatusEnum {
      */
     TOKEN_EXPIRED(514,"令牌已过期"),
     /**
+     * 登录失败
+     */
+    LOGIN_FAILURE(514,"登录失败"),
+    /**
+     * 用户未登录
+     */
+    NON_LOGIN(514,"用户未登录"),
+    /**
      * 未找到
      */
     NOT_FONT(404,"未找到");

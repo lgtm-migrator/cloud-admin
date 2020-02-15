@@ -20,4 +20,9 @@ public class ServerNameConstants {
      * </p>
      */
     public static final String USER_SERVER = "cloud-admin-user-server";
+
+    /**
+     * oauth2认证
+     */
+    public static final String OAUTH2_SERVER="cloud-admin-oauth2-server";
 }
