@@ -36,7 +36,9 @@ spring alibaba cloud admin Template
 |cloud-admin-commons-web| |项目web公共|null|
 |cloud-admin-commons-domain| |领域模型|null|
 |cloud-admin-commons-service| |公共service|null|
-|cloud-admin-gateway| |项目网关|1010|
-|cloud-admin-server-router| |项目路由|1020|
+|cloud-admin-commons-generator| |公共逆向工程|null |
+|cloud-admin-gateway| |系统网关|1010|
+|cloud-admin-server-router| |系统路由|1020|
+|cloud-admin-server-user| | 系统用户|1030|
 
 

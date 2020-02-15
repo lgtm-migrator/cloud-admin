@@ -13,4 +13,11 @@ public class ServerNameConstants {
      * 路由服务
      */
     public static final String ROUTER_SERVER = "cloud-admin-router-server";
+
+    /**
+     * <p>
+     * 用户服务
+     * </p>
+     */
+    public static final String USER_SERVER = "cloud-admin-user-server";
 }

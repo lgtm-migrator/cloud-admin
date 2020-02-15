@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Objects;
 
+import static com.hb0730.cloud.admin.common.util.RequestMappingConstants.GATEWAY_REQUEST;
+
 /**
  * <p>
  * CloudAdmin 路由
@@ -19,7 +21,7 @@ import java.util.Objects;
  * @since V1.0
  */
 @RestController
-@RequestMapping("/route")
+@RequestMapping(GATEWAY_REQUEST)
 public class CloudAdminRouteController {
 
     private ICloudAdminRouteService cloudAdminRouteService;
@@ -86,12 +88,12 @@ public class CloudAdminRouteController {
     @GetMapping("delete/{id}")
     public ResultJson delete(@PathVariable String id) {
         cloudAdminRouteService.delete(id);
-        return  ResponseResult.resultSuccess(null);
+        return ResponseResult.resultSuccess(null);
     }
 
     @GetMapping("/info/{id}")
     public ResultJson getInfo(@PathVariable String id) {
         GatewayRouteDefinition info = cloudAdminRouteService.getInfo(id);
-        return  ResponseResult.resultSuccess( info);
+        return ResponseResult.resultSuccess(info);
     }
 }

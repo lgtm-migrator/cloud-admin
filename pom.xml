@@ -48,6 +48,8 @@
         <module>cloud-admin-server-router</module>
         <module>cloud-admin-commons-domain</module>
         <module>cloud-admin-commons-service</module>
+        <module>cloud-admin-server-user</module>
+        <module>cloud-admin-commons-generator</module>
     </modules>
 
     <dependencyManagement>

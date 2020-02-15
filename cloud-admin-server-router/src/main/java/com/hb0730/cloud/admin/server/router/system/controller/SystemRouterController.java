@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Objects;
 
+import static com.hb0730.cloud.admin.common.util.RequestMappingConstants.ROUTER_SERVER_REQUEST;
+
 /**
  * <p>
  * 路由 前端控制器
@@ -31,7 +33,7 @@ import java.util.Objects;
  * @since 2020-02-13
  */
 @RestController
-@RequestMapping("/admin/system/router")
+@RequestMapping(ROUTER_SERVER_REQUEST)
 public class SystemRouterController extends AbstractBaseController<GatewayRouteDefinition> {
     private Logger logger = LoggerFactory.getLogger(SystemRouterController.class);
 
@@ -77,9 +79,11 @@ public class SystemRouterController extends AbstractBaseController<GatewayRouteD
         return ResponseResult.resultSuccess("更新成功");
     }
 
+    @GetMapping("/delete/{id}")
     @Override
-    public ResultJson delete(GatewayRouteDefinition target) {
-        return null;
+    public ResultJson delete(@PathVariable Object id) {
+        systemRouterService.removeById(id.toString());
+        return ResponseResult.resultSuccess("删除成功");
     }
 
     @Override
@@ -88,14 +92,8 @@ public class SystemRouterController extends AbstractBaseController<GatewayRouteD
     }
 
     @Override
-    public ResultJson gitObject(GatewayRouteDefinition target) {
+    public ResultJson gitObject(Object id) {
         return null;
-    }
-
-    @GetMapping("/delete/{id}")
-    public ResultJson delete(@PathVariable String id) {
-        systemRouterService.removeById(id);
-        return ResponseResult.resultSuccess("删除成功");
     }
 
     /**
