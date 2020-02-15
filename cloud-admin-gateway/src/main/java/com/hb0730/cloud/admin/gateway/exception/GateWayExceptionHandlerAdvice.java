@@ -3,10 +3,10 @@ package com.hb0730.cloud.admin.gateway.exception;
 import com.hb0730.cloud.admin.common.exception.AbstractCloudAdminException;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
+import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
 import io.netty.channel.ConnectTimeoutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cloud.gateway.support.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -35,7 +35,7 @@ public class GateWayExceptionHandlerAdvice {
     @ExceptionHandler(value = {ResponseStatusException.class})
     public ResultJson handle(ResponseStatusException ex) {
         logger.error("response status exception:{}", ex.getMessage());
-        return new ResultJson<>(CodeStatusEnum.ILLEGAL_REQUEST.getCode(), CodeStatusEnum.ILLEGAL_REQUEST.getMessage(), null);
+        return ResponseResult.result(CodeStatusEnum.ILLEGAL_REQUEST, ex.getMessage());
     }
 
     /**
@@ -47,22 +47,7 @@ public class GateWayExceptionHandlerAdvice {
     @ExceptionHandler(value = {ConnectTimeoutException.class})
     public ResultJson handle(ConnectTimeoutException ex) {
         logger.error("connect timeout exception:{}", ex.getMessage());
-        return new ResultJson<>(CodeStatusEnum.CONNECT_TIME_OUT.getCode(), CodeStatusEnum.CONNECT_TIME_OUT.getMessage(), null);
-    }
-
-    /**
-     * <p>
-     * 未找到
-     * </p>
-     *
-     * @param ex NotFoundException
-     * @return 未找到
-     */
-    @ExceptionHandler(value = {NotFoundException.class})
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResultJson handle(NotFoundException ex) {
-        logger.error("not found exception:{}", ex.getMessage());
-        return new ResultJson<>(CodeStatusEnum.NOT_FONT.getCode(), CodeStatusEnum.NOT_FONT.getMessage(), null);
+        return ResponseResult.result(CodeStatusEnum.CONNECT_TIME_OUT, ex.getMessage());
     }
 
     /**
@@ -72,6 +57,7 @@ public class GateWayExceptionHandlerAdvice {
      * @return 业务异常
      */
     @ExceptionHandler(value = {AbstractCloudAdminException.class})
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResultJson handler(AbstractCloudAdminException e) {
         logger.error("Admin exception ：{}", e.getMessage());
         return new ResultJson<>(e.getStatus(), e.getMessage(), e.getErrorData());
@@ -89,19 +75,17 @@ public class GateWayExceptionHandlerAdvice {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResultJson handle(Exception ex) {
         logger.error("exception:{}", ex.getMessage());
-        return new ResultJson<>(CodeStatusEnum.ILLEGAL_REQUEST.getCode(), CodeStatusEnum.ILLEGAL_REQUEST.getMessage(), null);
+        return ResponseResult.resultFall(ex.getMessage());
     }
 
     @ExceptionHandler(value = {Throwable.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResultJson handle(Throwable throwable) {
-        ResultJson result = new ResultJson<>(CodeStatusEnum.ILLEGAL_REQUEST.getCode(), CodeStatusEnum.ILLEGAL_REQUEST.getMessage(), null);
+        ResultJson result = ResponseResult.result(CodeStatusEnum.ILLEGAL_REQUEST, null);
         if (throwable instanceof ResponseStatusException) {
             result = handle((ResponseStatusException) throwable);
         } else if (throwable instanceof ConnectTimeoutException) {
             result = handle((ConnectTimeoutException) throwable);
-        } else if (throwable instanceof NotFoundException) {
-            result = handle((NotFoundException) throwable);
         } else if (throwable instanceof AbstractCloudAdminException) {
             result = handle((AbstractCloudAdminException) throwable);
         } else if (throwable instanceof RuntimeException) {

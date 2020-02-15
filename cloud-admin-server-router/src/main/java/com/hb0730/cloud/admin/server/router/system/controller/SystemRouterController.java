@@ -7,6 +7,7 @@ import com.hb0730.cloud.admin.common.util.GsonUtils;
 import com.hb0730.cloud.admin.common.web.controller.AbstractBaseController;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
+import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
 import com.hb0730.cloud.admin.server.router.system.model.entity.SystemRouterEntity;
 import com.hb0730.cloud.admin.server.router.system.model.vo.GatewayFilterDefinition;
 import com.hb0730.cloud.admin.server.router.system.model.vo.GatewayPredicateDefinition;
@@ -43,19 +44,15 @@ public class SystemRouterController extends AbstractBaseController<GatewayRouteD
     @PostMapping("/add")
     @Override
     public ResultJson save(@RequestBody GatewayRouteDefinition target) {
-        ResultJson<Object> resultJson = new ResultJson<>(CodeStatusEnum.SUCCESS.getCode(), CodeStatusEnum.SUCCESS.getMessage(), "新增成功");
         if (Objects.isNull(target)) {
-            verification(resultJson, CodeStatusEnum.FAIL, "参数为空");
-            return resultJson;
+            return ResponseResult.resultFall("参数为空");
         }
         SystemRouterEntity entity = new SystemRouterEntity();
         entity.setIsEnabled(1);
         entity.setIsDelete(0);
         converToEntity(target, entity);
         systemRouterService.save(entity);
-
-
-        return resultJson;
+        return ResponseResult.resultSuccess("保存成功");
     }
 
     /**
@@ -68,19 +65,16 @@ public class SystemRouterController extends AbstractBaseController<GatewayRouteD
      */
     @PostMapping("/update")
     public ResultJson update(@RequestBody GatewayRouteDefinition target) {
-        ResultJson<Object> resultJson = new ResultJson<>(CodeStatusEnum.SUCCESS.getCode(), CodeStatusEnum.SUCCESS.getMessage(), "新增成功");
         if (Objects.isNull(target)) {
-            verification(resultJson, CodeStatusEnum.FAIL, "参数为空");
-            return resultJson;
+            return ResponseResult.resultFall("参数为空");
         }
         if (StringUtils.isEmpty(target.getId())) {
-            verification(resultJson, CodeStatusEnum.FAIL, "参数为空");
-            return resultJson;
+            return ResponseResult.resultFall("id为空");
         }
         SystemRouterEntity entity = new SystemRouterEntity();
         converToEntity(target, entity);
         systemRouterService.updateById(entity);
-        return resultJson;
+        return ResponseResult.resultSuccess("更新成功");
     }
 
     @Override
@@ -101,7 +95,7 @@ public class SystemRouterController extends AbstractBaseController<GatewayRouteD
     @GetMapping("/delete/{id}")
     public ResultJson delete(@PathVariable String id) {
         systemRouterService.removeById(id);
-        return new ResultJson<>(CodeStatusEnum.SUCCESS.getCode(), CodeStatusEnum.SUCCESS.getMessage(), "新增成功");
+        return ResponseResult.resultSuccess("删除成功");
     }
 
     /**
@@ -166,10 +160,5 @@ public class SystemRouterController extends AbstractBaseController<GatewayRouteD
         entity.setPredicates(s1);
     }
 
-    private void verification(ResultJson result, CodeStatusEnum codeStatusEnum, Object message) {
-        result.setErrCode(codeStatusEnum.getCode());
-        result.setErrorMessage(codeStatusEnum.getMessage());
-        result.setData(message);
-    }
 }
 

@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -26,8 +27,20 @@ import java.util.List;
  * @author bing_huang
  * @since V1.0
  */
+//@Configuration
 public class AccessGatewayFilter implements GlobalFilter {
-    private static Logger logger= LoggerFactory.getLogger(AccessGatewayFilter.class);
+    private static Logger logger = LoggerFactory.getLogger(AccessGatewayFilter.class);
+
+    /**
+     * <p>
+     * 1.首先网关检查token是否有效，无效直接返回401，不调用签权服务
+     * 2.调用签权服务器看是否对该请求有权限，有权限进入下一个filter，没有权限返回401
+     * </p>
+     *
+     * @param exchange
+     * @param chain
+     * @return
+     */
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
@@ -61,7 +74,6 @@ public class AccessGatewayFilter implements GlobalFilter {
     }
 
     /**
-     *
      * @param btns
      * @param url
      * @return
@@ -77,6 +89,7 @@ public class AccessGatewayFilter implements GlobalFilter {
         }
         return Boolean.FALSE;
     }
+
     private Mono<Void> invalidtoken(ServerWebExchange serverWebExchange) {
         serverWebExchange.getResponse().setStatusCode(HttpStatus.NETWORK_AUTHENTICATION_REQUIRED);
         DataBuffer buffer = serverWebExchange.getResponse().bufferFactory().wrap(HttpStatus.UNAUTHORIZED.getReasonPhrase().getBytes());

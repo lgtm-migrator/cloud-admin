@@ -3,6 +3,7 @@ package com.hb0730.cloud.admin.gateway.feign;
 import com.hb0730.cloud.admin.common.util.ServerNameConstants;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.gateway.config.FeignConfiguration;
+import com.hb0730.cloud.admin.gateway.feign.fallback.RemoteRouterClientFallbackFactory;
 import com.hb0730.cloud.admin.gateway.model.GatewayRouteDefinition;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  * @author bing_huang
  * @since V1.0
  */
-@FeignClient(name = ServerNameConstants.ROUTER_SERVER, path = "/admin/system/router", configuration = FeignConfiguration.class)
+@FeignClient(name = ServerNameConstants.ROUTER_SERVER, path = "/admin/system/router", configuration = FeignConfiguration.class, fallbackFactory = RemoteRouterClientFallbackFactory.class)
 public interface IRemoteRouterClient {
     /**
      * <p>
