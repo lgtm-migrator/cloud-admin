@@ -40,5 +40,6 @@ spring alibaba cloud admin Template
 |cloud-admin-gateway| |系统网关|1010|
 |cloud-admin-server-router| |系统路由|1020|
 |cloud-admin-server-user| | 系统用户|1030|
+|cloud-admin-server-oauth2| |系统用户认证|1040|
 
 

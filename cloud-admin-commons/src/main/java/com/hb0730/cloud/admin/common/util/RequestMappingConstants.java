@@ -35,5 +35,11 @@ public class RequestMappingConstants {
      */
     public static final String USER_SERVER_REQUEST = "/admin/system/user";
 
+    /**
+     * <p>
+     * 认证服务器
+     * </p>
+     */
+    public static final String OAUTH2_SERVER_REQUEST = "/admin/server/oauth2";
 
 }

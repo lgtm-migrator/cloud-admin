@@ -22,8 +22,6 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 public class RedisConfiguration {
     @ConditionalOnClass(RedisOperations.class)
     @Bean
-//    @ConditionalOnBean(RedisConnectionFactory.class)
-//    @ConditionalOnProperty(prefix="spring.redis",name = "host")
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory) {
         RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(factory);

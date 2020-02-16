@@ -109,12 +109,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .authenticationManager(authenticationManager)
                 .exceptionTranslator(webResponseExceptionTranslator)
                 .tokenServices(defaultTokenServices());
-//        if(jwt){
-//            endpoints.accessTokenConverter(accessTokenConverter());
-//        }else {
-//            endpoints.tokenServices(defaultTokenServices());
-//        }
-//
     }
 
     /**
