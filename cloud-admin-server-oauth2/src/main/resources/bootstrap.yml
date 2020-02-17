@@ -52,6 +52,12 @@ spring:
 feign:
   sentinel:
     enabled: true
+  client:
+    config:
+      default:
+        connectTimeout: 50000
+        readTimeout: 50000
+        loggerLevel: BASIC
   httpclient:
     enabled: false
   okhttp:
@@ -64,3 +70,20 @@ management:
     web:
       exposure:
         include: '*'
+
+cloud:
+  admin:
+    oauth2:
+      grantType: password
+      clientId: client
+      clientSecret: secret
+      loginUrl:  http://127.0.0.1:1040/oauth/token
+
+logging:
+  level:
+    com:
+      hb0730:
+        cloud:
+          admin:
+            server:
+              oauth2: debug

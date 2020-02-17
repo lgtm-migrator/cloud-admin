@@ -1,7 +1,7 @@
 package com.hb0730.cloud.admin.server.user.system.model.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.hb0730.cloud.admin.commons.domain.BaseDomain;
+import com.hb0730.cloud.admin.commons.config.domain.BaseDomain;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;

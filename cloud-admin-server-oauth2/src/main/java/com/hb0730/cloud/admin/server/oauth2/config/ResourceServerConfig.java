@@ -6,9 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+
+import static com.hb0730.cloud.admin.common.util.RequestMappingConstants.OAUTH2_SERVER_REQUEST;
 
 /**
  * <p>
@@ -36,13 +39,17 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .requestMatchers().antMatchers("/**")
+        http.exceptionHandling()
+                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/actuator/**").permitAll()
-                .antMatchers("/**").authenticated()
-                .and().httpBasic();
+                .antMatchers(OAUTH2_SERVER_REQUEST+"/user/login","/actuator/**").permitAll()
+                // 增加了授权访问配置
+                .antMatchers("/user/info").hasAuthority("USER")
+                .antMatchers("/user/logout").hasAuthority("USER")
+                .and().httpBasic()
+                .and().csrf().disable().requestMatchers().antMatchers("/**");
     }
 
     @Override

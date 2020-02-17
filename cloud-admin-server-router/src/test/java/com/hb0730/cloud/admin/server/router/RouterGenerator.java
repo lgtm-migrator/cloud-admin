@@ -8,8 +8,7 @@ import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.hb0730.cloud.admin.common.web.controller.AbstractBaseController;
-import com.hb0730.cloud.admin.commons.domain.BaseDomain;
-import com.hb0730.cloud.admin.commons.service.BaseServiceImpl;
+import com.hb0730.cloud.admin.commons.config.domain.BaseDomain;
 import org.junit.Test;
 
 import java.util.ArrayList;

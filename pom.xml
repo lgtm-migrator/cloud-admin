@@ -51,6 +51,7 @@
         <module>cloud-admin-server-user</module>
         <module>cloud-admin-commons-generator</module>
         <module>cloud-admin-server-oauth2</module>
+        <module>cloud-admin-commons-security-feign-config</module>
     </modules>
 
     <dependencyManagement>

@@ -27,7 +27,7 @@ public class SystemUserControllerTest {
     public void save() throws Exception {
         SystemUserEntity entity = new SystemUserEntity();
         entity.setLoginEmail("XXXX@qq.com");
-        entity.setLogin("test1");
+        entity.setLogin("test2");
         entity.setLoginPasswd("1234");
         entity.setLoginName("测试");
         String json = JSON.toJSONString(entity);
@@ -42,7 +42,7 @@ public class SystemUserControllerTest {
 
     @Test
     public void login() throws Exception {
-        String login = "test1";
+        String login = "test2";
         String password = "1234";
         MvcResult result = mvc.perform(MockMvcRequestBuilders.get(USER_SERVER_REQUEST + "/login").param("login", login).param("password", password)).andReturn();
         MockHttpServletResponse response = result.getResponse();

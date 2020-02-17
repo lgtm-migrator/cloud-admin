@@ -1,4 +1,4 @@
-package com.hb0730.cloud.admin.commons.domain;
+package com.hb0730.cloud.admin.commons.config.domain;
 
 /**
  * <p>

@@ -1,4 +1,4 @@
-package com.hb0730.cloud.admin.commons.service;
+package com.hb0730.cloud.admin.commons.config.service;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

@@ -1,4 +1,4 @@
-package com.hb0730.cloud.admin.commons.genterator;
+package com.hb0730.cloud.admin.commons.config.genterator;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
@@ -7,15 +7,11 @@ import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
-import com.hb0730.cloud.admin.common.web.controller.AbstractBaseController;
-import com.hb0730.cloud.admin.commons.domain.BaseDomain;
-import org.apache.ibatis.reflection.ArrayUtil;
+import com.hb0730.cloud.admin.commons.config.domain.BaseDomain;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.hb0730.cloud.admin.commons.genterator.mysqlProperties.*;
 
 /**
  * <p>
@@ -36,11 +32,11 @@ public class RouterGenerator {
         AutoGenerator mpg = new AutoGenerator();
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl(MYSQL_URL);
+        dsc.setUrl(mysqlProperties.MYSQL_URL);
         dsc.setDbType(DbType.MYSQL);
-        dsc.setDriverName(DRIVER_NAME);
-        dsc.setUsername(MYSQL_USERNAME);
-        dsc.setPassword(MYSQL_PASSWORD);
+        dsc.setDriverName(mysqlProperties.DRIVER_NAME);
+        dsc.setUsername(mysqlProperties.MYSQL_USERNAME);
+        dsc.setPassword(mysqlProperties.MYSQL_PASSWORD);
         mpg.setDataSource(dsc);
         //生成策略
         StrategyConfig strategy = new StrategyConfig();
@@ -50,13 +46,13 @@ public class RouterGenerator {
         //数据库表字段映射到实体的命名策略, 未指定按照 naming 执行
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         //公共字段
-        strategy.setSuperEntityColumns(SUPER_ENTITY_COLUMNS);
+        strategy.setSuperEntityColumns(mysqlProperties.SUPER_ENTITY_COLUMNS);
         //自定义继承的Entity类全称，带包名
         strategy.setSuperEntityClass(BaseDomain.class);
         //自定义继承的Controller类全称，带包名
-        strategy.setSuperControllerClass(SUPER_CONTROLLER_CLASS);
+        strategy.setSuperControllerClass(mysqlProperties.SUPER_CONTROLLER_CLASS);
         //自定义继承Service类
-        strategy.setSuperServiceImplClass(SUPER_SERVICE_IMPL_CLASS);
+        strategy.setSuperServiceImplClass(mysqlProperties.SUPER_SERVICE_IMPL_CLASS);
         //常量字段
         strategy.setEntityColumnConstant(true);
         //【实体】是否为lombok模型（默认 false）

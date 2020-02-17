@@ -19,13 +19,15 @@ public class RequestMappingConstants {
      * 网关
      * </p>
      */
-    public static final String GATEWAY_REQUEST = "/route";
+    public static final String GATEWAY_REQUEST = "/v1/api/gateway/router";
+
+
     /**
      * <p>
      * 路由服务
      * </p>
      */
-    public static final String ROUTER_SERVER_REQUEST = "/admin/system/router";
+    public static final String ROUTER_SERVER_REQUEST = "/v1/server/system/router";
 
 
     /**
@@ -33,13 +35,13 @@ public class RequestMappingConstants {
      * 用户服务
      * </p>
      */
-    public static final String USER_SERVER_REQUEST = "/admin/system/user";
+    public static final String USER_SERVER_REQUEST = "/v1/server/system/user";
 
     /**
      * <p>
      * 认证服务器
      * </p>
      */
-    public static final String OAUTH2_SERVER_REQUEST = "/admin/server/oauth2";
+    public static final String OAUTH2_SERVER_REQUEST = "/v1/server/server/oauth2";
 
 }

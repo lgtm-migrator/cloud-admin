@@ -2,7 +2,6 @@ package com.hb0730.cloud.admin.server.user.system.controller;
 
 
 import cn.hutool.core.lang.ObjectId;
-import cn.hutool.crypto.digest.MD5;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.hb0730.cloud.admin.common.web.controller.AbstractBaseController;
@@ -11,6 +10,8 @@ import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
 import com.hb0730.cloud.admin.server.user.system.model.entity.SystemUserEntity;
 import com.hb0730.cloud.admin.server.user.system.service.ISystemUserService;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
@@ -28,11 +29,10 @@ import static com.hb0730.cloud.admin.common.util.RequestMappingConstants.USER_SE
 @RestController
 @RequestMapping(USER_SERVER_REQUEST)
 public class SystemUserController extends AbstractBaseController<SystemUserEntity> {
+    @Autowired
     private ISystemUserService systemUserService;
-
-    public SystemUserController(ISystemUserService systemUserService) {
-        this.systemUserService = systemUserService;
-    }
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @PostMapping("/save")
     @Override
@@ -52,11 +52,18 @@ public class SystemUserController extends AbstractBaseController<SystemUserEntit
         if (!Objects.isNull(userEntity)) {
             return ResponseResult.resultFall("用户账号或者邮箱已绑定");
         }
+        userEntity = getUserEntity(target.getLoginEmail());
+        if (!Objects.isNull(userEntity)) {
+            return ResponseResult.resultFall("用户账号或者邮箱已绑定");
+        }
         //生成salt
         String salt = ObjectId.next();
         target.setSalt(salt);
         //用户加密
-        String password = saltPassword(target.getLoginPasswd(), salt);
+//        String password = CryptoMD5Utils.encode(target.getLoginPasswd(), salt);
+//        target.setLoginPasswd(password);
+        // spring security
+        String password = passwordEncode(target.getLoginPasswd());
         target.setLoginPasswd(password);
         systemUserService.save(target);
         return ResponseResult.resultSuccess("新增成功");
@@ -116,12 +123,26 @@ public class SystemUserController extends AbstractBaseController<SystemUserEntit
             return ResponseResult.resultFall("登陆账号不存在");
         }
         //校验密码是否正确
-        String salt = userEntity.getSalt();
-        String newPassword = saltPassword(password, salt);
-        if (!newPassword.equals(userEntity.getLoginPasswd())) {
+//        String salt = userEntity.getSalt();
+//        boolean matches = CryptoMD5Utils.matches(password, salt, userEntity.getLoginPasswd());
+
+        // spring security
+        boolean matches = passwordMatches(password, userEntity.getLoginPasswd());
+        if (!matches) {
             return ResponseResult.resultFall("密码不正确");
         }
         return ResponseResult.resultSuccess(userEntity);
+    }
+
+    /**
+     * <p>
+     * 用户修改
+     * </p>
+     *
+     * @return
+     */
+    public ResultJson update() {
+        return ResponseResult.resultFall(null);
     }
 
     /**
@@ -149,19 +170,6 @@ public class SystemUserController extends AbstractBaseController<SystemUserEntit
         return ResponseResult.resultSuccess("登出成功");
     }
 
-    /**
-     * <p>
-     * 撒盐加密的密码
-     * </p>
-     *
-     * @return 加密后密码
-     */
-    private String saltPassword(String password, String salt) {
-        //用户加密
-        MD5 md5 = MD5.create();
-        md5.setSalt(salt.getBytes());
-        return md5.digestHex(password);
-    }
 
     /**
      * <p>
@@ -186,6 +194,31 @@ public class SystemUserController extends AbstractBaseController<SystemUserEntit
             return userEntity;
         }
         return null;
+    }
+
+    /**
+     * <p>
+     * 用户密码加密
+     * </p>
+     *
+     * @param password 密码文明
+     * @return 加密后密码
+     */
+    private String passwordEncode(String password) {
+        return passwordEncoder.encode(password);
+    }
+
+    /**
+     * <p>
+     * 密码校验
+     * </p>
+     *
+     * @param password       文明
+     * @param encodePassword 加密后
+     * @return 是否一致
+     */
+    private boolean passwordMatches(String password, String encodePassword) {
+        return passwordEncoder.matches(password, encodePassword);
     }
 }
 

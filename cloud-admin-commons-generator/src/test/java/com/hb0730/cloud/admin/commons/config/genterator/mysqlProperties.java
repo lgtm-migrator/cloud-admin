@@ -1,4 +1,4 @@
-package com.hb0730.cloud.admin.commons.genterator;
+package com.hb0730.cloud.admin.commons.config.genterator;
 
 /**
  * <p>
