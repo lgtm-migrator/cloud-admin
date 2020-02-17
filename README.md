@@ -37,9 +37,19 @@ spring alibaba cloud admin Template
 |cloud-admin-commons-domain| |领域模型|null|
 |cloud-admin-commons-service| |公共service|null|
 |cloud-admin-commons-generator| |公共逆向工程|null |
+|cloud-admin-commons-security-feign-config| |openFeign携带access_token|null|
 |cloud-admin-gateway| |系统网关|1010|
 |cloud-admin-server-router| |系统路由|1020|
 |cloud-admin-server-user| | 系统用户|1030|
 |cloud-admin-server-oauth2| |系统用户认证|1040|
 
 
+# 如何启动整个项目
+ 1. 首先启动基础设施(nacos,sentinel,redis,mysql等)
+ 
+ 2. 启动cloud-admin-server-router 路由服务
+ 
+ 3. 启动 cloud-admin-gateway网关服务
+ 
+ 4. 启动cloud-admin-server-user服务(无openFeign)
+ 5. 启动spring-cloud-server-oauth2 
