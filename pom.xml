@@ -51,7 +51,10 @@
         <module>cloud-admin-server-user</module>
         <module>cloud-admin-commons-generator</module>
         <module>cloud-admin-server-oauth2</module>
-        <module>cloud-admin-commons-security-feign-config</module>
+        <module>cloud-admin-commons-configuration</module>
+        <module>cloud-admin-server-menu</module>
+        <module>cloud-admin-server-permission</module>
+        <module>cloud-admin-server-role</module>
     </modules>
 
     <dependencyManagement>

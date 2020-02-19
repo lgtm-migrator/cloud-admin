@@ -42,7 +42,9 @@ spring alibaba cloud admin Template
 |cloud-admin-server-router| |系统路由|1020|
 |cloud-admin-server-user| | 系统用户|1030|
 |cloud-admin-server-oauth2| |系统用户认证|1040|
-
+|cloud-admin-server-menu| | 系统菜单|1050|
+|cloud-admin-server-permission| |系统权限|1060|
+|cloud-admin-server-permission| |系统角色|1070|
 
 # 如何启动整个项目
  1. 首先启动基础设施(nacos,sentinel,redis,mysql等)

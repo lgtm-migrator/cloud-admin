@@ -1,6 +1,6 @@
 package com.hb0730.cloud.admin.server.oauth2.model;
 
-import com.hb0730.cloud.admin.commons.config.domain.BaseDomain;
+import com.hb0730.cloud.admin.commons.domain.BaseDomain;
 import lombok.Data;
 
 /**

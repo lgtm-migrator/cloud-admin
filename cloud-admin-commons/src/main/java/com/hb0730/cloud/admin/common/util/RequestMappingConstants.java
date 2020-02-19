@@ -8,18 +8,14 @@ package com.hb0730.cloud.admin.common.util;
  * @author bing_huang
  * @since V1.0
  */
-public class RequestMappingConstants {
-
-    private RequestMappingConstants() {
-
-    }
+public interface RequestMappingConstants {
 
     /**
      * <p>
      * 网关
      * </p>
      */
-    public static final String GATEWAY_REQUEST = "/v1/api/gateway/router";
+    String GATEWAY_REQUEST = "/v1/api/gateway/router";
 
 
     /**
@@ -27,7 +23,7 @@ public class RequestMappingConstants {
      * 路由服务
      * </p>
      */
-    public static final String ROUTER_SERVER_REQUEST = "/v1/server/system/router";
+    String ROUTER_SERVER_REQUEST = "/v1/server/system/router";
 
 
     /**
@@ -35,13 +31,32 @@ public class RequestMappingConstants {
      * 用户服务
      * </p>
      */
-    public static final String USER_SERVER_REQUEST = "/v1/server/system/user";
+    String USER_SERVER_REQUEST = "/v1/server/system/user";
 
     /**
      * <p>
      * 认证服务器
      * </p>
      */
-    public static final String OAUTH2_SERVER_REQUEST = "/v1/server/server/oauth2";
+    String OAUTH2_SERVER_REQUEST = "/v1/server/system/oauth2";
 
+    /**
+     * <p>
+     * 菜单
+     * </P>
+     */
+    String MENU_SERVER_REQUEST = "/v1/server/system/menu";
+    /**
+     * <p>
+     * 权限
+     * </p>
+     */
+    String PERMISSION_SERVER_REQUEST = "/v1/server/system/permission";
+
+    /**
+     * <p>
+     * 角色
+     * </p>
+     */
+    String ROLE_SERVER_REQUEST = "/v1/server/system/role";;
 }

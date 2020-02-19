@@ -99,4 +99,12 @@ management:
     web:
       exposure:
         include: '*'
-
+security:
+  oauth2:
+    client:
+      client-id: client
+      client-secret: secret
+      access-token-uri: http://localhost:1010/oauth/token
+      user-authorization-uri: http://localhost:1010/oauth/authorize
+    resource:
+      token-info-uri: http://localhost:1010/oauth/check_token

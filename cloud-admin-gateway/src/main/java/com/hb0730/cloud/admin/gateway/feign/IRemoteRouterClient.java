@@ -2,7 +2,7 @@ package com.hb0730.cloud.admin.gateway.feign;
 
 import com.hb0730.cloud.admin.common.util.ServerNameConstants;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
-import com.hb0730.cloud.admin.commons.config.FeignConfiguration;
+import com.hb0730.cloud.admin.commons.feign.configuration.FeignConfiguration;
 import com.hb0730.cloud.admin.gateway.feign.fallback.RemoteRouterClientFallbackFactory;
 import com.hb0730.cloud.admin.gateway.model.GatewayRouteDefinition;
 import org.springframework.cloud.openfeign.FeignClient;

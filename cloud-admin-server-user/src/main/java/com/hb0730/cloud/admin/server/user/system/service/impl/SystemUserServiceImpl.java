@@ -1,9 +1,9 @@
 package com.hb0730.cloud.admin.server.user.system.service.impl;
 
-import com.hb0730.cloud.admin.server.user.system.model.entity.SystemUserEntity;
+import com.hb0730.cloud.admin.commons.service.BaseServiceImpl;
 import com.hb0730.cloud.admin.server.user.system.mapper.SystemUserMapper;
+import com.hb0730.cloud.admin.server.user.system.model.entity.SystemUserEntity;
 import com.hb0730.cloud.admin.server.user.system.service.ISystemUserService;
-import com.hb0730.cloud.admin.commons.config.service.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**

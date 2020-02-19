@@ -8,21 +8,42 @@ package com.hb0730.cloud.admin.common.util;
  * @author bing_huang
  * @since V1.0
  */
-public class ServerNameConstants {
+public interface ServerNameConstants {
     /**
      * 路由服务
      */
-    public static final String ROUTER_SERVER = "cloud-admin-router-server";
+    String ROUTER_SERVER = "cloud-admin-router-server";
 
     /**
      * <p>
      * 用户服务
      * </p>
      */
-    public static final String USER_SERVER = "cloud-admin-user-server";
+    String USER_SERVER = "cloud-admin-user-server";
 
     /**
      * oauth2认证
      */
-    public static final String OAUTH2_SERVER="cloud-admin-oauth2-server";
+    String OAUTH2_SERVER = "cloud-admin-oauth2-server";
+
+    /**
+     * <p>
+     * 菜单
+     * </p>
+     */
+    String MENU_SERVER = "cloud-admin-menu-server";
+
+    /**
+     * <p>
+     * 权限
+     * </p>
+     */
+    String PERMISSION_SERVER = "cloud-admin-permission-server";
+
+    /**
+     * <p>
+     * 角色
+     * </p>
+     */
+    String ROLE_SERVER = "cloud-admin-role-server";
 }

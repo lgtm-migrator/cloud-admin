@@ -2,6 +2,8 @@ package com.hb0730.cloud.admin.server.oauth2.exception;
 
 import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.common.exceptions.InvalidGrantException;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * <p>
+ * 异常处理
  * </P>
  *
  * @author bing_huang
@@ -18,8 +21,12 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class Oauth2WebResponseExceptionTranslator implements WebResponseExceptionTranslator {
+    private Logger logger = LoggerFactory.getLogger(Oauth2WebResponseExceptionTranslator.class);
+
     @Override
     public ResponseEntity translate(Exception e) throws Exception {
+        e.printStackTrace();
+        logger.error("用户认证异常,error:{}", e.getMessage());
         ResponseEntity.BodyBuilder status = ResponseEntity.status(HttpStatus.OK);
         if (e instanceof UnsupportedGrantTypeException) {
             return status.body(ResponseResult.resultFall("不支持该认证类型"));

@@ -1,5 +1,7 @@
 package com.hb0730.cloud.admin.server.user.config;
 
+import com.hb0730.cloud.admin.server.user.handler.Oauth2AccessDeniedHandler;
+import com.hb0730.cloud.admin.server.user.handler.Oauth2ExceptionEntryPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -8,6 +10,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+
+import javax.annotation.Resource;
 
 import static com.hb0730.cloud.admin.common.util.RequestMappingConstants.USER_SERVER_REQUEST;
 
@@ -22,6 +27,10 @@ import static com.hb0730.cloud.admin.common.util.RequestMappingConstants.USER_SE
 @EnableResourceServer
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 public class UserResourceConfig extends ResourceServerConfigurerAdapter {
+    @Resource
+    Oauth2AccessDeniedHandler accessDeniedHandler;
+    @Resource
+    Oauth2ExceptionEntryPoint exceptionEntryPoint;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -31,11 +40,17 @@ public class UserResourceConfig extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.exceptionHandling()
-            .and()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
-            .authorizeRequests()
-            .antMatchers(USER_SERVER_REQUEST+"/findUser/**").permitAll()
-            .antMatchers("/**").hasAnyAuthority("USER");
+                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authorizeRequests()
+                .antMatchers(USER_SERVER_REQUEST + "/findUser/**").permitAll()
+                .antMatchers("/**").hasAnyAuthority("USER");
+    }
+
+    @Override
+    public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
+        resources.accessDeniedHandler(accessDeniedHandler).authenticationEntryPoint(exceptionEntryPoint).stateless(false);
+        ;
     }
 }

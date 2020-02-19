@@ -1,7 +1,11 @@
 package com.hb0730.cloud.admin.server.oauth2.controller;
 
+import com.alicp.jetcache.Cache;
+import com.alicp.jetcache.anno.CacheType;
+import com.alicp.jetcache.anno.CreateCache;
 import com.google.common.collect.Maps;
 import com.hb0730.cloud.admin.common.util.GsonUtils;
+import com.hb0730.cloud.admin.common.util.JetcacheRedisConstants;
 import com.hb0730.cloud.admin.common.util.OkHttpClientUtil;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
@@ -55,6 +59,9 @@ public class LoginController {
 
     @Autowired
     private TokenStore tokenStore;
+    @CreateCache(cacheType = CacheType.REMOTE, area = JetcacheRedisConstants.REDIS_JETCACHE_AREA, name = JetcacheRedisConstants.REDIS_JETCACHE_NAME_USER)
+    private Cache<Long, LoginSuccessResult> userCache;
+
     /**
      * 用户登录
      *

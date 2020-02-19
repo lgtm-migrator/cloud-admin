@@ -11,6 +11,8 @@ import com.hb0730.cloud.admin.server.user.system.model.entity.SystemUserEntity;
 import com.hb0730.cloud.admin.server.user.system.service.ISystemUserService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,9 +62,6 @@ public class SystemUserController extends AbstractBaseController<SystemUserEntit
         String salt = ObjectId.next();
         target.setSalt(salt);
         //用户加密
-//        String password = CryptoMD5Utils.encode(target.getLoginPasswd(), salt);
-//        target.setLoginPasswd(password);
-        // spring security
         String password = passwordEncode(target.getLoginPasswd());
         target.setLoginPasswd(password);
         systemUserService.save(target);
@@ -101,48 +100,29 @@ public class SystemUserController extends AbstractBaseController<SystemUserEntit
 
     /**
      * <p>
-     * 用户登录
-     * </p>
-     *
-     * @param login    用户名
-     * @param password 用户密码
-     * @return 是否成功
-     */
-    @GetMapping("/login")
-    public ResultJson login(@RequestParam("login") String login, @RequestParam("password") String password) {
-        if (StringUtils.isBlank(login)) {
-            return ResponseResult.resultFall("请输入用户名或者登陆邮箱");
-        }
-        if (StringUtils.isBlank(password)) {
-            return ResponseResult.resultFall("请输入密码");
-        }
-        //根据用户账号
-        SystemUserEntity userEntity = getUserEntity(login);
-
-        if (Objects.isNull(userEntity)) {
-            return ResponseResult.resultFall("登陆账号不存在");
-        }
-        //校验密码是否正确
-//        String salt = userEntity.getSalt();
-//        boolean matches = CryptoMD5Utils.matches(password, salt, userEntity.getLoginPasswd());
-
-        // spring security
-        boolean matches = passwordMatches(password, userEntity.getLoginPasswd());
-        if (!matches) {
-            return ResponseResult.resultFall("密码不正确");
-        }
-        return ResponseResult.resultSuccess(userEntity);
-    }
-
-    /**
-     * <p>
      * 用户修改
      * </p>
      *
-     * @return
+     * @return 是否成功
      */
-    public ResultJson update() {
-        return ResponseResult.resultFall(null);
+    @GetMapping("/update/password/{userId}")
+    public ResultJson updatePassword(@PathVariable long userId, @RequestParam("oldPassword") String oldPassword, @RequestParam("newPassword") String newPassword) {
+        SystemUserEntity userEntity = systemUserService.getById(userId);
+        if (Objects.isNull(userEntity)) {
+            return ResponseResult.resultFall("用户不存在");
+        }
+        String loginPasswd = userEntity.getLoginPasswd();
+        if (!passwordMatches(oldPassword, loginPasswd)) {
+            return ResponseResult.resultFall("密码不正确");
+        }
+        String password = passwordEncode(newPassword);
+        UpdateWrapper<SystemUserEntity> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.setEntity(new SystemUserEntity().setId(userId).setLoginPasswd(password));
+        boolean b = systemUserService.updateById(userEntity);
+        if (b) {
+            return ResponseResult.resultFall("修改成功");
+        }
+        return ResponseResult.resultFall("修改密码失败");
     }
 
     /**
@@ -157,17 +137,6 @@ public class SystemUserController extends AbstractBaseController<SystemUserEntit
     public ResultJson findUserByLogin(@PathVariable String login) {
         SystemUserEntity userEntity = getUserEntity(login);
         return ResponseResult.resultSuccess(userEntity);
-    }
-
-    /**
-     * <p>
-     * 用户登出
-     * </p>
-     *
-     * @return 是否成功
-     */
-    public ResultJson<String> loginOut() {
-        return ResponseResult.resultSuccess("登出成功");
     }
 
 
@@ -219,6 +188,17 @@ public class SystemUserController extends AbstractBaseController<SystemUserEntit
      */
     private boolean passwordMatches(String password, String encodePassword) {
         return passwordEncoder.matches(password, encodePassword);
+    }
+
+    /**
+     * <p>
+     * 获取spring security 认证用户
+     * </p>
+     *
+     * @return Authentication
+     */
+    private Authentication getAuthentication() {
+        return SecurityContextHolder.getContext().getAuthentication();
     }
 }
 

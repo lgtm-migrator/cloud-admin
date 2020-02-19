@@ -46,9 +46,6 @@ spring:
         port: 8721
         dashboard: 47.96.79.54:8408
         heartbeat-interval-ms: 3000
-feign:
-  sentinel:
-    enabled: true
 
 #mybatis-plus
 mybatis-plus:

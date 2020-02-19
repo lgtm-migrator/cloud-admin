@@ -87,3 +87,21 @@ logging:
           admin:
             server:
               oauth2: debug
+
+# jetcache 操作redis
+jetcache:
+  statIntervalMinutes: 15
+  areaInCacheName: true
+  hiddenPackages: com.hb0730.cloud.admin.server
+  local:
+    default:
+      limit: 100
+      keyConvertor: fastjson
+      expireAfterWriteInMillis: 100000
+  remote:
+    cloud-admin:
+      type: redis.lettuce
+      keyConvertor: fastjson
+      valueEncoder: java
+      valueDecoder: java
+      uri: redis://${spring.redis.password}@${spring.redis.host}:${spring.redis.port}

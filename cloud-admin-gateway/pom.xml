@@ -52,7 +52,7 @@
         </dependency>
         <dependency>
             <groupId>com.hb0730</groupId>
-            <artifactId>cloud-admin-commons-security-feign-config</artifactId>
+            <artifactId>cloud-admin-commons-feign-configuration</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>

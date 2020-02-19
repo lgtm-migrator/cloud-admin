@@ -1,0 +1,111 @@
+spring:
+  application:
+    name: cloud-admin-permission-server
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    url: jdbc:mysql://rm-bp14b893npcro13pmlo.mysql.rds.aliyuncs.com/cloud-admin?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8
+    username: bing_huang
+    password: HBhuangbing0730
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    platform: mysql
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 10
+      idle-timeout: 600000
+      auto-commit: true
+      pool-name: MyHikariCP
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    serialization:
+      write-dates-as-timestamps: true
+
+  #redis
+  redis:
+    host: r-bp12zjmtqgp11s9nrspd.redis.rds.aliyuncs.com
+    password: HBhuangbing0730
+    port: 6379
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
+
+  # 注册中心
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 47.96.79.54:8848
+        namespace: aff3eac8-1bcc-4272-ba98-94b54fb1c016
+        group: cloud-admin-group
+    sentinel:
+      transport:
+        port: 8721
+        dashboard: 47.96.79.54:8408
+        heartbeat-interval-ms: 3000
+
+#mybatis-plus
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*Mapper.xml
+  global-config:
+    banner: false
+    db-config:
+      #逻辑删除
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+      #更新 插入 查询策略
+      update-strategy: ignored
+      insert-strategy: ignored
+      select-strategy: ignored
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params:
+    pageSize=countSql
+  offset-as-page-num: true
+  row-bounds-with-count: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+server:
+  port: 1060
+
+# jetcache 操作redis
+jetcache:
+  statIntervalMinutes: 15
+  areaInCacheName: true
+  hiddenPackages: com.hb0730.cloud.admin.server.router
+  local:
+    default:
+      limit: 100
+      keyConvertor: fastjson
+      expireAfterWriteInMillis: 100000
+  remote:
+    cloud-admin:
+      type: redis.lettuce
+      keyConvertor: fastjson
+      valueEncoder: java
+      valueDecoder: java
+      uri: redis://${spring.redis.password}@${spring.redis.host}:${spring.redis.port}
+
+security:
+  oauth2:
+    client:
+      client-id: client
+      client-secret: secret
+      access-token-uri: http://localhost:1010/oauth/token
+      user-authorization-uri: http://localhost:1010/oauth/authorize
+    resource:
+      token-info-uri: http://localhost:1010/oauth/check_token
