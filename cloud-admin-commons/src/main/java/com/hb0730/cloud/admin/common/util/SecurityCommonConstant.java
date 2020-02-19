@@ -1,4 +1,4 @@
-package com.hb0730.cloud.admin.server.oauth2.utils;
+package com.hb0730.cloud.admin.common.util;
 
 /**
  * <p>
@@ -7,7 +7,7 @@ package com.hb0730.cloud.admin.server.oauth2.utils;
  * @author bing_huang
  * @since V1.0
  */
-public interface CommonConstant {
+public interface SecurityCommonConstant {
     /**
      * 用户状态锁定
      */

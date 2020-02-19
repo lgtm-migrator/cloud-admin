@@ -1,18 +1,17 @@
 package com.hb0730.cloud.admin.server.role.system.model.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.Version;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.hb0730.cloud.admin.commons.domain.BaseDomain;
-import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 系统角色 
+ * 系统角色
  * </p>
  *
  * @author bing_huang
@@ -24,20 +23,20 @@ import lombok.experimental.Accessors;
 @TableName("t_system_role")
 public class SystemRoleEntity extends BaseDomain {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * 是否删除
      */
     @TableField("is_delete")
     @TableLogic
-    private Integer isDelete;
+    private Integer isDelete = 0;
 
     /**
      * 是否启用
      */
     @TableField("is_enabled")
-    private Integer isEnabled;
+    private Integer isEnabled = 1;
 
     /**
      * id

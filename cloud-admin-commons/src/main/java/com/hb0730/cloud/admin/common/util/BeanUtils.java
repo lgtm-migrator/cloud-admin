@@ -8,7 +8,10 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
+import java.beans.BeanInfo;
+import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -53,7 +56,7 @@ public class BeanUtils {
     /**
      * 转换源数据集合
      *
-     * @param sources    源对象集
+     * @param sources     源对象集
      * @param targetClass 目标对象
      * @param <T>         目标对象类型
      * @return 从源数据集合转换目标集合
@@ -69,6 +72,7 @@ public class BeanUtils {
                 .map(source -> transformFrom(source, targetClass))
                 .collect(Collectors.toList());
     }
+
     /**
      * 更新非空属性
      *
@@ -87,6 +91,7 @@ public class BeanUtils {
             throw new BeanUtilsException("Failed to copy properties", e);
         }
     }
+
     /**
      * 获取属性的空名称集
      *
@@ -122,5 +127,33 @@ public class BeanUtils {
         }
 
         return emptyNames;
+    }
+
+    /**
+     * <p>
+     * 把Map转化为JavaBean
+     * </p>
+     *
+     * @param map 源目标
+     * @param clz 对象目标
+     * @param <T> 对象类型
+     * @return 对象模板
+     * @throws Exception
+     */
+    public static <T> T map2bean(Map<String, Object> map, Class<T> clz) throws Exception {
+        //创建一个需要转换为的类型的对象
+        T obj = clz.newInstance();
+        //从Map中获取和属性名称一样的值，把值设置给对象(setter方法)
+
+        //得到属性的描述器
+        BeanInfo b = Introspector.getBeanInfo(clz, Object.class);
+        PropertyDescriptor[] pds = b.getPropertyDescriptors();
+        for (PropertyDescriptor pd : pds) {
+            //得到属性的setter方法
+            Method setter = pd.getWriteMethod();
+            //得到key名字和属性名字相同的value设置给属性
+            setter.invoke(obj, map.get(pd.getName()));
+        }
+        return obj;
     }
 }

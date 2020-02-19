@@ -67,7 +67,7 @@ public class LoginController {
      *
      * @param params 登录参数
      * @return {@link LoginSuccessResult}
-     * @see {@link org.springframework.security.oauth2.provider.endpoint.TokenEndpoint}
+     * @see {@link org.springframework.security.oauth2.provider.endpoint.TokenEndpoint#postAccessToken}
      */
     @PostMapping("/user/login")
     public ResultJson login(@RequestBody LoginParams params) throws IOException {

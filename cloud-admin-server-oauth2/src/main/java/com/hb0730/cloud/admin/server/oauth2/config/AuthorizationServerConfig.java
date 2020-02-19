@@ -7,18 +7,31 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
+import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
+import org.springframework.security.oauth2.provider.token.DefaultUserAuthenticationConverter;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
+import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.sql.DataSource;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -92,6 +105,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .userDetailsService(userDetailsService)
                 .authenticationManager(authenticationManager)
                 .exceptionTranslator(webResponseExceptionTranslator)
+                .accessTokenConverter(accessTokenConverter())
                 .tokenServices(defaultTokenServices());
     }
 
@@ -111,5 +125,27 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         tokenServices.setSupportRefreshToken(true);
         tokenServices.setClientDetailsService(clientDetails());
         return tokenServices;
+    }
+
+    @Bean
+    public DefaultAccessTokenConverter accessTokenConverter() {
+        DefaultAccessTokenConverter defaultAccessTokenConverter = new DefaultAccessTokenConverter();
+        defaultAccessTokenConverter.setUserTokenConverter(new UserAuthenticationConverter());
+        return defaultAccessTokenConverter;
+    }
+
+    @Component
+    class UserAuthenticationConverter extends DefaultUserAuthenticationConverter {
+        private Collection<? extends GrantedAuthority> defaultAuthorities;
+        @Override
+        public Map<String, ?> convertUserAuthentication(Authentication authentication) {
+            Map<String, Object> response = new LinkedHashMap<String, Object>();
+            response.put(USERNAME, authentication.getName());
+            if (authentication.getAuthorities() != null && !authentication.getAuthorities().isEmpty()) {
+                response.put(AUTHORITIES, AuthorityUtils.authorityListToSet(authentication.getAuthorities()));
+            }
+            response.put(USERNAME,authentication.getPrincipal());
+            return response;
+        }
     }
 }

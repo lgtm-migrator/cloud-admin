@@ -46,4 +46,27 @@ public interface ServerNameConstants {
      * </p>
      */
     String ROLE_SERVER = "cloud-admin-role-server";
+
+    /**
+     * <p>
+     * 菜单权限
+     * </p>
+     */
+    String PERMISSION_MENU_SERVER = "cloud-admin-permission-menu-server";
+
+    /**
+     * <p>
+     * 角色权限
+     * </p>
+     */
+    String ROLE_PERMISSION_SERVER = "cloud-admin-role-permission-server";
+
+    /**
+     * <p>
+     * 用户角色
+     * </p>
+     */
+    String USER_ROLE_SERVER = "cloud-admin-user-role-server";
+
+
 }
