@@ -1,5 +1,6 @@
 package com.hb0730.cloud.admin.server.oauth2.model;
 
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.hb0730.cloud.admin.commons.domain.BaseDomain;
 import lombok.Data;
 
@@ -15,10 +16,10 @@ import lombok.Data;
 public class SystemUserEntity extends BaseDomain {
 
     private static final long serialVersionUID = 1L;
-
     /**
      * 是否删除
      */
+    @TableLogic
     private Integer isDelete = 0;
 
     /**
@@ -32,29 +33,34 @@ public class SystemUserEntity extends BaseDomain {
     private Long id;
 
     /**
-     * 用户账户
-     */
-    private String login;
-
-    /**
      * 用户名
      */
-    private String loginName;
+    private String name;
 
     /**
-     * 用户密码
+     * 登录账号
      */
-    private String loginPasswd;
+    private String username;
 
     /**
-     * email
+     * 密码
      */
-    private String loginEmail;
+    private String password;
 
     /**
-     * 盐值
+     * 手机号
      */
-    private String salt;
+    private String phone;
+
+    /**
+     * 注册邮箱
+     */
+    private String email;
+
+    /**
+     * 头像
+     */
+    private String portraits;
 
 
     public static final String IS_DELETE = "is_delete";
@@ -63,14 +69,16 @@ public class SystemUserEntity extends BaseDomain {
 
     public static final String ID = "id";
 
-    public static final String LOGIN = "login";
+    public static final String NAME = "name";
 
-    public static final String LOGIN_NAME = "login_name";
+    public static final String USERNAME = "username";
 
-    public static final String LOGIN_PASSWD = "login_passwd";
+    public static final String PASSWORD = "password";
 
-    public static final String LOGIN_EMAIL = "login_email";
+    public static final String PHONE = "phone";
 
-    public static final String SALT = "salt";
+    public static final String EMAIL = "email";
+
+    public static final String PORTRAITS = "portraits";
 
 }

@@ -10,10 +10,7 @@ import com.hb0730.cloud.admin.server.role.system.service.ISystemRoleService;
 import com.hb0730.cloud.admin.server.role.utils.SecurityContextUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.Objects;
@@ -78,5 +75,11 @@ public class SystemRoleController extends AbstractBaseController<SystemRoleEntit
         return null;
     }
 
+
+    @GetMapping("/findRole/role/{roleId}")
+    public ResultJson findRoleById(@PathVariable("roleId") long roleId) {
+        SystemRoleEntity result = systemRoleService.getById(roleId);
+        return ResponseResult.resultSuccess(result);
+    }
 }
 

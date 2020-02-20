@@ -4,6 +4,7 @@ import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.commons.feign.configuration.FeignConfiguration;
 import com.hb0730.cloud.admin.server.user.role.feign.fallback.RemoteUserFallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import static com.hb0730.cloud.admin.common.util.RequestMappingConstants.USER_SERVER_REQUEST;
@@ -27,5 +28,6 @@ public interface IRemoteUser {
      * @param userId 用户id
      * @return 用户
      */
-     ResultJson findUserById(@PathVariable long userId);
+    @GetMapping("/{userId}")
+    ResultJson findUserById(@PathVariable("userId") long userId);
 }

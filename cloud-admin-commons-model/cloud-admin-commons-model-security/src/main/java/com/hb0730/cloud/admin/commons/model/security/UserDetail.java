@@ -17,7 +17,6 @@ public class UserDetail implements Serializable {
     private Integer userId;
     private String username;
     private String password;
-    private String salt;
     private Integer status;
     private String perms;
     private String avatar;

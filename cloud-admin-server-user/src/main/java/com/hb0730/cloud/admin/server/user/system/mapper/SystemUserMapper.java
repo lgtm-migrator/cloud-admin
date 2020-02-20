@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author bing_huang
- * @since 2020-02-15
+ * @since 2020-02-20
  */
 public interface SystemUserMapper extends BaseMapper<SystemUserEntity> {
 

@@ -12,7 +12,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author bing_huang
- * @since 2020-02-15
+ * @since 2020-02-20
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -38,38 +38,44 @@ public class SystemUserEntity extends BaseDomain {
     /**
      * id
      */
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id")
     private Long id;
-
-    /**
-     * 用户账户
-     */
-    @TableField(value = "login", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
-    private String login;
 
     /**
      * 用户名
      */
-    @TableField(value = "login_name", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
-    private String loginName;
+    @TableField(value = "name", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
+    private String name;
 
     /**
-     * 用户密码
+     * 登录账号
      */
-    @TableField(value = "login_passwd", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
-    private String loginPasswd;
+    @TableField(value = "username", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
+    private String username;
 
     /**
-     * email
+     * 密码
      */
-    @TableField(value = "login_email", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
-    private String loginEmail;
+    @TableField(value = "password", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
+    private String password;
 
     /**
-     * 盐值
+     * 手机号
      */
-    @TableField(value = "salt", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
-    private String salt;
+    @TableField(value = "phone", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
+    private String phone;
+
+    /**
+     * 注册邮箱
+     */
+    @TableField(value = "email", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
+    private String email;
+
+    /**
+     * 头像
+     */
+    @TableField(value = "portraits", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
+    private String portraits;
 
 
     public static final String IS_DELETE = "is_delete";
@@ -78,14 +84,16 @@ public class SystemUserEntity extends BaseDomain {
 
     public static final String ID = "id";
 
-    public static final String LOGIN = "login";
+    public static final String NAME = "name";
 
-    public static final String LOGIN_NAME = "login_name";
+    public static final String USERNAME = "username";
 
-    public static final String LOGIN_PASSWD = "login_passwd";
+    public static final String PASSWORD = "password";
 
-    public static final String LOGIN_EMAIL = "login_email";
+    public static final String PHONE = "phone";
 
-    public static final String SALT = "salt";
+    public static final String EMAIL = "email";
+
+    public static final String PORTRAITS = "portraits";
 
 }

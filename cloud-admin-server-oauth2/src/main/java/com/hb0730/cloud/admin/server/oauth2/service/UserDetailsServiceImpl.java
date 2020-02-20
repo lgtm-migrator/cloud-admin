@@ -6,8 +6,6 @@ import com.hb0730.cloud.admin.server.oauth2.feign.IRemoteUser;
 import com.hb0730.cloud.admin.server.oauth2.model.SystemUserEntity;
 import com.hb0730.cloud.admin.server.oauth2.model.UserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -36,11 +34,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 //密码校验
                 UserDetail userDetail = new UserDetail();
                 userDetail.setUserId(data.getId().intValue());
-                userDetail.setUsername(data.getLogin());
-                userDetail.setPassword(data.getLoginPasswd());
-                userDetail.setEmail(data.getLoginEmail());
+                userDetail.setUsername(data.getUsername());
+                userDetail.setPassword(data.getPassword());
+                userDetail.setEmail(data.getEmail());
+                userDetail.setAvatar(data.getPortraits());
                 userDetail.setStatus(1);
-                userDetail.setSalt(data.getSalt());
                 userDetail.setPerms("USER");
                 return userDetail;
             }

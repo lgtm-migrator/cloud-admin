@@ -26,12 +26,12 @@ public class SystemUserControllerTest {
     @Test
     public void save() throws Exception {
         SystemUserEntity entity = new SystemUserEntity();
-        entity.setLoginEmail("XXXX@qq.com");
-        entity.setLogin("test2");
-        entity.setLoginPasswd("1234");
-        entity.setLoginName("测试");
+        entity.setEmail("XXXX@qq.com");
+        entity.setUsername("test2");
+        entity.setPassword("1234");
+        entity.setName("测试");
         String json = JSON.toJSONString(entity);
-        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(USER_SERVER_REQUEST + "/save").contentType(MediaType.APPLICATION_JSON).content(json)).andReturn();
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(USER_SERVER_REQUEST + "/save").header("authorization","Bearer " + "517c5c98-eba1-4241-b40d-aac0e0ad0140").contentType(MediaType.APPLICATION_JSON).content(json)).andReturn();
         MockHttpServletResponse response = mvcResult.getResponse();
         int status = response.getStatus();
     }

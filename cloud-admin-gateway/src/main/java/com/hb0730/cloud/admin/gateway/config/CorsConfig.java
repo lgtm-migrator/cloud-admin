@@ -1,5 +1,6 @@
 package com.hb0730.cloud.admin.gateway.config;
 
+import com.hb0730.cloud.admin.gateway.filter.CorsResponseHeaderFilter;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.gateway.discovery.DiscoveryClientRouteDefinitionLocator;
 import org.springframework.cloud.gateway.discovery.DiscoveryLocatorProperties;
@@ -30,6 +31,12 @@ import reactor.core.publisher.Mono;
 @Configuration
 public class CorsConfig {
     private static final String MAX_AGE = "18000L";
+
+    @Bean
+    public CorsResponseHeaderFilter corsResponseHeaderFilter() {
+        return new CorsResponseHeaderFilter();
+    }
+
     @Bean
     public WebFilter corsFilter() {
         return (ServerWebExchange ctx, WebFilterChain chain) -> {
@@ -42,7 +49,7 @@ public class CorsConfig {
                 headers.add(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, requestHeaders.getOrigin());
                 headers.addAll(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS, requestHeaders
                         .getAccessControlRequestHeaders());
-                if(requestMethod != null){
+                if (requestMethod != null) {
                     headers.add(HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS, requestMethod.name());
                 }
                 headers.add(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");

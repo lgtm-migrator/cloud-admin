@@ -72,6 +72,9 @@ public class LoginController {
     @PostMapping("/user/login")
     public ResultJson login(@RequestBody LoginParams params) throws IOException {
         UserDetail userDetails = (UserDetail) userDetailServer.loadUserByUsername(params.getUserName());
+        if (Objects.isNull(userDetails)) {
+            return ResponseResult.resultFall("账号或者密码不正确");
+        }
         String password = userDetails.getPassword();
         boolean matches = passwordEncoder.matches(params.getPassword(), password);
         if (!matches) {

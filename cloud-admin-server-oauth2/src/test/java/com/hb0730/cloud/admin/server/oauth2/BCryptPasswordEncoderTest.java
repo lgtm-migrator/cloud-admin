@@ -14,7 +14,7 @@ public class BCryptPasswordEncoderTest {
 
     @Test
     public void test(){
-        System.out.println(new BCryptPasswordEncoder().encode("1234"));
-        System.out.println(new BCryptPasswordEncoder().matches("1234","$2a$10$T2sJ0IqB4CA/MMjB9Zy3W.O2SIIlQWt8R72I6Kv3R4Mysy6latMm."));
+        System.out.println(new BCryptPasswordEncoder().encode("123456"));
+        System.out.println(new BCryptPasswordEncoder().matches("123456","$2a$10$gbECvCbd9bCdQ/mhntsjheSWXXfjv.fByf.q/Swd2.BXqHZiF9Ssa"));
     }
 }
