@@ -35,11 +35,10 @@ public class LoginSuccessResult implements Serializable {
      * </p>
      */
     private String refreshToken;
-
     /**
      * <p>
-     * 用户名
+     * 认证的用户信息
      * </p>
      */
-    private String userName;
+    private com.hb0730.cloud.admin.commons.model.security.UserDetail userDetail;
 }

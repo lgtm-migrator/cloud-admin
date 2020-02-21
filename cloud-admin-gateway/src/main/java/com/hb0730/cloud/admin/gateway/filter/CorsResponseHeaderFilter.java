@@ -13,11 +13,12 @@ import java.util.ArrayList;
 /**
  * <p>
  *     跨域请求头处理过滤器扩展
- *     <a hre="https://blog.csdn.net/xht555/article/details/89484091"></a>
+ *
  * </P>
  *
  * @author bing_huang
  * @since V1.0
+ * @see <a hre="https://blog.csdn.net/xht555/article/details/89484091">重复头</a>
  *
  */
 public class CorsResponseHeaderFilter implements GlobalFilter, Ordered {

@@ -1,18 +1,14 @@
 package com.hb0730.cloud.admin.server.role.permission.system.model.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.Version;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.*;
 import com.hb0730.cloud.admin.commons.domain.BaseDomain;
-import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 角色权限 
+ * 角色权限
  * </p>
  *
  * @author bing_huang
@@ -29,15 +25,15 @@ public class SystemRolePermissionEntity extends BaseDomain {
     /**
      * 是否删除
      */
-    @TableField("is_delete")
+    @TableField(value = "is_delete", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     @TableLogic
-    private Integer isDelete;
+    private Integer isDelete=0;
 
     /**
      * 是否启用
      */
-    @TableField("is_enabled")
-    private Integer isEnabled;
+    @TableField(value = "is_enabled", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
+    private Integer isEnabled=1;
 
     /**
      * id
@@ -48,13 +44,13 @@ public class SystemRolePermissionEntity extends BaseDomain {
     /**
      * 角色 ID
      */
-    @TableField("role_id")
+    @TableField(value = "role_id", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     private Long roleId;
 
     /**
      * 权限 ID
      */
-    @TableField("permission_id")
+    @TableField(value = "permission_id", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     private Long permissionId;
 
 

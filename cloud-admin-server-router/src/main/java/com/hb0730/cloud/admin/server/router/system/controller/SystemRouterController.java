@@ -2,23 +2,27 @@ package com.hb0730.cloud.admin.server.router.system.controller;
 
 
 import com.alibaba.fastjson.JSONArray;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.google.common.collect.Lists;
 import com.hb0730.cloud.admin.common.util.GsonUtils;
 import com.hb0730.cloud.admin.common.web.controller.AbstractBaseController;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
 import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
+import com.hb0730.cloud.admin.commons.model.security.UserDetail;
 import com.hb0730.cloud.admin.server.router.system.model.entity.SystemRouterEntity;
 import com.hb0730.cloud.admin.server.router.system.model.vo.GatewayFilterDefinition;
 import com.hb0730.cloud.admin.server.router.system.model.vo.GatewayPredicateDefinition;
 import com.hb0730.cloud.admin.server.router.system.model.vo.GatewayRouteDefinition;
 import com.hb0730.cloud.admin.server.router.system.service.ISystemRouterService;
+import com.hb0730.cloud.admin.server.router.utils.SecurityContextUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,11 +30,11 @@ import static com.hb0730.cloud.admin.common.util.RequestMappingConstants.ROUTER_
 
 /**
  * <p>
- * 路由 前端控制器
+ * 系统路由  前端控制器
  * </p>
  *
  * @author bing_huang
- * @since 2020-02-13
+ * @since 2020-02-21
  */
 @RestController
 @RequestMapping(ROUTER_SERVER_REQUEST)
@@ -49,10 +53,22 @@ public class SystemRouterController extends AbstractBaseController<GatewayRouteD
         if (Objects.isNull(target)) {
             return ResponseResult.resultFall("参数为空");
         }
+        UserDetail currentUser = null;
+        try {
+            currentUser = SecurityContextUtils.getCurrentUser();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseResult.resultFall("获取当前用户失败,请重新登录");
+        }
+        if (Objects.isNull(currentUser)) {
+            return ResponseResult.resultFall("获取当前用户失败,请重新登录");
+        }
         SystemRouterEntity entity = new SystemRouterEntity();
         entity.setIsEnabled(1);
         entity.setIsDelete(0);
         converToEntity(target, entity);
+        entity.setCreateTime(new Date());
+        entity.setCreateUserId(currentUser.getUserId());
         systemRouterService.save(entity);
         return ResponseResult.resultSuccess("保存成功");
     }
@@ -66,7 +82,7 @@ public class SystemRouterController extends AbstractBaseController<GatewayRouteD
      * @return 是否成功
      */
     @PostMapping("/update")
-    public ResultJson update(@RequestBody GatewayRouteDefinition target) {
+    public ResultJson update(@RequestBody GatewayRouteDefinition target) throws Exception {
         if (Objects.isNull(target)) {
             return ResponseResult.resultFall("参数为空");
         }
@@ -75,6 +91,8 @@ public class SystemRouterController extends AbstractBaseController<GatewayRouteD
         }
         SystemRouterEntity entity = new SystemRouterEntity();
         converToEntity(target, entity);
+        entity.setUpdateTime(new Date());
+        entity.setUpdateUserId(Objects.requireNonNull(SecurityContextUtils.getCurrentUser()).getUserId());
         systemRouterService.updateById(entity);
         return ResponseResult.resultSuccess("更新成功");
     }
@@ -82,7 +100,20 @@ public class SystemRouterController extends AbstractBaseController<GatewayRouteD
     @GetMapping("/delete/{id}")
     @Override
     public ResultJson delete(@PathVariable Object id) {
-        systemRouterService.removeById(id.toString());
+        UserDetail currentUser = null;
+        try {
+            currentUser = SecurityContextUtils.getCurrentUser();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        SystemRouterEntity entity = new SystemRouterEntity();
+        if (!Objects.isNull(currentUser)) {
+            entity.setUpdateUserId(currentUser.getUserId());
+        }
+        entity.setUpdateTime(new Date());
+        entity.setId(Long.valueOf(id.toString()));
+        UpdateWrapper<SystemRouterEntity> updateWrapper = new UpdateWrapper<>(entity);
+        systemRouterService.remove(updateWrapper);
         return ResponseResult.resultSuccess("删除成功");
     }
 
@@ -147,7 +178,9 @@ public class SystemRouterController extends AbstractBaseController<GatewayRouteD
         if (Objects.isNull(definition)) {
             return;
         }
-        entity.setId(Long.parseLong(definition.getId()));
+        if (!Objects.isNull(definition.getId())) {
+            entity.setId(Long.parseLong(definition.getId()));
+        }
         entity.setUri(definition.getUri());
         entity.setOrder(definition.getOrder());
         List<GatewayFilterDefinition> filters = definition.getFilters();
@@ -157,6 +190,5 @@ public class SystemRouterController extends AbstractBaseController<GatewayRouteD
         String s1 = JSONArray.toJSONString(predicates);
         entity.setPredicates(s1);
     }
-
 }
 

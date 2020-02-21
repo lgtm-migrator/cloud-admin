@@ -1,4 +1,4 @@
-package com.hb0730.cloud.admin.server.menu.system;
+package com.hb0730.cloud.admin.server.menu;
 
 import com.alicp.jetcache.anno.config.EnableCreateCacheAnnotation;
 import com.alicp.jetcache.anno.config.EnableMethodCache;

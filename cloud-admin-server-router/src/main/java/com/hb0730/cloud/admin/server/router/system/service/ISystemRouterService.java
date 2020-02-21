@@ -5,11 +5,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
  * <p>
- * 路由 服务类
+ * 系统路由  服务类
  * </p>
  *
  * @author bing_huang
- * @since 2020-02-13
+ * @since 2020-02-21
  */
 public interface ISystemRouterService extends IService<SystemRouterEntity> {
 

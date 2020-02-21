@@ -34,6 +34,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 //密码校验
                 UserDetail userDetail = new UserDetail();
                 userDetail.setUserId(data.getId().intValue());
+                userDetail.setName(data.getName());
                 userDetail.setUsername(data.getUsername());
                 userDetail.setPassword(data.getPassword());
                 userDetail.setEmail(data.getEmail());

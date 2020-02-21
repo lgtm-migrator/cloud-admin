@@ -1,4 +1,4 @@
-package com.hb0730.cloud.admin.server.menu.system.handler;
+package com.hb0730.cloud.admin.server.menu.handler;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hb0730.cloud.admin.common.web.utils.ResponseResult;

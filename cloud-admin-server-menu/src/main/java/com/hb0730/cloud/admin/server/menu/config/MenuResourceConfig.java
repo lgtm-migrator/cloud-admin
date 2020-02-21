@@ -1,7 +1,7 @@
-package com.hb0730.cloud.admin.server.menu.system.config;
+package com.hb0730.cloud.admin.server.menu.config;
 
-import com.hb0730.cloud.admin.server.menu.system.handler.Oauth2AccessDeniedHandler;
-import com.hb0730.cloud.admin.server.menu.system.handler.Oauth2ExceptionEntryPoint;
+import com.hb0730.cloud.admin.server.menu.handler.Oauth2AccessDeniedHandler;
+import com.hb0730.cloud.admin.server.menu.handler.Oauth2ExceptionEntryPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;

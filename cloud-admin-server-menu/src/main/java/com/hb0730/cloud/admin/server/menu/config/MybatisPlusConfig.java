@@ -1,4 +1,4 @@
-package com.hb0730.cloud.admin.server.menu.system.config;
+package com.hb0730.cloud.admin.server.menu.config;
 
 import com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;

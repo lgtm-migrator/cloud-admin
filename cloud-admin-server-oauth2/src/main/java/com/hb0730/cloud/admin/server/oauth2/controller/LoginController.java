@@ -1,9 +1,11 @@
 package com.hb0730.cloud.admin.server.oauth2.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alicp.jetcache.Cache;
 import com.alicp.jetcache.anno.CacheType;
 import com.alicp.jetcache.anno.CreateCache;
 import com.google.common.collect.Maps;
+import com.hb0730.cloud.admin.common.util.BeanUtils;
 import com.hb0730.cloud.admin.common.util.GsonUtils;
 import com.hb0730.cloud.admin.common.util.JetcacheRedisConstants;
 import com.hb0730.cloud.admin.common.util.OkHttpClientUtil;
@@ -107,14 +109,21 @@ public class LoginController {
      * @return 用户信息
      */
     @GetMapping(value = "/user/info")
-    public ResultJson userInfo(HttpServletRequest request) {
+    public ResultJson userInfo(HttpServletRequest request) throws Exception {
         // 获取 token
         String token = request.getParameter("access_token");
         // 获取认证信息
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Object principal = authentication.getPrincipal();
         LoginSuccessResult result = new LoginSuccessResult();
-        result.setRefreshToken(token);
-        result.setUserName(authentication.getName());
+        if (principal instanceof Map) {
+            Map map = (Map) principal;
+            com.hb0730.cloud.admin.commons.model.security.UserDetail userDetail = BeanUtils.map2bean(map, com.hb0730.cloud.admin.commons.model.security.UserDetail.class);
+            result.setUserDetail(userDetail);
+        } else if (principal instanceof UserDetail) {
+            result.setUserDetail((UserDetail) principal);
+        }
+        result.setAccessToken(token);
         return ResponseResult.resultSuccess(result);
     }
 

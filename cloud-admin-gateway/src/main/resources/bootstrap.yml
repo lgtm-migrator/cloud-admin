@@ -29,8 +29,6 @@ feign:
         connectTimeout: 50000
         readTimeout: 50000
         loggerLevel: BASIC
-  hystrix:
-    enabled: true
   okhttp:
     enabled: true
   httpclient:

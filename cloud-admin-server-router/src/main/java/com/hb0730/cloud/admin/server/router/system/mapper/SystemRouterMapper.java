@@ -5,11 +5,11 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * <p>
- * 路由 Mapper 接口
+ * 系统路由  Mapper 接口
  * </p>
  *
  * @author bing_huang
- * @since 2020-02-13
+ * @since 2020-02-21
  */
 public interface SystemRouterMapper extends BaseMapper<SystemRouterEntity> {
 

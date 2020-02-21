@@ -1,9 +1,6 @@
 package com.hb0730.cloud.admin.server.role.system.model.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.hb0730.cloud.admin.commons.domain.BaseDomain;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -28,14 +25,14 @@ public class SystemRoleEntity extends BaseDomain {
     /**
      * 是否删除
      */
-    @TableField("is_delete")
+    @TableField(value = "is_delete", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     @TableLogic
     private Integer isDelete = 0;
 
     /**
      * 是否启用
      */
-    @TableField("is_enabled")
+    @TableField(value = "is_enabled", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     private Integer isEnabled = 1;
 
     /**
@@ -47,25 +44,25 @@ public class SystemRoleEntity extends BaseDomain {
     /**
      * 父角色
      */
-    @TableField("parent_id")
+    @TableField(value = "parent_id", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     private Long parentId;
 
     /**
      * 角色名称
      */
-    @TableField("name")
+    @TableField(value = "name", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     private String name;
 
     /**
      * 角色英文名称
      */
-    @TableField("enname")
+    @TableField(value = "enname", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     private String enname;
 
     /**
      * 备注
      */
-    @TableField("description")
+    @TableField(value = "description", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     private String description;
 
 

@@ -1,18 +1,14 @@
 package com.hb0730.cloud.admin.server.permission.menu.system.model.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.Version;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.*;
 import com.hb0730.cloud.admin.commons.domain.BaseDomain;
-import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 菜单权限 
+ * 菜单权限
  * </p>
  *
  * @author bing_huang
@@ -24,20 +20,20 @@ import lombok.experimental.Accessors;
 @TableName("t_system_permission_menu")
 public class SystemPermissionMenuEntity extends BaseDomain {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * 是否删除
      */
-    @TableField("is_delete")
+    @TableField(value = "is_delete", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     @TableLogic
-    private Integer isDelete;
+    private Integer isDelete = 0;
 
     /**
      * 是否启用
      */
-    @TableField("is_enabled")
-    private Integer isEnabled;
+    @TableField(value = "is_enabled", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
+    private Integer isEnabled = 1;
 
     /**
      * id
@@ -48,19 +44,19 @@ public class SystemPermissionMenuEntity extends BaseDomain {
     /**
      * 权限id
      */
-    @TableField("permission_id")
+    @TableField(value = "permission_id", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     private Long permissionId;
 
     /**
      * 菜单id
      */
-    @TableField("menu_id")
+    @TableField(value = "menu_id", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     private Long menuId;
 
     /**
      * 备注
      */
-    @TableField("description")
+    @TableField(value = "description", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     private String description;
 
 
