@@ -19,7 +19,7 @@ spring:
       max-lifetime: 1800000
       connection-timeout: 30000
       connection-test-query: SELECT 1
-   # jackson时间
+    # jackson时间
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
@@ -47,6 +47,22 @@ spring:
         port: 8721
         dashboard: 47.96.79.54:8408
         heartbeat-interval-ms: 3000
+    stream:
+      default-binder: rocketmq
+      rocketmq:
+        binder:
+          name-server: 47.96.79.54:9876
+        bindings:
+          output-router:
+            producer:
+              group: cloud-admin-router
+              send-message-timeout: 30000
+              sync: true
+      bindings:
+        output-router:
+          destination: router-topic
+          content-type: application/json
+
 feign:
   sentinel:
     enabled: true
@@ -108,3 +124,12 @@ security:
       user-authorization-uri: http://localhost:1010/oauth/authorize
     resource:
       token-info-uri: http://localhost:1010/oauth/check_token
+
+logging:
+  level:
+    com:
+      alibaba:
+        cloud:
+          stream:
+            binder:
+              rocketmq: debug

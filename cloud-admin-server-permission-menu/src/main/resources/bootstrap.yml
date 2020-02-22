@@ -1,6 +1,6 @@
 spring:
   application:
-    name: cloud-admin-permission-server
+    name: cloud-admin-permission-menu-server
   main:
     allow-bean-definition-overriding: true
   datasource:

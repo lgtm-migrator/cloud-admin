@@ -1,8 +1,8 @@
 package com.hb0730.cloud.admin.server.router.system.model.vo;
 
+import com.hb0730.cloud.admin.common.web.vo.BusinessDomainVO;
 import lombok.*;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,8 +18,8 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
-public class GatewayRouteDefinition implements Serializable {
+@EqualsAndHashCode(callSuper = true)
+public class GatewayRouteDefinition extends BusinessDomainVO {
 
     private static final long serialVersionUID = -13L;
     /**

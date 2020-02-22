@@ -1,20 +1,21 @@
 package com.hb0730.cloud.admin.server.menu.system.controller;
 
 
+import com.hb0730.cloud.admin.common.exception.Oauth2Exception;
+import com.hb0730.cloud.admin.common.util.BeanUtils;
 import com.hb0730.cloud.admin.common.web.controller.AbstractBaseController;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
 import com.hb0730.cloud.admin.commons.model.security.UserDetail;
 import com.hb0730.cloud.admin.server.menu.system.model.entity.SystemMenuEntity;
 import com.hb0730.cloud.admin.server.menu.system.service.ISystemMenuService;
-import com.hb0730.cloud.admin.server.menu.utils.SecurityContextUtils;
+import com.hb0730.cloud.admin.server.menu.system.vo.SystemMenuVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 import static com.hb0730.cloud.admin.common.util.RequestMappingConstants.MENU_SERVER_REQUEST;
 
@@ -28,27 +29,24 @@ import static com.hb0730.cloud.admin.common.util.RequestMappingConstants.MENU_SE
  */
 @RestController
 @RequestMapping(MENU_SERVER_REQUEST)
-public class SystemMenuController extends AbstractBaseController<SystemMenuEntity> {
+public class SystemMenuController extends AbstractBaseController<SystemMenuVO> {
 
     @Autowired
     private ISystemMenuService systemMenuService;
 
     @PostMapping("/save")
     @Override
-    public ResultJson save(@RequestBody SystemMenuEntity target) {
+    public ResultJson save(@RequestBody SystemMenuVO target) {
         UserDetail currentUser = null;
         try {
-            currentUser = SecurityContextUtils.getCurrentUser();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseResult.resultFall("获取当前用户失败,请重新登录");
-        }
-        if (Objects.isNull(currentUser)) {
-            return ResponseResult.resultFall("获取当前用户失败,请重新登录");
+            currentUser = getCurrentUser();
+        } catch (Oauth2Exception e) {
+            return ResponseResult.resultFall(e.getMessage());
         }
         target.setCreateUserId(currentUser.getUserId());
         target.setCreateTime(new Date());
-        systemMenuService.save(target);
+        SystemMenuEntity entity = BeanUtils.transformFrom(target, SystemMenuEntity.class);
+        systemMenuService.save(entity);
         return ResponseResult.resultSuccess("保存成功");
     }
 
@@ -58,13 +56,13 @@ public class SystemMenuController extends AbstractBaseController<SystemMenuEntit
     }
 
     @Override
-    public ResultJson submit(SystemMenuEntity target) {
+    public ResultJson submit(SystemMenuVO target) {
         return null;
     }
 
     @GetMapping("/menu/{id}")
     @Override
-    public ResultJson gitObject(@PathVariable Object id) {
+    public ResultJson getObject(@PathVariable Object id) {
         SystemMenuEntity result = systemMenuService.getById(id.toString());
         return ResponseResult.resultSuccess(result);
     }

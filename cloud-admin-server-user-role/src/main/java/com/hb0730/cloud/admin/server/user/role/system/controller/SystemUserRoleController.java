@@ -12,6 +12,7 @@ import com.hb0730.cloud.admin.server.user.role.feign.IRemoteRole;
 import com.hb0730.cloud.admin.server.user.role.feign.IRemoteUser;
 import com.hb0730.cloud.admin.server.user.role.system.model.entity.SystemUserRoleEntity;
 import com.hb0730.cloud.admin.server.user.role.system.service.ISystemUserRoleService;
+import com.hb0730.cloud.admin.server.user.role.system.vo.SystemUserRoleVO;
 import com.hb0730.cloud.admin.server.user.role.utils.SecurityContextUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
@@ -36,7 +37,7 @@ import static com.hb0730.cloud.admin.common.util.RequestMappingConstants.USER_RO
  */
 @RestController
 @RequestMapping(USER_ROLE_SERVER_REQUEST)
-public class SystemUserRoleController extends AbstractBaseController<SystemUserRoleEntity> {
+public class SystemUserRoleController extends AbstractBaseController<SystemUserRoleVO> {
 
 
     @Autowired
@@ -48,7 +49,7 @@ public class SystemUserRoleController extends AbstractBaseController<SystemUserR
     private ISystemUserRoleService systemUserRoleService;
 
     @Override
-    public ResultJson save(SystemUserRoleEntity target) {
+    public ResultJson save(SystemUserRoleVO target) {
         return null;
     }
 
@@ -58,12 +59,12 @@ public class SystemUserRoleController extends AbstractBaseController<SystemUserR
     }
 
     @Override
-    public ResultJson submit(SystemUserRoleEntity target) {
+    public ResultJson submit(SystemUserRoleVO target) {
         return null;
     }
 
     @Override
-    public ResultJson gitObject(Object id) {
+    public ResultJson getObject(Object id) {
         return null;
     }
 

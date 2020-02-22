@@ -4,6 +4,7 @@ package com.hb0730.cloud.admin.server.router.system.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.google.common.collect.Lists;
+import com.hb0730.cloud.admin.common.exception.Oauth2Exception;
 import com.hb0730.cloud.admin.common.util.GsonUtils;
 import com.hb0730.cloud.admin.common.web.controller.AbstractBaseController;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
@@ -15,7 +16,6 @@ import com.hb0730.cloud.admin.server.router.system.model.vo.GatewayFilterDefinit
 import com.hb0730.cloud.admin.server.router.system.model.vo.GatewayPredicateDefinition;
 import com.hb0730.cloud.admin.server.router.system.model.vo.GatewayRouteDefinition;
 import com.hb0730.cloud.admin.server.router.system.service.ISystemRouterService;
-import com.hb0730.cloud.admin.server.router.utils.SecurityContextUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,18 +50,12 @@ public class SystemRouterController extends AbstractBaseController<GatewayRouteD
     @PostMapping("/add")
     @Override
     public ResultJson save(@RequestBody GatewayRouteDefinition target) {
-        if (Objects.isNull(target)) {
-            return ResponseResult.resultFall("参数为空");
-        }
         UserDetail currentUser = null;
         try {
-            currentUser = SecurityContextUtils.getCurrentUser();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseResult.resultFall("获取当前用户失败,请重新登录");
-        }
-        if (Objects.isNull(currentUser)) {
-            return ResponseResult.resultFall("获取当前用户失败,请重新登录");
+            currentUser = getCurrentUser();
+
+        } catch (Oauth2Exception e) {
+            return ResponseResult.resultFall(e.getMessage());
         }
         SystemRouterEntity entity = new SystemRouterEntity();
         entity.setIsEnabled(1);
@@ -92,7 +86,7 @@ public class SystemRouterController extends AbstractBaseController<GatewayRouteD
         SystemRouterEntity entity = new SystemRouterEntity();
         converToEntity(target, entity);
         entity.setUpdateTime(new Date());
-        entity.setUpdateUserId(Objects.requireNonNull(SecurityContextUtils.getCurrentUser()).getUserId());
+        entity.setUpdateUserId(Objects.requireNonNull(getCurrentUser()).getUserId());
         systemRouterService.updateById(entity);
         return ResponseResult.resultSuccess("更新成功");
     }
@@ -102,9 +96,10 @@ public class SystemRouterController extends AbstractBaseController<GatewayRouteD
     public ResultJson delete(@PathVariable Object id) {
         UserDetail currentUser = null;
         try {
-            currentUser = SecurityContextUtils.getCurrentUser();
+            currentUser = getCurrentUser();
         } catch (Exception e) {
             e.printStackTrace();
+            return ResponseResult.result(CodeStatusEnum.NON_LOGIN, "获取当前用户失败,请重新登录");
         }
         SystemRouterEntity entity = new SystemRouterEntity();
         if (!Objects.isNull(currentUser)) {
@@ -123,7 +118,7 @@ public class SystemRouterController extends AbstractBaseController<GatewayRouteD
     }
 
     @Override
-    public ResultJson gitObject(Object id) {
+    public ResultJson getObject(Object id) {
         return null;
     }
 

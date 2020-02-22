@@ -2,12 +2,14 @@ package com.hb0730.cloud.admin.server.role.permission.system.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.hb0730.cloud.admin.common.util.BeanUtils;
 import com.hb0730.cloud.admin.common.web.controller.AbstractBaseController;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
 import com.hb0730.cloud.admin.commons.model.security.UserDetail;
 import com.hb0730.cloud.admin.server.role.permission.system.model.entity.SystemRolePermissionEntity;
 import com.hb0730.cloud.admin.server.role.permission.system.service.ISystemRolePermissionService;
+import com.hb0730.cloud.admin.server.role.permission.system.vo.SystemRolePermissionVO;
 import com.hb0730.cloud.admin.server.role.permission.utils.SecurityContextUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
@@ -29,13 +31,13 @@ import static com.hb0730.cloud.admin.common.util.RequestMappingConstants.ROLE_PE
  */
 @RestController
 @RequestMapping(ROLE_PERMISSION_SERVER_REQUEST)
-public class SystemRolePermissionController extends AbstractBaseController<SystemRolePermissionEntity> {
+public class SystemRolePermissionController extends AbstractBaseController<SystemRolePermissionVO> {
     @Autowired
     private ISystemRolePermissionService systemRolePermissionService;
 
     @PostMapping("/save")
     @Override
-    public ResultJson save(@RequestBody SystemRolePermissionEntity target) {
+    public ResultJson save(@RequestBody SystemRolePermissionVO target) {
         UserDetail currentUser = null;
         try {
             currentUser = SecurityContextUtils.getCurrentUser();
@@ -48,7 +50,8 @@ public class SystemRolePermissionController extends AbstractBaseController<Syste
         }
         target.setCreateUserId(currentUser.getUserId());
         target.setCreateTime(new Date());
-        systemRolePermissionService.save(target);
+        SystemRolePermissionEntity entity = BeanUtils.transformFrom(target, SystemRolePermissionEntity.class);
+        systemRolePermissionService.save(entity);
         return ResponseResult.resultSuccess("保存成功");
     }
 
@@ -58,13 +61,13 @@ public class SystemRolePermissionController extends AbstractBaseController<Syste
     }
 
     @Override
-    public ResultJson submit(SystemRolePermissionEntity target) {
+    public ResultJson submit(SystemRolePermissionVO target) {
         return null;
     }
 
     @GetMapping("/role/permission/{id}")
     @Override
-    public ResultJson gitObject(@PathVariable Object id) {
+    public ResultJson getObject(@PathVariable Object id) {
         SystemRolePermissionEntity result = systemRolePermissionService.getById(id.toString());
         return ResponseResult.resultSuccess(result);
     }

@@ -2,20 +2,21 @@ package com.hb0730.cloud.admin.server.permission.menu.system.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.hb0730.cloud.admin.common.exception.Oauth2Exception;
+import com.hb0730.cloud.admin.common.util.BeanUtils;
 import com.hb0730.cloud.admin.common.web.controller.AbstractBaseController;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
 import com.hb0730.cloud.admin.commons.model.security.UserDetail;
 import com.hb0730.cloud.admin.server.permission.menu.system.model.entity.SystemPermissionMenuEntity;
 import com.hb0730.cloud.admin.server.permission.menu.system.service.ISystemPermissionMenuService;
-import com.hb0730.cloud.admin.server.permission.menu.utils.SecurityContextUtils;
+import com.hb0730.cloud.admin.server.permission.menu.system.vo.SystemPermissionMenuVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 import static com.hb0730.cloud.admin.common.util.RequestMappingConstants.PERMISSION_MENU_SERVER_REQUEST;
 
@@ -29,26 +30,23 @@ import static com.hb0730.cloud.admin.common.util.RequestMappingConstants.PERMISS
  */
 @RestController
 @RequestMapping(PERMISSION_MENU_SERVER_REQUEST)
-public class SystemPermissionMenuController extends AbstractBaseController<SystemPermissionMenuEntity> {
+public class SystemPermissionMenuController extends AbstractBaseController<SystemPermissionMenuVO> {
     @Autowired
     private ISystemPermissionMenuService systemPermissionMenuService;
 
     @PostMapping("/save")
     @Override
-    public ResultJson save(@RequestBody SystemPermissionMenuEntity target) {
+    public ResultJson save(@RequestBody SystemPermissionMenuVO target) {
         UserDetail currentUser = null;
         try {
-            currentUser = SecurityContextUtils.getCurrentUser();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseResult.resultFall("获取当前用户失败,请重新登录");
-        }
-        if (Objects.isNull(currentUser)) {
+            currentUser = getCurrentUser();
+        } catch (Oauth2Exception e) {
             return ResponseResult.resultFall("获取当前用户失败,请重新登录");
         }
         target.setCreateUserId(currentUser.getUserId());
         target.setCreateTime(new Date());
-        systemPermissionMenuService.save(target);
+        SystemPermissionMenuEntity entity = BeanUtils.transformFrom(target, SystemPermissionMenuEntity.class);
+        systemPermissionMenuService.save(entity);
         return ResponseResult.resultSuccess("保存成功");
     }
 
@@ -58,13 +56,13 @@ public class SystemPermissionMenuController extends AbstractBaseController<Syste
     }
 
     @Override
-    public ResultJson submit(SystemPermissionMenuEntity target) {
+    public ResultJson submit(SystemPermissionMenuVO target) {
         return null;
     }
 
     @GetMapping("/permission/menu/{id}")
     @Override
-    public ResultJson gitObject(@PathVariable Object id) {
+    public ResultJson getObject(@PathVariable Object id) {
         SystemPermissionMenuEntity result = systemPermissionMenuService.getById(id.toString());
         return ResponseResult.resultSuccess(result);
     }

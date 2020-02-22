@@ -16,6 +16,22 @@ spring:
         locator:
           enabled: true
           lowerCaseServiceId: true
+    stream:
+      rocketmq:
+        binder:
+          name-server: 47.96.79.54:9876
+        bindings:
+          input-router:
+            consumer:
+              orderly: true
+      bindings:
+        input-router:
+          destination: router-topic
+          content-type: text/plain
+          group: cloud-admin-router
+          consumer:
+            maxAttempts: 10
+
   main:
     allow-bean-definition-overriding: true
 server:

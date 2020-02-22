@@ -1,13 +1,14 @@
 package com.hb0730.cloud.admin.server.role.system.controller;
 
 
+import com.hb0730.cloud.admin.common.util.BeanUtils;
 import com.hb0730.cloud.admin.common.web.controller.AbstractBaseController;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
 import com.hb0730.cloud.admin.commons.model.security.UserDetail;
 import com.hb0730.cloud.admin.server.role.system.model.entity.SystemRoleEntity;
 import com.hb0730.cloud.admin.server.role.system.service.ISystemRoleService;
-import com.hb0730.cloud.admin.server.role.utils.SecurityContextUtils;
+import com.hb0730.cloud.admin.server.role.system.vo.SystemRoleVO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,13 +28,13 @@ import static com.hb0730.cloud.admin.common.util.RequestMappingConstants.ROLE_SE
  */
 @RestController
 @RequestMapping(ROLE_SERVER_REQUEST)
-public class SystemRoleController extends AbstractBaseController<SystemRoleEntity> {
+public class SystemRoleController extends AbstractBaseController<SystemRoleVO> {
     @Autowired
     private ISystemRoleService systemRoleService;
 
     @PostMapping("/save")
     @Override
-    public ResultJson save(@RequestBody SystemRoleEntity target) {
+    public ResultJson save(@RequestBody SystemRoleVO target) {
         //保存
         String name = target.getName();
         if (StringUtils.isBlank(name)) {
@@ -46,7 +47,7 @@ public class SystemRoleController extends AbstractBaseController<SystemRoleEntit
 
         UserDetail currentUser = null;
         try {
-            currentUser = SecurityContextUtils.getCurrentUser();
+            currentUser = getCurrentUser();
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseResult.resultFall("获取认证用户失败,请重新登录");
@@ -56,7 +57,8 @@ public class SystemRoleController extends AbstractBaseController<SystemRoleEntit
         }
         target.setCreateTime(new Date());
         target.setCreateUserId(currentUser.getUserId());
-        systemRoleService.save(target);
+        SystemRoleEntity entity = BeanUtils.transformFrom(target, SystemRoleEntity.class);
+        systemRoleService.save(entity);
         return ResponseResult.resultSuccess("保存成功");
     }
 
@@ -66,12 +68,12 @@ public class SystemRoleController extends AbstractBaseController<SystemRoleEntit
     }
 
     @Override
-    public ResultJson submit(SystemRoleEntity target) {
+    public ResultJson submit(SystemRoleVO target) {
         return null;
     }
 
     @Override
-    public ResultJson gitObject(Object id) {
+    public ResultJson getObject(Object id) {
         return null;
     }
 

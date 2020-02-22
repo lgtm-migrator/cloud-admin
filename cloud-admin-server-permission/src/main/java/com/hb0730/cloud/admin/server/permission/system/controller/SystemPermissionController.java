@@ -1,20 +1,20 @@
 package com.hb0730.cloud.admin.server.permission.system.controller;
 
 
+import com.hb0730.cloud.admin.common.util.BeanUtils;
 import com.hb0730.cloud.admin.common.web.controller.AbstractBaseController;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
 import com.hb0730.cloud.admin.commons.model.security.UserDetail;
 import com.hb0730.cloud.admin.server.permission.system.model.entity.SystemPermissionEntity;
 import com.hb0730.cloud.admin.server.permission.system.service.ISystemPermissionService;
-import com.hb0730.cloud.admin.server.permission.utils.SecurityContextUtils;
+import com.hb0730.cloud.admin.server.permission.system.vo.SystemPermissionVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 import static com.hb0730.cloud.admin.common.util.RequestMappingConstants.PERMISSION_SERVER_REQUEST;
 
@@ -28,26 +28,23 @@ import static com.hb0730.cloud.admin.common.util.RequestMappingConstants.PERMISS
  */
 @RestController
 @RequestMapping(PERMISSION_SERVER_REQUEST)
-public class SystemPermissionController extends AbstractBaseController<SystemPermissionEntity> {
+public class SystemPermissionController extends AbstractBaseController<SystemPermissionVO> {
     @Autowired
     private ISystemPermissionService systemPermissionService;
 
     @PostMapping("/save")
     @Override
-    public ResultJson save(@RequestBody SystemPermissionEntity target) {
+    public ResultJson save(@RequestBody SystemPermissionVO target) {
         UserDetail currentUser = null;
         try {
-            currentUser = SecurityContextUtils.getCurrentUser();
+            currentUser = getCurrentUser();
         } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseResult.resultFall("获取当前用户失败,请重新登录");
-        }
-        if (Objects.isNull(currentUser)) {
-            return ResponseResult.resultFall("获取当前用户失败,请重新登录");
+            return ResponseResult.resultFall(e.getMessage());
         }
         target.setCreateUserId(currentUser.getUserId());
         target.setCreateTime(new Date());
-        systemPermissionService.save(target);
+        SystemPermissionEntity entity = BeanUtils.transformFrom(target, SystemPermissionEntity.class);
+        systemPermissionService.save(entity);
         return ResponseResult.resultSuccess("保存成功");
     }
 
@@ -57,13 +54,13 @@ public class SystemPermissionController extends AbstractBaseController<SystemPer
     }
 
     @Override
-    public ResultJson submit(SystemPermissionEntity target) {
+    public ResultJson submit(SystemPermissionVO target) {
         return null;
     }
 
     @GetMapping("/permission/{id}")
     @Override
-    public ResultJson gitObject(@PathVariable Object id) {
+    public ResultJson getObject(@PathVariable Object id) {
         SystemPermissionEntity result = systemPermissionService.getById(id.toString());
         return ResponseResult.resultSuccess(result);
     }

@@ -3,13 +3,14 @@ package com.hb0730.cloud.admin.server.user.system.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.hb0730.cloud.admin.common.util.BeanUtils;
 import com.hb0730.cloud.admin.common.web.controller.AbstractBaseController;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
 import com.hb0730.cloud.admin.commons.model.security.UserDetail;
 import com.hb0730.cloud.admin.server.user.system.model.entity.SystemUserEntity;
 import com.hb0730.cloud.admin.server.user.system.service.ISystemUserService;
-import com.hb0730.cloud.admin.server.user.utils.SecurityContextUtils;
+import com.hb0730.cloud.admin.server.user.system.vo.SystemUserVO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -30,7 +31,7 @@ import static com.hb0730.cloud.admin.common.util.RequestMappingConstants.USER_SE
  */
 @RestController
 @RequestMapping(USER_SERVER_REQUEST)
-public class SystemUserController extends AbstractBaseController<SystemUserEntity> {
+public class SystemUserController extends AbstractBaseController<SystemUserVO> {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
     @Autowired
@@ -38,7 +39,7 @@ public class SystemUserController extends AbstractBaseController<SystemUserEntit
 
     @PostMapping("/save")
     @Override
-    public ResultJson save(@RequestBody SystemUserEntity target) {
+    public ResultJson save(@RequestBody SystemUserVO target) {
         //参数校验
         if (Objects.isNull(target)) {
             return ResponseResult.resultFall("参数为空");
@@ -64,7 +65,7 @@ public class SystemUserController extends AbstractBaseController<SystemUserEntit
         //
         UserDetail currentUser = null;
         try {
-            currentUser = SecurityContextUtils.getCurrentUser();
+            currentUser = getCurrentUser();
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseResult.resultFall("获取当前认证用户失败,请重新登录");
@@ -74,7 +75,8 @@ public class SystemUserController extends AbstractBaseController<SystemUserEntit
         }
         target.setCreateTime(new Date());
         target.setCreateUserId(currentUser.getUserId());
-        systemUserService.save(target);
+        SystemUserEntity entity = BeanUtils.transformFrom(target, SystemUserEntity.class);
+        systemUserService.save(entity);
         return ResponseResult.resultSuccess("新增成功");
     }
 
@@ -95,13 +97,13 @@ public class SystemUserController extends AbstractBaseController<SystemUserEntit
     }
 
     @Override
-    public ResultJson submit(SystemUserEntity target) {
+    public ResultJson submit(SystemUserVO target) {
         return null;
     }
 
     @GetMapping("/{id}")
     @Override
-    public ResultJson gitObject(@PathVariable Object id) {
+    public ResultJson getObject(@PathVariable Object id) {
         if (Objects.isNull(id)) {
             return ResponseResult.resultFall("参数id为空");
         }
@@ -135,6 +137,7 @@ public class SystemUserController extends AbstractBaseController<SystemUserEntit
         }
         return ResponseResult.resultFall("修改密码失败");
     }
+
     /**
      * <p>
      * 根据登录名查找

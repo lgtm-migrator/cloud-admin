@@ -1,9 +1,14 @@
 package com.hb0730.cloud.admin.server.router.system.service.impl;
 
-import com.hb0730.cloud.admin.server.router.system.model.entity.SystemRouterEntity;
-import com.hb0730.cloud.admin.server.router.system.mapper.SystemRouterMapper;
-import com.hb0730.cloud.admin.server.router.system.service.ISystemRouterService;
+import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
 import com.hb0730.cloud.admin.commons.service.BaseServiceImpl;
+import com.hb0730.cloud.admin.server.router.event.SendMessageEvent;
+import com.hb0730.cloud.admin.server.router.event.SendResultJsonEvent;
+import com.hb0730.cloud.admin.server.router.system.mapper.SystemRouterMapper;
+import com.hb0730.cloud.admin.server.router.system.model.entity.SystemRouterEntity;
+import com.hb0730.cloud.admin.server.router.system.service.ISystemRouterService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,5 +21,19 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class SystemRouterServiceImpl extends BaseServiceImpl<SystemRouterMapper, SystemRouterEntity> implements ISystemRouterService {
+    @Autowired
+    private ApplicationContext applicationContext;
 
+    @Override
+    public boolean save(SystemRouterEntity entity) {
+        boolean b = super.save(entity);
+        applicationContext.publishEvent(new SendMessageEvent(this, "router save"));
+        return b;
+    }
+
+    @Override
+    public boolean updateById(SystemRouterEntity entity) {
+        applicationContext.publishEvent(new SendResultJsonEvent(this, ResponseResult.resultSuccess("修改路由成功")));
+        return super.updateById(entity);
+    }
 }

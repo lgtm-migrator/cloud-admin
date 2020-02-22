@@ -138,7 +138,7 @@ public class DynamicRouteServiceImpl implements RouteDefinitionRepository, Appli
     /**
      * 初始化
      */
-    private void load() {
+    public void load() {
         ResultJson routers = remoteRouterClient.getRouters();
         if (CodeStatusEnum.SUCCESS.getCode().equals(routers.getErrCode())) {
             Object data = routers.getData();

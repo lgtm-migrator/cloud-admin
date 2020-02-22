@@ -1,4 +1,4 @@
-package com.hb0730.cloud.admin.server.router.utils;
+package com.hb0730.cloud.admin.common.web.utils;
 
 import com.hb0730.cloud.admin.common.util.BeanUtils;
 import com.hb0730.cloud.admin.commons.model.security.UserDetail;
