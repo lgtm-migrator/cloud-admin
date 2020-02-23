@@ -22,7 +22,11 @@ public class BaseDomainVO implements Serializable {
     /**
      * 创建人
      */
-    private Integer createUserId;
+    private Long createUserId;
+    /**
+     * 创建人
+     */
+    private String createUserName;
     /**
      * 创建时间
      */
@@ -30,10 +34,15 @@ public class BaseDomainVO implements Serializable {
     /**
      * 修改人
      */
-    private Integer updateUserId;
+    private Long updateUserId;
+    /**
+     * 修改人
+     */
+    private String updateUserName;
     /**
      * 修改时间
      */
+
     private Date updateTime;
     /**
      * 版本

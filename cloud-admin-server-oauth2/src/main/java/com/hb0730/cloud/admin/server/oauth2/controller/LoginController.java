@@ -90,7 +90,6 @@ public class LoginController {
         paramMap.put("client_secret", clientSecret);
         Response response = OkHttpClientUtil.getInstance().postData(loginUrl, paramMap);
         String resultJson = Objects.requireNonNull(response.body()).string();
-        System.out.println(resultJson);
         Map<String, Object> map = GsonUtils.json2Maps(resultJson);
         String token = String.valueOf(map.get("access_token"));
         LoginSuccessResult result = new LoginSuccessResult();

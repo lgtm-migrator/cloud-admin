@@ -27,6 +27,12 @@ public class GatewayRouteDefinition extends BusinessDomainVO {
      */
     private String id;
     /**
+     * <p>
+     * 描述
+     * </p>
+     */
+    private String description;
+    /**
      * 路由断言集合配置
      */
     private List<GatewayPredicateDefinition> predicates = new ArrayList<>();

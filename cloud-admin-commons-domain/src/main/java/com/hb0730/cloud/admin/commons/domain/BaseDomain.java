@@ -27,7 +27,7 @@ public class BaseDomain implements Serializable {
      * 创建人
      */
     @TableField(value = "create_user_id", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
-    private Integer createUserId;
+    private Long createUserId;
     /**
      * 创建时间
      */
@@ -37,7 +37,7 @@ public class BaseDomain implements Serializable {
      * 修改人
      */
     @TableField(value = "update_user_id", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
-    private Integer updateUserId;
+    private Long updateUserId;
     /**
      * 修改时间
      */

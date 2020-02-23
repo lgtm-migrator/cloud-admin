@@ -6,6 +6,7 @@ import com.hb0730.cloud.admin.server.router.rocketmq.ISource;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 
 /**
@@ -17,6 +18,7 @@ import org.springframework.cloud.stream.annotation.EnableBinding;
  */
 @SpringBootApplication
 @EnableDiscoveryClient
+@EnableFeignClients
 @EnableMethodCache(basePackages = "com.hb0730.cloud.admin.server.router")
 @EnableCreateCacheAnnotation
 @EnableBinding({ISource.class})

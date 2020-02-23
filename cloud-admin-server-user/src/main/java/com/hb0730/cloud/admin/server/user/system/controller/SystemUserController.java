@@ -6,11 +6,12 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.hb0730.cloud.admin.common.util.BeanUtils;
 import com.hb0730.cloud.admin.common.web.controller.AbstractBaseController;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
+import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
 import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
 import com.hb0730.cloud.admin.commons.model.security.UserDetail;
 import com.hb0730.cloud.admin.server.user.system.model.entity.SystemUserEntity;
+import com.hb0730.cloud.admin.server.user.system.model.vo.SystemUserVO;
 import com.hb0730.cloud.admin.server.user.system.service.ISystemUserService;
-import com.hb0730.cloud.admin.server.user.system.vo.SystemUserVO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -152,6 +153,26 @@ public class SystemUserController extends AbstractBaseController<SystemUserVO> {
         return ResponseResult.resultSuccess(userEntity);
     }
 
+    /**
+     * <p>
+     * 设置当前用户信息
+     * </p>
+     *
+     * @param userVO 用户信息
+     * @return
+     */
+    @PostMapping("/setting/current")
+    public ResultJson settingCurrentUser(@RequestBody SystemUserVO userVO) {
+        UserDetail user = getCurrentUser();
+        if (Objects.isNull(user)) {
+            return ResponseResult.result(CodeStatusEnum.NON_LOGIN, "获取用户失败,请重新登录");
+        }
+        SystemUserEntity result = systemUserService.getById(user.getUserId());
+        BeanUtils.updateProperties(userVO, result);
+        result.setPassword(null);
+        systemUserService.updateById(result);
+        return ResponseResult.resultSuccess("更新成功");
+    }
 
     /**
      * <p>

@@ -2,28 +2,34 @@ package com.hb0730.cloud.admin.server.router.system.controller;
 
 
 import com.alibaba.fastjson.JSONArray;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.hb0730.cloud.admin.common.exception.Oauth2Exception;
+import com.hb0730.cloud.admin.common.util.BeanUtils;
 import com.hb0730.cloud.admin.common.util.GsonUtils;
+import com.hb0730.cloud.admin.common.util.PageInfoUtil;
 import com.hb0730.cloud.admin.common.web.controller.AbstractBaseController;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
 import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
 import com.hb0730.cloud.admin.commons.model.security.UserDetail;
+import com.hb0730.cloud.admin.server.router.feign.IRemoteUser;
 import com.hb0730.cloud.admin.server.router.system.model.entity.SystemRouterEntity;
-import com.hb0730.cloud.admin.server.router.system.model.vo.GatewayFilterDefinition;
-import com.hb0730.cloud.admin.server.router.system.model.vo.GatewayPredicateDefinition;
-import com.hb0730.cloud.admin.server.router.system.model.vo.GatewayRouteDefinition;
+import com.hb0730.cloud.admin.server.router.system.model.entity.SystemUserEntity;
+import com.hb0730.cloud.admin.server.router.system.model.vo.*;
 import com.hb0730.cloud.admin.server.router.system.service.ISystemRouterService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import static com.hb0730.cloud.admin.common.util.RequestMappingConstants.ROUTER_SERVER_REQUEST;
@@ -38,10 +44,13 @@ import static com.hb0730.cloud.admin.common.util.RequestMappingConstants.ROUTER_
  */
 @RestController
 @RequestMapping(ROUTER_SERVER_REQUEST)
-public class SystemRouterController extends AbstractBaseController<GatewayRouteDefinition> {
+public class SystemRouterController extends AbstractBaseController<SystemRouterVO> {
     private Logger logger = LoggerFactory.getLogger(SystemRouterController.class);
 
     private ISystemRouterService systemRouterService;
+
+    @Autowired
+    private IRemoteUser remoteUser;
 
     public SystemRouterController(ISystemRouterService systemRouterService) {
         this.systemRouterService = systemRouterService;
@@ -49,18 +58,16 @@ public class SystemRouterController extends AbstractBaseController<GatewayRouteD
 
     @PostMapping("/add")
     @Override
-    public ResultJson save(@RequestBody GatewayRouteDefinition target) {
+    public ResultJson save(@RequestBody SystemRouterVO target) {
         UserDetail currentUser = null;
         try {
             currentUser = getCurrentUser();
 
         } catch (Oauth2Exception e) {
-            return ResponseResult.resultFall(e.getMessage());
+            return ResponseResult.result(CodeStatusEnum.NON_LOGIN, e.getMessage());
         }
-        SystemRouterEntity entity = new SystemRouterEntity();
-        entity.setIsEnabled(1);
-        entity.setIsDelete(0);
-        converToEntity(target, entity);
+        SystemRouterEntity entity = BeanUtils.transformFrom(target, SystemRouterEntity.class);
+        assert entity != null;
         entity.setCreateTime(new Date());
         entity.setCreateUserId(currentUser.getUserId());
         systemRouterService.save(entity);
@@ -76,15 +83,15 @@ public class SystemRouterController extends AbstractBaseController<GatewayRouteD
      * @return 是否成功
      */
     @PostMapping("/update")
-    public ResultJson update(@RequestBody GatewayRouteDefinition target) throws Exception {
+    public ResultJson update(@RequestBody SystemRouterVO target) throws Exception {
         if (Objects.isNull(target)) {
             return ResponseResult.resultFall("参数为空");
         }
-        if (StringUtils.isEmpty(target.getId())) {
-            return ResponseResult.resultFall("id为空");
+        if (Objects.isNull(target.getId())) {
+            return ResponseResult.resultFall("路由id为空");
         }
-        SystemRouterEntity entity = new SystemRouterEntity();
-        converToEntity(target, entity);
+        SystemRouterEntity entity = BeanUtils.transformFrom(target, SystemRouterEntity.class);
+        assert entity != null;
         entity.setUpdateTime(new Date());
         entity.setUpdateUserId(Objects.requireNonNull(getCurrentUser()).getUserId());
         systemRouterService.updateById(entity);
@@ -107,13 +114,13 @@ public class SystemRouterController extends AbstractBaseController<GatewayRouteD
         }
         entity.setUpdateTime(new Date());
         entity.setId(Long.valueOf(id.toString()));
-        UpdateWrapper<SystemRouterEntity> updateWrapper = new UpdateWrapper<>(entity);
-        systemRouterService.remove(updateWrapper);
+        systemRouterService.updateById(entity);
+        systemRouterService.removeById(entity.getId());
         return ResponseResult.resultSuccess("删除成功");
     }
 
     @Override
-    public ResultJson submit(GatewayRouteDefinition target) {
+    public ResultJson submit(SystemRouterVO target) {
         return null;
     }
 
@@ -141,6 +148,35 @@ public class SystemRouterController extends AbstractBaseController<GatewayRouteD
 
     /**
      * <p>
+     * 分页的路由集
+     * </p>
+     *
+     * @param page     页数
+     * @param pageSize 每页数量
+     * @return 分页的路由集
+     */
+    @PostMapping("/routers/{page}/{pageSize}")
+    public ResultJson routers(@PathVariable int page, @PathVariable int pageSize, @RequestBody RouterParamsVO paramsVO) {
+        PageHelper.startPage(page, pageSize);
+        SystemRouterEntity entity = new SystemRouterEntity();
+        entity.setId(paramsVO.getId());
+        entity.setDescription(paramsVO.getDescription());
+        entity.setUri(paramsVO.getUri());
+        QueryWrapper<SystemRouterEntity> queryWrapper = new QueryWrapper<>(entity);
+        List<SystemRouterEntity> list = systemRouterService.list(queryWrapper);
+        PageInfo<SystemRouterEntity> pageInfo = new PageInfo<>(list);
+        PageInfo<SystemRouterVO> info = PageInfoUtil.toBean(pageInfo, SystemRouterVO.class);
+        info.getList().forEach(vo -> {
+            String userName = getUserName(vo.getCreateUserId());
+            vo.setCreateUserName(userName);
+            userName = getUserName(vo.getUpdateUserId());
+            vo.setUpdateUserName(userName);
+        });
+        return new ResultJson<>(CodeStatusEnum.SUCCESS.getCode(), CodeStatusEnum.SUCCESS.getMessage(), info);
+    }
+
+    /**
+     * <p>
      * 类型转换
      * </p>
      *
@@ -152,12 +188,22 @@ public class SystemRouterController extends AbstractBaseController<GatewayRouteD
         gatewayRouteDefinition.setId(entity.getId().toString());
         gatewayRouteDefinition.setOrder(entity.getOrder());
         gatewayRouteDefinition.setUri(entity.getUri());
+        gatewayRouteDefinition.setCreateTime(entity.getCreateTime());
+        gatewayRouteDefinition.setCreateUserId(entity.getCreateUserId());
+        gatewayRouteDefinition.setDescription(entity.getDescription());
+        gatewayRouteDefinition.setUpdateTime(entity.getUpdateTime());
+        gatewayRouteDefinition.setUpdateUserId(entity.getUpdateUserId());
+        gatewayRouteDefinition.setVersion(entity.getVersion());
         String filters = entity.getFilters();
-        List<GatewayFilterDefinition> gatewayFilterDefinitions = GsonUtils.json2List(filters, GatewayFilterDefinition.class);
-        gatewayRouteDefinition.setFilters(gatewayFilterDefinitions);
+        if (!StringUtils.isBlank(filters)) {
+            List<GatewayFilterDefinition> gatewayFilterDefinitions = GsonUtils.json2List(filters, GatewayFilterDefinition.class);
+            gatewayRouteDefinition.setFilters(gatewayFilterDefinitions);
+        }
         String predicates = entity.getPredicates();
-        List<GatewayPredicateDefinition> gatewayPredicateDefinitions = GsonUtils.json2List(predicates, GatewayPredicateDefinition.class);
-        gatewayRouteDefinition.setPredicates(gatewayPredicateDefinitions);
+        if (!StringUtils.isBlank(predicates)) {
+            List<GatewayPredicateDefinition> gatewayPredicateDefinitions = GsonUtils.json2List(predicates, GatewayPredicateDefinition.class);
+            gatewayRouteDefinition.setPredicates(gatewayPredicateDefinitions);
+        }
         definitions.add(gatewayRouteDefinition);
     }
 
@@ -178,12 +224,40 @@ public class SystemRouterController extends AbstractBaseController<GatewayRouteD
         }
         entity.setUri(definition.getUri());
         entity.setOrder(definition.getOrder());
+        entity.setDescription(definition.getDescription());
         List<GatewayFilterDefinition> filters = definition.getFilters();
         String s = JSONArray.toJSONString(filters);
         entity.setFilters(s);
         List<GatewayPredicateDefinition> predicates = definition.getPredicates();
         String s1 = JSONArray.toJSONString(predicates);
         entity.setPredicates(s1);
+    }
+
+    /**
+     * <p>
+     * 获取用户名称
+     * </p>
+     *
+     * @param userId 用户id
+     * @return 用户名称
+     */
+    private String getUserName(Long userId) {
+        if (Objects.isNull(userId)) {
+            return null;
+        }
+        ResultJson resultJson = remoteUser.findUserById(userId);
+        if (CodeStatusEnum.SUCCESS.getCode().equals(resultJson.getErrCode())) {
+            Object data = resultJson.getData();
+            if (data instanceof Map) {
+                Map map = (Map) data;
+                return map.get("name").toString();
+            } else {
+                SystemUserEntity userEntity = BeanUtils.transformFrom(data, SystemUserEntity.class);
+                return userEntity == null ? null : userEntity.getName();
+            }
+        } else {
+            return null;
+        }
     }
 }
 

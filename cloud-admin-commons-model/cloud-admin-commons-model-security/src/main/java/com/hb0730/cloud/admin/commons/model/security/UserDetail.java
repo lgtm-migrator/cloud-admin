@@ -14,7 +14,7 @@ import java.io.Serializable;
 @Data
 public class UserDetail implements Serializable {
     private static final long serialVersionUID = -18396L;
-    private Integer userId;
+    private long userId;
     private String name;
     private String username;
     private String password;
@@ -22,7 +22,7 @@ public class UserDetail implements Serializable {
     private String perms;
     private String avatar;
     private String sex;
-    private Integer deptId;
+    private long deptId;
     private String deptName;
     private String email;
     private String phone;
