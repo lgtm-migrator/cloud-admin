@@ -1,4 +1,4 @@
-package com.hb0730.cloud.admin.server.menu.system.vo;
+package com.hb0730.cloud.admin.server.menu.system.model.vo;
 
 import com.hb0730.cloud.admin.common.web.vo.BusinessDomainVO;
 import lombok.*;
@@ -10,11 +10,8 @@ import lombok.*;
  * @author bing_huang
  * @since V1.0
  */
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class SystemMenuVO extends BusinessDomainVO {
     /**
      * 是否删除

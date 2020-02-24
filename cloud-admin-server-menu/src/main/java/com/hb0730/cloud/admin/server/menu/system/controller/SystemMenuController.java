@@ -1,6 +1,7 @@
 package com.hb0730.cloud.admin.server.menu.system.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.hb0730.cloud.admin.common.exception.Oauth2Exception;
 import com.hb0730.cloud.admin.common.util.BeanUtils;
 import com.hb0730.cloud.admin.common.web.controller.AbstractBaseController;
@@ -8,8 +9,9 @@ import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
 import com.hb0730.cloud.admin.commons.model.security.UserDetail;
 import com.hb0730.cloud.admin.server.menu.system.model.entity.SystemMenuEntity;
+import com.hb0730.cloud.admin.server.menu.system.model.vo.MenuVO;
+import com.hb0730.cloud.admin.server.menu.system.model.vo.SystemMenuVO;
 import com.hb0730.cloud.admin.server.menu.system.service.ISystemMenuService;
-import com.hb0730.cloud.admin.server.menu.system.vo.SystemMenuVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
@@ -60,11 +62,28 @@ public class SystemMenuController extends AbstractBaseController<SystemMenuVO> {
         return null;
     }
 
-    @GetMapping("/menu/{id}")
+    @GetMapping("/{id}")
     @Override
     public ResultJson getObject(@PathVariable Object id) {
         SystemMenuEntity result = systemMenuService.getById(id.toString());
         return ResponseResult.resultSuccess(result);
+    }
+
+    /**
+     * <p>
+     * 获取菜单根据父类id
+     * </p>
+     *
+     * @param parentId 父类id
+     * @return 菜单
+     */
+    @GetMapping("/menu/{parentId}")
+    public ResultJson getMenusByParentId(@PathVariable Long parentId) {
+        SystemMenuEntity entity = new SystemMenuEntity();
+        entity.setParentId(parentId);
+        QueryWrapper<SystemMenuEntity> queryWrapper = new QueryWrapper<>(entity);
+        List<SystemMenuEntity> entityList = systemMenuService.list(queryWrapper);
+        return ResponseResult.resultSuccess(entityList);
     }
 
     /**
@@ -94,6 +113,19 @@ public class SystemMenuController extends AbstractBaseController<SystemMenuVO> {
     public ResultJson getMenus() {
         List<SystemMenuEntity> result = systemMenuService.list();
         return ResponseResult.resultSuccess(result);
+    }
+
+    /**
+     * <p>
+     * 获取树形菜单id
+     * </p>
+     *
+     * @return 菜单
+     */
+    @GetMapping("/menus/tree")
+    public ResultJson getMenusTree() {
+        List<MenuVO> threeMenus = systemMenuService.getThreeMenus();
+        return ResponseResult.resultSuccess(threeMenus);
     }
 }
 
