@@ -10,6 +10,7 @@ import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
 import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
 import com.hb0730.cloud.admin.commons.model.security.UserDetail;
 import com.hb0730.cloud.admin.server.user.system.model.entity.SystemUserEntity;
+import com.hb0730.cloud.admin.server.user.system.model.vo.SettingPasswordParams;
 import com.hb0730.cloud.admin.server.user.system.model.vo.SystemUserVO;
 import com.hb0730.cloud.admin.server.user.system.service.ISystemUserService;
 import org.apache.commons.lang3.StringUtils;
@@ -114,29 +115,62 @@ public class SystemUserController extends AbstractBaseController<SystemUserVO> {
 
     /**
      * <p>
-     * 用户修改
+     * 修改当前用户密码
      * </p>
      *
      * @return 是否成功
      */
-    @GetMapping("/update/password/{userId}")
-    public ResultJson updatePassword(@PathVariable long userId, @RequestParam("oldPassword") String oldPassword, @RequestParam("newPassword") String newPassword) {
-        SystemUserEntity userEntity = systemUserService.getById(userId);
-        if (Objects.isNull(userEntity)) {
-            return ResponseResult.resultFall("用户不存在");
+    @PostMapping("/update/password/current")
+    public ResultJson updatePassword(@RequestBody SettingPasswordParams passwordParams) {
+        UserDetail currentUser = getCurrentUser();
+        if (Objects.isNull(currentUser)) {
+            return ResponseResult.result(CodeStatusEnum.NON_LOGIN, "获取当前用户失败");
         }
-        String loginPasswd = userEntity.getPassword();
-        if (!passwordMatches(oldPassword, loginPasswd)) {
+        SystemUserEntity entity = systemUserService.getById(currentUser.getUserId());
+        if (!passwordMatches(passwordParams.getOldPassword(), entity.getPassword())) {
             return ResponseResult.resultFall("密码不正确");
         }
-        String password = passwordEncode(newPassword);
-        UpdateWrapper<SystemUserEntity> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.setEntity(new SystemUserEntity().setId(userId).setPassword(password));
-        boolean b = systemUserService.updateById(userEntity);
-        if (b) {
-            return ResponseResult.resultFall("修改成功");
+        String newPassword = passwordParams.getNewPassword();
+        String newPassword2 = passwordParams.getNewPassword2();
+        if (StringUtils.isBlank(newPassword) || StringUtils.isBlank(newPassword2)) {
+            return ResponseResult.resultFall("密码不一致");
         }
-        return ResponseResult.resultFall("修改密码失败");
+        if (!passwordParams.getNewPassword().equals(passwordParams.getNewPassword2())) {
+            return ResponseResult.resultFall("密码不一致");
+        }
+        String newPd = passwordEncode(newPassword2);
+        SystemUserEntity entity1 = new SystemUserEntity();
+        entity1.setId(currentUser.getUserId());
+        entity1.setPassword(newPd);
+        entity1.setUpdateTime(new Date());
+        entity1.setUpdateUserId(currentUser.getUserId());
+        systemUserService.updateById(entity1);
+        return ResponseResult.resultSuccess("修改成功");
+    }
+
+    /**
+     * <p>
+     * 修改用户信息
+     * </p>
+     *
+     * @param userVO 用户参数
+     * @return 是否成功
+     */
+    @PostMapping("/update/userInfo")
+    public ResultJson updateUserInfo(@RequestBody SystemUserVO userVO) {
+        UserDetail currentUser = getCurrentUser();
+        if (Objects.isNull(currentUser)) {
+            return ResponseResult.result(CodeStatusEnum.NON_LOGIN, "获取当前用户失败,请重新登录");
+        }
+        Long id = userVO.getId();
+        if (Objects.isNull(id)) {
+            return ResponseResult.resultFall("获取用户id失败");
+        }
+        userVO.setUpdateTime(new Date());
+        userVO.setUpdateUserId(currentUser.getUserId());
+        SystemUserEntity entity = BeanUtils.transformFrom(userVO, SystemUserEntity.class);
+        systemUserService.updateById(entity);
+        return ResponseResult.resultSuccess("修改成功");
     }
 
     /**
@@ -151,27 +185,6 @@ public class SystemUserController extends AbstractBaseController<SystemUserVO> {
     public ResultJson findUserByLogin(@PathVariable String login) {
         SystemUserEntity userEntity = getUserEntity(login);
         return ResponseResult.resultSuccess(userEntity);
-    }
-
-    /**
-     * <p>
-     * 设置当前用户信息
-     * </p>
-     *
-     * @param userVO 用户信息
-     * @return
-     */
-    @PostMapping("/setting/current")
-    public ResultJson settingCurrentUser(@RequestBody SystemUserVO userVO) {
-        UserDetail user = getCurrentUser();
-        if (Objects.isNull(user)) {
-            return ResponseResult.result(CodeStatusEnum.NON_LOGIN, "获取用户失败,请重新登录");
-        }
-        SystemUserEntity result = systemUserService.getById(user.getUserId());
-        BeanUtils.updateProperties(userVO, result);
-        result.setPassword(null);
-        systemUserService.updateById(result);
-        return ResponseResult.resultSuccess("更新成功");
     }
 
     /**
