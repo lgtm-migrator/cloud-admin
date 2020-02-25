@@ -6,6 +6,7 @@ import com.hb0730.cloud.admin.common.exception.Oauth2Exception;
 import com.hb0730.cloud.admin.common.util.BeanUtils;
 import com.hb0730.cloud.admin.common.web.controller.AbstractBaseController;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
+import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
 import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
 import com.hb0730.cloud.admin.commons.model.security.UserDetail;
 import com.hb0730.cloud.admin.server.menu.system.model.entity.SystemMenuEntity;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import static com.hb0730.cloud.admin.common.util.RequestMappingConstants.MENU_SERVER_REQUEST;
 
@@ -53,8 +55,10 @@ public class SystemMenuController extends AbstractBaseController<SystemMenuVO> {
     }
 
     @Override
-    public ResultJson delete(Object id) {
-        return null;
+    @GetMapping("/delete/{id}")
+    public ResultJson delete(@PathVariable Object id) {
+        systemMenuService.removeById(id.toString());
+        return ResponseResult.resultSuccess("删除成功");
     }
 
     @Override
@@ -83,7 +87,8 @@ public class SystemMenuController extends AbstractBaseController<SystemMenuVO> {
         entity.setParentId(parentId);
         QueryWrapper<SystemMenuEntity> queryWrapper = new QueryWrapper<>(entity);
         List<SystemMenuEntity> entityList = systemMenuService.list(queryWrapper);
-        return ResponseResult.resultSuccess(entityList);
+        List<SystemMenuVO> menuVOList = BeanUtils.transformFromInBatch(entityList, SystemMenuVO.class);
+        return ResponseResult.resultSuccess(menuVOList);
     }
 
     /**
@@ -122,10 +127,55 @@ public class SystemMenuController extends AbstractBaseController<SystemMenuVO> {
      *
      * @return 菜单
      */
-    @GetMapping("/menus/tree")
-    public ResultJson getMenusTree() {
+    @GetMapping("/menus/tree/{type}")
+    public ResultJson getMenusTree(@PathVariable Integer type) {
+        if (type == 1) {
+
+            return null;
+        } else {
+            return getMenusTreeAll();
+        }
+    }
+
+    /**
+     * <p>
+     * 根据id更新
+     * </p>
+     *
+     * @param id id
+     * @param vo 更新参数
+     * @return 是否成功
+     */
+    @PostMapping("/update/{id}")
+    public ResultJson updateById(@PathVariable Long id, @RequestBody SystemMenuVO vo) {
+        UserDetail currentUser = getCurrentUser();
+        if (Objects.isNull(currentUser)) {
+            return ResponseResult.result(CodeStatusEnum.NON_LOGIN, "获取当前用户失败");
+        }
+        vo.setUpdateTime(new Date());
+        vo.setUpdateUserId(currentUser.getUserId());
+        SystemMenuEntity entity = systemMenuService.getById(id);
+        if (Objects.isNull(entity)) {
+            return ResponseResult.resultFall("根据id获取菜单失败,请检查");
+        }
+        BeanUtils.updateProperties(vo, entity);
+        entity.setUpdateUserId(null);
+        entity.setUpdateTime(null);
+        systemMenuService.updateById(entity);
+        return ResponseResult.resultSuccess("修改成功");
+    }
+
+    /**
+     * <p>
+     * 获取全部树形菜单
+     * </p>
+     *
+     * @return 树形菜单
+     */
+    private ResultJson getMenusTreeAll() {
         List<MenuVO> threeMenus = systemMenuService.getThreeMenus();
         return ResponseResult.resultSuccess(threeMenus);
     }
+
 }
 

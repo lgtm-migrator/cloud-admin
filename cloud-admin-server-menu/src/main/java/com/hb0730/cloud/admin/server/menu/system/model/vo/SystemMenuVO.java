@@ -1,5 +1,7 @@
 package com.hb0730.cloud.admin.server.menu.system.model.vo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.hb0730.cloud.admin.common.web.vo.BusinessDomainVO;
 import lombok.*;
 
@@ -26,6 +28,7 @@ public class SystemMenuVO extends BusinessDomainVO {
     /**
      * id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
     /**
@@ -51,6 +54,7 @@ public class SystemMenuVO extends BusinessDomainVO {
     /**
      * 父类菜单
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long parentId;
 
     /**
@@ -68,6 +72,10 @@ public class SystemMenuVO extends BusinessDomainVO {
      */
     private Integer level;
 
+    /**
+     * 排序
+     */
+    private Integer sort;
     /**
      * 备注
      */

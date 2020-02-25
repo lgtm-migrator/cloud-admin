@@ -20,20 +20,20 @@ import lombok.experimental.Accessors;
 @TableName("t_system_menu")
 public class SystemMenuEntity extends BaseDomain {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * 是否删除
      */
     @TableField(value = "is_delete", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     @TableLogic
-    private Integer isDelete=0;
+    private Integer isDelete = 0;
 
     /**
      * 是否启用
      */
     @TableField(value = "is_enabled", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
-    private Integer isEnabled=1;
+    private Integer isEnabled = 1;
 
     /**
      * id
@@ -90,9 +90,14 @@ public class SystemMenuEntity extends BaseDomain {
     private Integer level;
 
     /**
+     * 排序
+     */
+    @TableField(value = "sort", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
+    private Integer sort;
+    /**
      * 备注
      */
-    @TableField(value = "description", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
+    @TableField(value = "description",  whereStrategy = FieldStrategy.NOT_EMPTY)
     private String description;
 
 
@@ -117,7 +122,7 @@ public class SystemMenuEntity extends BaseDomain {
     public static final String IS_ROOT = "is_root";
 
     public static final String LEVEL = "level";
-
+    public static final String SORT = "sort";
     public static final String DESCRIPTION = "description";
 
 }

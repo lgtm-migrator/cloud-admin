@@ -2,6 +2,7 @@ package com.hb0730.cloud.admin.server.menu.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.collect.Lists;
+import com.hb0730.cloud.admin.common.exception.NullPointerException;
 import com.hb0730.cloud.admin.common.util.BeanUtils;
 import com.hb0730.cloud.admin.commons.service.BaseServiceImpl;
 import com.hb0730.cloud.admin.server.menu.system.mapper.SystemMenuMapper;
@@ -10,8 +11,11 @@ import com.hb0730.cloud.admin.server.menu.system.model.vo.MenuVO;
 import com.hb0730.cloud.admin.server.menu.system.service.ISystemMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -28,6 +32,20 @@ public class SystemMenuServiceImpl extends BaseServiceImpl<SystemMenuMapper, Sys
 
     @Autowired
     private SystemMenuMapper menuMapper;
+
+    @Override
+    @Transactional(rollbackFor = {Exception.class})
+    public boolean save(SystemMenuEntity entity) {
+        entity = fillEntity(entity);
+        return super.save(entity);
+    }
+
+    @Override
+    @Transactional(rollbackFor = {Exception.class})
+    public boolean removeById(Serializable id) {
+        //删除子集和本身
+        return super.removeById(id);
+    }
 
     @Override
     public List<MenuVO> getThreeMenus() {
@@ -91,5 +109,42 @@ public class SystemMenuServiceImpl extends BaseServiceImpl<SystemMenuMapper, Sys
 
         });
         return vo;
+    }
+
+    private SystemMenuEntity fillEntity(SystemMenuEntity entity) {
+        if (Objects.isNull(entity)) {
+            return null;
+        }
+        Long parentId = entity.getParentId();
+        if (Objects.isNull(parentId)) {
+            entity.setIsRoot(1);
+            entity.setLevel(1);
+            entity.setHasChild(0);
+        } else {
+            if (0 == parentId || -1 == parentId) {
+                entity.setLevel(1);
+                entity.setIsRoot(1);
+                entity.setHasChild(0);
+            } else {
+                SystemMenuEntity parentEntity = menuMapper.selectById(parentId);
+                if (Objects.isNull(parentEntity)) {
+                    throw new NullPointerException("根据id" + parentId + "获取父级菜单失败");
+                } else {
+                    entity.setLevel(parentEntity.getLevel() + 1);
+                    entity.setIsRoot(0);
+                    entity.setHasChild(0);
+                    if (parentEntity.getHasChild() == 0) {
+                        SystemMenuEntity menuEntity = new SystemMenuEntity();
+                        menuEntity.setHasChild(1);
+                        menuEntity.setId(parentEntity.getId());
+                        menuEntity.setUpdateTime(new Date());
+                        menuEntity.setUpdateUserId(entity.getCreateUserId());
+                        menuMapper.updateById(menuEntity);
+                    }
+                }
+            }
+        }
+        entity.setHasChild(1);
+        return entity;
     }
 }
