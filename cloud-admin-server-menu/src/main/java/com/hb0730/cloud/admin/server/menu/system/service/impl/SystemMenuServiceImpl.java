@@ -9,7 +9,9 @@ import com.hb0730.cloud.admin.server.menu.system.mapper.SystemMenuMapper;
 import com.hb0730.cloud.admin.server.menu.system.model.entity.SystemMenuEntity;
 import com.hb0730.cloud.admin.server.menu.system.model.vo.MenuVO;
 import com.hb0730.cloud.admin.server.menu.system.service.ISystemMenuService;
+import org.assertj.core.util.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -18,6 +20,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * <p>
@@ -44,13 +47,71 @@ public class SystemMenuServiceImpl extends BaseServiceImpl<SystemMenuMapper, Sys
     @Transactional(rollbackFor = {Exception.class})
     public boolean removeById(Serializable id) {
         //删除子集和本身
+        Object[] obj = {id};
+        Long idLong = Long.valueOf(obj[0].toString());
+        Set<Long> childrenId = getChildrenId(idLong);
+        childrenId.remove(idLong);
+        removeByIds(childrenId);
         return super.removeById(id);
     }
 
     @Override
     public List<MenuVO> getThreeMenus() {
+        return getMenusTreeByParentId(0L);
+    }
+
+    @Override
+    public List<SystemMenuEntity> list() {
+        return super.list();
+    }
+
+    /**
+     * <p>
+     * 获取当前id及子集菜单id
+     * </p>
+     *
+     * @param id id
+     * @return 子集菜单
+     */
+    @Override
+    public Set<Long> getChildrenId(Long id) {
+        List<MenuVO> menuTree = getMenusTreeByParentId(id);
+        MenuVO tree = new MenuVO();
+        tree.setId(id);
+        tree.setChildrens(menuTree);
+        Set<Long> ids = Sets.newHashSet();
+        getChildrenId(tree, ids);
+        return ids;
+    }
+
+    /**
+     * 获取子集id
+     *
+     * @param vo  树形菜单
+     * @param ids 容器
+     */
+    private static void getChildrenId(MenuVO vo, Set<Long> ids) {
+        if (!org.springframework.util.StringUtils.isEmpty(vo)) {
+            List<MenuVO> childrens = vo.getChildrens();
+            ids.add(vo.getId());
+            childrens.forEach(children -> {
+                getChildrenId(children, ids);
+            });
+        }
+    }
+
+
+    /**
+     * <p>
+     * 根据父类id获取树形菜单
+     * </p>
+     *
+     * @param id id
+     * @return 树形菜单
+     */
+    private List<MenuVO> getMenusTreeByParentId(@NonNull Long id) {
         List<MenuVO> menus = Lists.newArrayList();
-        List<SystemMenuEntity> menuEntities = getMenusByParentId(0L);
+        List<SystemMenuEntity> menuEntities = getMenusByParentId(id);
         if (CollectionUtils.isEmpty(menuEntities)) {
             return menus;
         }
@@ -61,11 +122,6 @@ public class SystemMenuServiceImpl extends BaseServiceImpl<SystemMenuMapper, Sys
             menus.add(childes);
         });
         return menus;
-    }
-
-    @Override
-    public List<SystemMenuEntity> list() {
-        return super.list();
     }
 
     /**
