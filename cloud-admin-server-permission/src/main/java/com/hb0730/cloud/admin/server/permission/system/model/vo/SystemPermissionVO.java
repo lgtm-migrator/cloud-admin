@@ -1,4 +1,4 @@
-package com.hb0730.cloud.admin.server.permission.system.vo;
+package com.hb0730.cloud.admin.server.permission.system.model.vo;
 
 import com.hb0730.cloud.admin.common.web.vo.BusinessDomainVO;
 import lombok.Data;

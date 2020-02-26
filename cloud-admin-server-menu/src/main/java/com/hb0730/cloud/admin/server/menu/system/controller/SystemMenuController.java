@@ -77,7 +77,8 @@ public class SystemMenuController extends AbstractBaseController<SystemMenuVO> {
     @Override
     public ResultJson getObject(@PathVariable Object id) {
         SystemMenuEntity result = systemMenuService.getById(id.toString());
-        return ResponseResult.resultSuccess(result);
+        SystemMenuVO menuVO = BeanUtils.transformFrom(result, SystemMenuVO.class);
+        return ResponseResult.resultSuccess(menuVO);
     }
 
     /**
@@ -137,7 +138,6 @@ public class SystemMenuController extends AbstractBaseController<SystemMenuVO> {
     @GetMapping("/menus/tree/{type}")
     public ResultJson getMenusTree(@PathVariable Integer type) {
         if (type == 1) {
-
             return null;
         } else {
             return getMenusTreeAll();
