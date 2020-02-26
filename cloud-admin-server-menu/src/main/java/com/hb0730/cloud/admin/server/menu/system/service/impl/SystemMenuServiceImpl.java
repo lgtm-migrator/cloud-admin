@@ -17,10 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 /**
  * <p>
@@ -53,6 +50,39 @@ public class SystemMenuServiceImpl extends BaseServiceImpl<SystemMenuMapper, Sys
         childrenId.remove(idLong);
         removeByIds(childrenId);
         return super.removeById(id);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean removeById(SystemMenuEntity entity) {
+        Set<Long> childrenId = getChildrenId(entity.getId());
+        childrenId.remove(entity.getId());
+        //更新
+        updateById(entity);
+        //更新子集
+        List<SystemMenuEntity> entityList = Lists.newArrayList();
+        childrenId.forEach(id -> {
+            SystemMenuEntity entity1 = new SystemMenuEntity();
+            entity1.setUpdateTime(entity.getUpdateTime());
+            entity1.setUpdateUserId(entity.getUpdateUserId());
+            entity1.setId(id);
+            entityList.add(entity1);
+        });
+        updateBatchById(entityList);
+        //删除子集
+        removeByIds(childrenId);
+        //删除
+        return super.removeById(entity.getId());
+    }
+
+    @Override
+    public boolean updateById(SystemMenuEntity entity) {
+        return super.updateById(entity);
+    }
+
+    @Override
+    public boolean updateBatchById(Collection<SystemMenuEntity> entityList) {
+        return super.updateBatchById(entityList);
     }
 
     @Override

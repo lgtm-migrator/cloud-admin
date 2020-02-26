@@ -57,7 +57,14 @@ public class SystemMenuController extends AbstractBaseController<SystemMenuVO> {
     @Override
     @GetMapping("/delete/{id}")
     public ResultJson delete(@PathVariable Object id) {
-        systemMenuService.removeById(id.toString());
+        UserDetail currentUser = getCurrentUser();
+        if (Objects.isNull(currentUser)) {
+            return ResponseResult.result(CodeStatusEnum.NON_LOGIN, "获取用户失败,请重新登录");
+        }
+        SystemMenuEntity entity = new SystemMenuEntity();
+        entity.setUpdateUserId(currentUser.getUserId());
+        entity.setUpdateTime(new Date());
+        systemMenuService.removeById(entity);
         return ResponseResult.resultSuccess("删除成功");
     }
 
@@ -159,8 +166,6 @@ public class SystemMenuController extends AbstractBaseController<SystemMenuVO> {
             return ResponseResult.resultFall("根据id获取菜单失败,请检查");
         }
         BeanUtils.updateProperties(vo, entity);
-        entity.setUpdateUserId(null);
-        entity.setUpdateTime(null);
         systemMenuService.updateById(entity);
         return ResponseResult.resultSuccess("修改成功");
     }

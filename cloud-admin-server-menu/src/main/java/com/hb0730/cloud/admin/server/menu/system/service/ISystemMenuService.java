@@ -19,6 +19,16 @@ public interface ISystemMenuService extends IService<SystemMenuEntity> {
 
     /**
      * <p>
+     * 根据id删除
+     * </p>
+     *
+     * @param entity entity
+     * @return 是否成功
+     */
+    boolean removeById(SystemMenuEntity entity);
+
+    /**
+     * <p>
      * 获取树形的菜单
      * </p>
      *
