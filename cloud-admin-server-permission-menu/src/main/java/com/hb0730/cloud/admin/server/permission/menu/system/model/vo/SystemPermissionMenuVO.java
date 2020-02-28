@@ -1,4 +1,4 @@
-package com.hb0730.cloud.admin.server.permission.menu.system.vo;
+package com.hb0730.cloud.admin.server.permission.menu.system.model.vo;
 
 import com.hb0730.cloud.admin.common.web.vo.BusinessDomainVO;
 import lombok.Data;
@@ -7,6 +7,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
+ *     当前项目vo
  * </P>
  *
  * @author bing_huang
@@ -36,12 +37,12 @@ public class SystemPermissionMenuVO extends BusinessDomainVO {
      * 权限id
      */
     private Long permissionId;
-
+    private String name;
     /**
      * 菜单id
      */
     private Long menuId;
-
+    private String menuName;
     /**
      * 备注
      */

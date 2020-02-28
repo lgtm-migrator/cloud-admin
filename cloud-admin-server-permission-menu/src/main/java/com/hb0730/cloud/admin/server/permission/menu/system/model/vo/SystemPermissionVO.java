@@ -1,4 +1,4 @@
-package com.hb0730.cloud.admin.server.permission.system.model.vo;
+package com.hb0730.cloud.admin.server.permission.menu.system.model.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * <p>
+ * permission 权限
  * </P>
  *
  * @author bing_huang

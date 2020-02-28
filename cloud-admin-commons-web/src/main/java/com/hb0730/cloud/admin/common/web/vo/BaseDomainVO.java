@@ -1,5 +1,7 @@
 package com.hb0730.cloud.admin.common.web.vo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.*;
 
 import java.io.Serializable;
@@ -22,6 +24,7 @@ public class BaseDomainVO implements Serializable {
     /**
      * 创建人
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long createUserId;
     /**
      * 创建人
@@ -34,6 +37,7 @@ public class BaseDomainVO implements Serializable {
     /**
      * 修改人
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long updateUserId;
     /**
      * 修改人
@@ -42,7 +46,6 @@ public class BaseDomainVO implements Serializable {
     /**
      * 修改时间
      */
-
     private Date updateTime;
     /**
      * 版本

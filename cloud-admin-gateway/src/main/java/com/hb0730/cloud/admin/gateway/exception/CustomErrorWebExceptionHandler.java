@@ -57,9 +57,9 @@ public class CustomErrorWebExceptionHandler extends DefaultErrorWebExceptionHand
      * @param errorAttributes errorAttributes
      */
     @Override
-    protected HttpStatus getHttpStatus(Map<String, Object> errorAttributes) {
+    protected int getHttpStatus(Map<String, Object> errorAttributes) {
         int statusCode = (int) errorAttributes.get("status");
-        return HttpStatus.valueOf(statusCode);
+        return statusCode;
     }
 
     /**
@@ -68,12 +68,12 @@ public class CustomErrorWebExceptionHandler extends DefaultErrorWebExceptionHand
     @Override
     protected Mono<ServerResponse> renderErrorResponse(ServerRequest request) {
         Map<String, Object> error = getErrorAttributes(request, isIncludeStackTrace(request, MediaType.ALL));
-        HttpStatus httpStatus = getHttpStatus(error);
+        int httpStatus = getHttpStatus(error);
         Throwable throwable = getError(request);
         return ServerResponse.status(httpStatus)
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .body(BodyInserters.fromObject(gateWayExceptionHandlerAdvice.handle(throwable)))
-                .doOnNext((resp) -> logError(request, httpStatus.value()));
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromValue(gateWayExceptionHandlerAdvice.handle(throwable)))
+                .doOnNext((resp) -> logError(request, httpStatus));
     }
 
     private void logError(ServerRequest request, int errorStatus) {

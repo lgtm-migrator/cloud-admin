@@ -1,4 +1,4 @@
-package com.hb0730.cloud.admin.server.permission.system.model.vo;
+package com.hb0730.cloud.admin.server.permission.menu.system.model.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
@@ -15,8 +15,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class SystemPermissionVO extends BusinessDomainVO {
-
+public class SystemMenuVO extends BusinessDomainVO {
     /**
      * 是否删除
      */
@@ -34,26 +33,50 @@ public class SystemPermissionVO extends BusinessDomainVO {
     private Long id;
 
     /**
-     * 父权限
+     * 菜单名称
+     */
+    private String name;
+
+    /**
+     * 英文菜单名称
+     */
+    private String enname;
+
+    /**
+     * 菜单URL
+     */
+    private String url;
+
+    /**
+     * 菜单图标
+     */
+    private String icon;
+
+    /**
+     * 父类菜单
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long parentId;
 
     /**
-     * 权限名称
+     * 是否有下级
      */
-    private String name;
+    private Integer hasChild;
 
     /**
-     * 权限英文名称
+     * 是否根节点
      */
-    private String enname;
+    private Integer isRoot;
 
     /**
-     * 授权路径
+     * 菜单级别
      */
-    private String url;
+    private Integer level;
 
+    /**
+     * 排序
+     */
+    private Integer sort;
     /**
      * 备注
      */

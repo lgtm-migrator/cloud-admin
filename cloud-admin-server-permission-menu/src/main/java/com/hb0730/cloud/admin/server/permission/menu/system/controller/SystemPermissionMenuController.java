@@ -9,8 +9,9 @@ import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
 import com.hb0730.cloud.admin.commons.model.security.UserDetail;
 import com.hb0730.cloud.admin.server.permission.menu.system.model.entity.SystemPermissionMenuEntity;
+import com.hb0730.cloud.admin.server.permission.menu.system.model.vo.PermissionMenuVO;
+import com.hb0730.cloud.admin.server.permission.menu.system.model.vo.SystemPermissionMenuVO;
 import com.hb0730.cloud.admin.server.permission.menu.system.service.ISystemPermissionMenuService;
-import com.hb0730.cloud.admin.server.permission.menu.system.vo.SystemPermissionMenuVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
@@ -93,7 +94,7 @@ public class SystemPermissionMenuController extends AbstractBaseController<Syste
      * @param permissionId 权限id
      * @return 结果集
      */
-    @GetMapping("/permission/menu/permission/{permissionId}")
+    @GetMapping("/permission/{permissionId}")
     public ResultJson getPermissionMenuByPermissionId(@PathVariable Long permissionId) {
         SystemPermissionMenuEntity entity = new SystemPermissionMenuEntity();
         entity.setPermissionId(permissionId);
@@ -111,13 +112,11 @@ public class SystemPermissionMenuController extends AbstractBaseController<Syste
      * @param menuId 菜单id
      * @return 结果集
      */
-    @GetMapping("/permission/menu/menu/{menuId}")
+    @GetMapping("/menu/{menuId}")
     public ResultJson getPermissionMenuByMenuId(@PathVariable Long menuId) {
-        SystemPermissionMenuEntity entity = new SystemPermissionMenuEntity();
-        entity.setMenuId(menuId);
-        QueryWrapper<SystemPermissionMenuEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.setEntity(entity);
-        List<SystemPermissionMenuEntity> results = systemPermissionMenuService.list(queryWrapper);
+        SystemPermissionMenuVO permissionMenuVO = new SystemPermissionMenuVO();
+        permissionMenuVO.setMenuId(menuId);
+        List<PermissionMenuVO> results = systemPermissionMenuService.getPermissionMenuByMenuId(permissionMenuVO);
         return ResponseResult.resultSuccess(results);
     }
 }

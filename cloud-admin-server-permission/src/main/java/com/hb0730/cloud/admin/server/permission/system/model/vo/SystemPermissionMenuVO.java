@@ -1,10 +1,9 @@
 package com.hb0730.cloud.admin.server.permission.system.model.vo;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.hb0730.cloud.admin.common.web.vo.BusinessDomainVO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
 /**
  * <p>
@@ -15,7 +14,8 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class SystemPermissionVO extends BusinessDomainVO {
+@Accessors(chain = true)
+public class SystemPermissionMenuVO extends BusinessDomainVO {
 
     /**
      * 是否删除
@@ -30,29 +30,17 @@ public class SystemPermissionVO extends BusinessDomainVO {
     /**
      * id
      */
-    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
     /**
-     * 父权限
+     * 权限id
      */
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long parentId;
+    private Long permissionId;
 
     /**
-     * 权限名称
+     * 菜单id
      */
-    private String name;
-
-    /**
-     * 权限英文名称
-     */
-    private String enname;
-
-    /**
-     * 授权路径
-     */
-    private String url;
+    private Long menuId;
 
     /**
      * 备注

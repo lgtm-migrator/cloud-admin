@@ -65,14 +65,14 @@ public interface RequestMappingConstants {
      * 菜单权限
      * </P>
      */
-    String PERMISSION_MENU_SERVER_REQUEST = "/v1/server/system/permission/menu";
+    String PERMISSION_MENU_SERVER_REQUEST = "/v1/server/system/permissionmenu";
 
     /**
      * <p>
      * 角色权限
      * </p>
      */
-    String ROLE_PERMISSION_SERVER_REQUEST = "/v1/server/system/role/permission/";
+    String ROLE_PERMISSION_SERVER_REQUEST = "/v1/server/system/role/permission";
 
     /**
      * <p>

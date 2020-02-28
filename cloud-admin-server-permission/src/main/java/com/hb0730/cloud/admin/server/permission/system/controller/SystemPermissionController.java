@@ -59,6 +59,7 @@ public class SystemPermissionController extends AbstractBaseController<SystemPer
         }
         permissionMenuVO.setCreateTime(new Date());
         permissionMenuVO.setCreateUserId(currentUser.getUserId());
+        systemPermissionService.save(permissionMenuVO);
         return ResponseResult.resultSuccess("保存成功");
     }
 
@@ -100,13 +101,14 @@ public class SystemPermissionController extends AbstractBaseController<SystemPer
      * @param id id集合
      * @return 权限
      */
-    @PostMapping("/permission/id")
+    @PostMapping("/permission/ids")
     public ResultJson getPermissionByIds(@RequestBody List<Long> id) {
         if (CollectionUtils.isEmpty(id)) {
             return ResponseResult.resultSuccess(null);
         }
         List<SystemPermissionEntity> results = systemPermissionService.listByIds(id);
-        return ResponseResult.resultSuccess(results);
+        List<SystemPermissionVO> vos = BeanUtils.transformFromInBatch(results, SystemPermissionVO.class);
+        return ResponseResult.resultSuccess(vos);
     }
 
 }
