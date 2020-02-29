@@ -33,7 +33,7 @@ public class SystemPermissionServiceImpl extends BaseServiceImpl<SystemPermissio
     private IRemotePermissionMenu remotePermissionMenu;
 
     @Override
-    @GlobalTransactional
+    @GlobalTransactional(name = "cloud-admin-permission-seata")
     @Transactional(rollbackFor = Exception.class)
     public boolean save(PermissionMenuVO permissionMenuVO) {
         //新增数据
@@ -50,7 +50,7 @@ public class SystemPermissionServiceImpl extends BaseServiceImpl<SystemPermissio
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @GlobalTransactional
+    @GlobalTransactional(name = "cloud-admin-permission-seata")
     public boolean unBinding(Long permissionId, Long menuId) {
         remoteUnBinding(permissionId, menuId);
         return removeById(permissionId);
@@ -61,6 +61,12 @@ public class SystemPermissionServiceImpl extends BaseServiceImpl<SystemPermissio
         return super.save(entity);
     }
 
+    /**
+     * 远程调用解绑
+     *
+     * @param permissionId 权限id
+     * @param menuId       菜单id
+     */
     private void remoteUnBinding(Long permissionId, Long menuId) {
         if (Objects.isNull(permissionId)) {
             throw new NullPointerException("权限id为空");

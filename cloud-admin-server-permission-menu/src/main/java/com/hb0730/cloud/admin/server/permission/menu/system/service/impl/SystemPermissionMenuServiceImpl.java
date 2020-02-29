@@ -19,6 +19,9 @@ import com.hb0730.cloud.admin.server.permission.menu.system.model.vo.SystemMenuV
 import com.hb0730.cloud.admin.server.permission.menu.system.model.vo.SystemPermissionMenuVO;
 import com.hb0730.cloud.admin.server.permission.menu.system.model.vo.SystemPermissionVO;
 import com.hb0730.cloud.admin.server.permission.menu.system.service.ISystemPermissionMenuService;
+import io.seata.core.context.RootContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +41,7 @@ import java.util.stream.Collectors;
  */
 @Service
 public class SystemPermissionMenuServiceImpl extends BaseServiceImpl<SystemPermissionMenuMapper, SystemPermissionMenuEntity> implements ISystemPermissionMenuService {
+    private Logger logger = LoggerFactory.getLogger(SystemPermissionMenuServiceImpl.class);
     @Autowired
     private IRemotePermission remotePermission;
     @Autowired
@@ -45,6 +49,7 @@ public class SystemPermissionMenuServiceImpl extends BaseServiceImpl<SystemPermi
 
     @Override
     public boolean save(SystemPermissionMenuEntity entity) {
+        logger.info("全局事务id ：" + RootContext.getXID());
         if (Objects.isNull(entity)) {
             throw new NullPointerException("实体为空");
         }

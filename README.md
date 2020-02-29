@@ -11,16 +11,17 @@ spring alibaba cloud admin Template
 * 代码管理：Git + GitHub
 * 镜像管理：Docker Registry
 ## 后台主要技术栈
-* 核心框架：Spring Boot + Spring Cloud Alibaba
+* 核心框架：Spring Boot + Spring Cloud Alibaba-2.2.0
 * ORM框架: mybatis-plus简化mybatis开发
 * 数据连接池: KikariCP
 * 数据库缓存: Redis
 * 单点登录: spring-security-oauth2
-* 分布式缓存:Alibab- jetcache
+* 分布式缓存:Alibaba jetcache
 * 分布式系统网关:Spring Cloud Gateway
 * 分布式注册中心:Spring Cloud Alibaba Nacos
 * 分布式配置中心:Spring Cloud Alibaba Nacos-config
 * 分布式熔断降级: Spring Cloud Alibaba Sentinel
+* 分布式事务: Spring Cloud Alibaba Seata
 * MyBatis 分页插件: PageHelper
 ## 基础设施
 

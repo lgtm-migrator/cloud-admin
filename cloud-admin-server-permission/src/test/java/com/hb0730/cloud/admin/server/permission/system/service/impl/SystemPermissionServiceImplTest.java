@@ -26,6 +26,8 @@ public class SystemPermissionServiceImplTest {
     @Test
     public void save1() {
         PermissionMenuVO vo = new PermissionMenuVO();
+        vo.setId(1L);
+        vo.setMenuId(1L);
         systemPermissionService.save(vo);
     }
 }
