@@ -29,6 +29,7 @@ spring alibaba cloud admin Template
 |nacos|8848|nacos注册中心与配置中心|
 |sentinel|8408|限流|
 |rocketmq|10909，10911|异步通知(跨服务)|
+|seata|8091|分布式事务|
 ## 模块简介
 |模块名称|模块地址|模块说明|端口|
 |----|----|----|----|
