@@ -21,6 +21,7 @@ import com.hb0730.cloud.admin.server.permission.menu.system.model.vo.SystemPermi
 import com.hb0730.cloud.admin.server.permission.menu.system.service.ISystemPermissionMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
@@ -99,6 +100,23 @@ public class SystemPermissionMenuServiceImpl extends BaseServiceImpl<SystemPermi
 
         }
         return null;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean unBinding(Long permissionId, Long menuId) {
+        if (Objects.isNull(permissionId)) {
+            throw new NullPointerException("权限id为空");
+        }
+        if (Objects.isNull(menuId)) {
+            throw new NullPointerException("菜单id为空");
+        }
+
+        SystemPermissionMenuEntity entity = new SystemPermissionMenuEntity();
+        entity.setPermissionId(permissionId);
+        entity.setMenuId(menuId);
+        QueryWrapper<SystemPermissionMenuEntity> queryWrapper = new QueryWrapper<>(entity);
+        return remove(queryWrapper);
     }
 
     /**

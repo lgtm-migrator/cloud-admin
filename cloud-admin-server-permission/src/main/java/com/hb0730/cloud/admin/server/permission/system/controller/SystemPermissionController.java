@@ -8,9 +8,9 @@ import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
 import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
 import com.hb0730.cloud.admin.commons.model.security.UserDetail;
 import com.hb0730.cloud.admin.server.permission.system.model.entity.SystemPermissionEntity;
-import com.hb0730.cloud.admin.server.permission.system.service.ISystemPermissionService;
 import com.hb0730.cloud.admin.server.permission.system.model.vo.PermissionMenuVO;
 import com.hb0730.cloud.admin.server.permission.system.model.vo.SystemPermissionVO;
+import com.hb0730.cloud.admin.server.permission.system.service.ISystemPermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
@@ -111,5 +111,41 @@ public class SystemPermissionController extends AbstractBaseController<SystemPer
         return ResponseResult.resultSuccess(vos);
     }
 
+    /**
+     * <p>
+     * 根据id修改权限信息
+     * </p>
+     *
+     * @param vo 权限参数
+     * @return 是否成功
+     */
+    @PostMapping("/update/{id}")
+    public ResultJson updateByIds(@PathVariable Long id, @RequestBody SystemPermissionVO vo) {
+        UserDetail currentUser = getCurrentUser();
+        if (Objects.isNull(currentUser)) {
+            return ResponseResult.result(CodeStatusEnum.NON_LOGIN, "获取当前用户失败");
+        }
+        vo.setId(id);
+        vo.setUpdateTime(new Date());
+        vo.setUpdateUserId(currentUser.getUserId());
+        SystemPermissionEntity entity = BeanUtils.transformFrom(vo, SystemPermissionEntity.class);
+        systemPermissionService.updateById(entity);
+        return ResponseResult.resultSuccess("修改成功");
+    }
+
+    /**
+     * <p>
+     * 根据id删除
+     * </p>
+     *
+     * @param id     id
+     * @param menuId 菜单id
+     * @return 是否成功
+     */
+    @GetMapping("/unBinding/{id}/{menuId}")
+    public ResultJson deleteByIdAndMenuId(@PathVariable Long id, @PathVariable Long menuId) {
+        systemPermissionService.unBinding(id, menuId);
+        return ResponseResult.resultSuccess("删除成功");
+    }
 }
 

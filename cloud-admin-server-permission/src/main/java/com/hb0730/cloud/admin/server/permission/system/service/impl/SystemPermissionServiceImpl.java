@@ -47,9 +47,32 @@ public class SystemPermissionServiceImpl extends BaseServiceImpl<SystemPermissio
         return save;
     }
 
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    @GlobalTransactional
+    public boolean unBinding(Long permissionId, Long menuId) {
+        remoteUnBinding(permissionId, menuId);
+        return removeById(permissionId);
+    }
+
     @Override
     public boolean save(SystemPermissionEntity entity) {
         return super.save(entity);
+    }
+
+    private void remoteUnBinding(Long permissionId, Long menuId) {
+        if (Objects.isNull(permissionId)) {
+            throw new NullPointerException("权限id为空");
+        }
+        if (Objects.isNull(menuId)) {
+            throw new NullPointerException("菜单id为空");
+        }
+        ResultJson result = remotePermissionMenu.unBinding(permissionId, menuId);
+        int code = result.getErrCode();
+        if (!CodeStatusEnum.SUCCESS.getCode().equals(code)) {
+            throw new BusinessException(result.getErrorMessage());
+        }
     }
 
     /**

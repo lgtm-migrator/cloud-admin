@@ -23,6 +23,11 @@ public class FeignFactory implements FallbackFactory<IRemotePermissionMenu> {
             public ResultJson save(SystemPermissionMenuVO vo) {
                 return ResponseResult.resultFall("保存菜单权限失败（熔断）");
             }
+
+            @Override
+            public ResultJson unBinding(Long permissionId, Long menuId) {
+                return ResponseResult.resultFall("解除菜单与权限绑定失败(熔断)");
+            }
         };
     }
 }

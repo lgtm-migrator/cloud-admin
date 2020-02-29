@@ -1,7 +1,7 @@
 package com.hb0730.cloud.admin.server.permission.system.service;
 
-import com.hb0730.cloud.admin.server.permission.system.model.entity.SystemPermissionEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.hb0730.cloud.admin.server.permission.system.model.entity.SystemPermissionEntity;
 import com.hb0730.cloud.admin.server.permission.system.model.vo.PermissionMenuVO;
 
 /**
@@ -23,4 +23,13 @@ public interface ISystemPermissionService extends IService<SystemPermissionEntit
      * @return 是否成功
      */
     boolean save(PermissionMenuVO permissionMenuVO);
+
+    /**
+     * 解绑
+     *
+     * @param permissionId 权限id
+     * @param menuId       菜单id
+     * @return 是否成功
+     */
+    boolean unBinding(Long permissionId, Long menuId);
 }

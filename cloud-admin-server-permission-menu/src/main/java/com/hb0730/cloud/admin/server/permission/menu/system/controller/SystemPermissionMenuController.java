@@ -119,5 +119,20 @@ public class SystemPermissionMenuController extends AbstractBaseController<Syste
         List<PermissionMenuVO> results = systemPermissionMenuService.getPermissionMenuByMenuId(permissionMenuVO);
         return ResponseResult.resultSuccess(results);
     }
+
+    /**
+     * <p>
+     * 解除权限与菜单绑定
+     * </p>
+     *
+     * @param permissionId 权限id
+     * @param menuId       菜单id
+     * @return 是否成功
+     */
+    @GetMapping("/unBinding/{permissionId}/{menuId}")
+    public ResultJson unBinding(@PathVariable Long permissionId, @PathVariable Long menuId) {
+        systemPermissionMenuService.unBinding(permissionId, menuId);
+        return ResponseResult.resultSuccess("解绑成功");
+    }
 }
 

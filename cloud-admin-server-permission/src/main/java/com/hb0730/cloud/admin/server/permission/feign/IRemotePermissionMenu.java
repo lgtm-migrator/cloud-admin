@@ -5,6 +5,8 @@ import com.hb0730.cloud.admin.commons.feign.configuration.FeignConfiguration;
 import com.hb0730.cloud.admin.server.permission.feign.fallback.FeignFactory;
 import com.hb0730.cloud.admin.server.permission.system.model.vo.SystemPermissionMenuVO;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import static com.hb0730.cloud.admin.common.util.RequestMappingConstants.PERMISSION_MENU_SERVER_REQUEST;
@@ -30,4 +32,14 @@ public interface IRemotePermissionMenu {
      */
     @PostMapping("/save")
     ResultJson save(SystemPermissionMenuVO vo);
+
+    /**
+     * 解除绑定
+     *
+     * @param permissionId 权限id
+     * @param menuId       菜单id
+     * @return 是否成功
+     */
+    @GetMapping("/unBinding/{permissionId}/{menuId}")
+    ResultJson unBinding(@PathVariable("permissionId") Long permissionId, @PathVariable("menuId") Long menuId);
 }

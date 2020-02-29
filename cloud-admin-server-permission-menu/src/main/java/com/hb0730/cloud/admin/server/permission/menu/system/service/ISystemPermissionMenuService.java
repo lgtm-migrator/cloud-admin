@@ -23,4 +23,15 @@ public interface ISystemPermissionMenuService extends IService<SystemPermissionM
      * @return 权限信息
      */
     List<PermissionMenuVO> getPermissionMenuByMenuId(SystemPermissionMenuVO vo);
+
+    /**
+     * <p>
+     * 解除绑定
+     * </p>
+     *
+     * @param permissionId 权限id
+     * @param menuId 菜单id
+     * @return 是否成功
+     */
+    boolean unBinding(Long permissionId, Long menuId);
 }
