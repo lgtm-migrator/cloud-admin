@@ -12,8 +12,8 @@ spring:
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
       minimum-idle: 5
-      maximum-pool-size: 10
       idle-timeout: 600000
+      maximum-pool-size: 10
       auto-commit: true
       pool-name: MyHikariCP
       max-lifetime: 1800000

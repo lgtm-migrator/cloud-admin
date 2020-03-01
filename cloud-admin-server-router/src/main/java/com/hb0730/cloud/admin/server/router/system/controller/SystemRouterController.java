@@ -143,7 +143,7 @@ public class SystemRouterController extends AbstractBaseController<SystemRouterV
         if (!CollectionUtils.isEmpty(list)) {
             list.forEach(entity -> converToBean(entity, definitions));
         }
-        return new ResultJson<>(CodeStatusEnum.SUCCESS.getCode(), CodeStatusEnum.SUCCESS.getMessage(), definitions);
+        return ResponseResult.resultSuccess(definitions);
     }
 
     /**
@@ -172,7 +172,7 @@ public class SystemRouterController extends AbstractBaseController<SystemRouterV
             userName = getUserName(vo.getUpdateUserId());
             vo.setUpdateUserName(userName);
         });
-        return new ResultJson<>(CodeStatusEnum.SUCCESS.getCode(), CodeStatusEnum.SUCCESS.getMessage(), info);
+        return ResponseResult.resultSuccess(info);
     }
 
     /**

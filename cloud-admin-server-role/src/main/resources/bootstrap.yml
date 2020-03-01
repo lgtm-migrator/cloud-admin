@@ -22,8 +22,6 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
-    serialization:
-      write-dates-as-timestamps: true
 
   #redis
   redis:
@@ -109,3 +107,16 @@ security:
       user-authorization-uri: http://localhost:1010/oauth/authorize
     resource:
       token-info-uri: http://localhost:1010/oauth/check_token
+feign:
+  sentinel:
+    enabled: true
+  client:
+    config:
+      default:
+        connectTimeout: 50000
+        readTimeout: 50000
+        loggerLevel: BASIC
+  okhttp:
+    enabled: true
+  httpclient:
+    enabled: false

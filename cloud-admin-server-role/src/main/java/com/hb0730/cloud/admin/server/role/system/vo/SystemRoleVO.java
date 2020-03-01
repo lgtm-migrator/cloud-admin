@@ -1,5 +1,7 @@
 package com.hb0730.cloud.admin.server.role.system.vo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.hb0730.cloud.admin.common.web.vo.BusinessDomainVO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -29,11 +31,13 @@ public class SystemRoleVO extends BusinessDomainVO {
     /**
      * id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
     /**
      * 父角色
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long parentId;
 
     /**
