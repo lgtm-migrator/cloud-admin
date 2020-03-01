@@ -64,6 +64,12 @@ spring:
 feign:
   sentinel:
     enabled: true
+  client:
+    config:
+      default:
+        connectTimeout: 50000
+        readTimeout: 50000
+        loggerLevel: BASIC
   okhttp:
     enabled: true
   httpclient:
