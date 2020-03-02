@@ -2,9 +2,10 @@ package com.hb0730.cloud.admin.server.oauth2.feign;
 
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.commons.feign.configuration.FeignConfiguration;
+import com.hb0730.cloud.admin.commons.user.model.vo.SystemUserVO;
 import com.hb0730.cloud.admin.server.oauth2.feign.fallback.RemoteUserFallbackFactory;
-import com.hb0730.cloud.admin.server.oauth2.model.SystemUserEntity;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,7 +21,18 @@ import static com.hb0730.cloud.admin.common.util.ServerNameConstants.USER_SERVER
  * @since V1.0
  */
 @FeignClient(value = USER_SERVER, path = USER_SERVER_REQUEST, configuration = FeignConfiguration.class, fallbackFactory = RemoteUserFallbackFactory.class)
-public interface IRemoteUser {
+public interface IRemoteUser extends com.hb0730.cloud.admin.api.user.IRemoteUser {
+    /**
+     * <p>
+     * 获取用户信息
+     * </p>
+     *
+     * @param id 用户id
+     * @return 用户信息
+     */
+    @GetMapping("/{id}")
+    @Override
+    ResultJson findUserById(@PathVariable("id") Long id);
     /**
      * <p>
      * 根据用户账号查询
@@ -30,5 +42,6 @@ public interface IRemoteUser {
      * @return 用户
      */
     @RequestMapping(value = "findUser/{login}", method = RequestMethod.GET)
-    ResultJson<SystemUserEntity> findUserByUserName(@PathVariable("login") String login);
+    @Override
+    ResultJson<SystemUserVO> findUserByUserName(@PathVariable("login") String login);
 }

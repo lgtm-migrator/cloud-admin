@@ -70,7 +70,7 @@ management:
     web:
       exposure:
         include: '*'
-
+# okhttp远程登录 模拟oauth2
 cloud:
   admin:
     oauth2:

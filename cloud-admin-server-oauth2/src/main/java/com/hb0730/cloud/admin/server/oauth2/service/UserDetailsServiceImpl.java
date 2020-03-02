@@ -2,8 +2,8 @@ package com.hb0730.cloud.admin.server.oauth2.service;
 
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
+import com.hb0730.cloud.admin.commons.user.model.vo.SystemUserVO;
 import com.hb0730.cloud.admin.server.oauth2.feign.IRemoteUser;
-import com.hb0730.cloud.admin.server.oauth2.model.SystemUserEntity;
 import com.hb0730.cloud.admin.server.oauth2.model.UserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,9 +27,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        ResultJson<SystemUserEntity> result = remoteUser.findUserByUserName(userName);
+        ResultJson<SystemUserVO> result = remoteUser.findUserByUserName(userName);
         if (CodeStatusEnum.SUCCESS.getCode().equals(result.getErrCode())) {
-            SystemUserEntity data = result.getData();
+            SystemUserVO data = result.getData();
             if (!Objects.isNull(data)) {
                 //密码校验
                 UserDetail userDetail = new UserDetail();

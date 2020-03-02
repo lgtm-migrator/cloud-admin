@@ -67,7 +67,7 @@ public class SystemRolePermissionController extends AbstractBaseController<Syste
 
     @GetMapping("/role/permission/{id}")
     @Override
-    public ResultJson getObject(@PathVariable Object id) {
+    public ResultJson getInfo(@PathVariable Object id) {
         SystemRolePermissionEntity result = systemRolePermissionService.getById(id.toString());
         return ResponseResult.resultSuccess(result);
     }

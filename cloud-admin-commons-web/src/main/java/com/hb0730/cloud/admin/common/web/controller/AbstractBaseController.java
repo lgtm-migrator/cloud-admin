@@ -45,7 +45,7 @@ public abstract class AbstractBaseController<T extends BaseDomainVO> {
      * @param id 目标
      * @return ResultJson
      */
-    public abstract ResultJson getObject(Object id);
+    public abstract ResultJson getInfo(Object id);
 
     /**
      * <p>

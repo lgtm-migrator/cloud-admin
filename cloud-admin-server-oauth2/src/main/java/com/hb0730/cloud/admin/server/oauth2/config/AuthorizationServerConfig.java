@@ -52,8 +52,14 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    /**
+     * redis 缓存token信息
+     */
     @Autowired
     private RedisConnectionFactory redisConnectionFactory;
+    /**
+     * 远程查询用户信息
+     */
     @Autowired
     private UserDetailsService userDetailsService;
 
@@ -127,6 +133,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         return tokenServices;
     }
 
+    /**
+     * 下游服务器获取获取userDetail
+     */
     @Bean
     public DefaultAccessTokenConverter accessTokenConverter() {
         DefaultAccessTokenConverter defaultAccessTokenConverter = new DefaultAccessTokenConverter();
@@ -137,6 +146,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Component
     class UserAuthenticationConverter extends DefaultUserAuthenticationConverter {
         private Collection<? extends GrantedAuthority> defaultAuthorities;
+
         @Override
         public Map<String, ?> convertUserAuthentication(Authentication authentication) {
             Map<String, Object> response = new LinkedHashMap<String, Object>();
@@ -144,7 +154,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
             if (authentication.getAuthorities() != null && !authentication.getAuthorities().isEmpty()) {
                 response.put(AUTHORITIES, AuthorityUtils.authorityListToSet(authentication.getAuthorities()));
             }
-            response.put(USERNAME,authentication.getPrincipal());
+            response.put(USERNAME, authentication.getPrincipal());
             return response;
         }
     }

@@ -1,4 +1,4 @@
-package com.hb0730.cloud.admin.gateway.model;
+package com.hb0730.cloud.admin.commons.router.model.vo;
 
 import lombok.*;
 
@@ -7,7 +7,7 @@ import java.util.Map;
 
 /**
  * <p>
- * 过滤器
+ * 路由断言
  * </P>
  *
  * @author bing_huang
@@ -17,15 +17,14 @@ import java.util.Map;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @EqualsAndHashCode
-public class GatewayFilterDefinition {
+public class GatewayPredicateDefinition {
     /**
-     * Filter Name
+     * 断言对应的Name
      */
     private String name;
     /**
-     * 对应的路由规则
+     * 配置的断言规则
      */
     private Map<String, String> args = new LinkedHashMap<>();
 }

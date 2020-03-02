@@ -105,12 +105,13 @@ public class SystemUserController extends AbstractBaseController<SystemUserVO> {
 
     @GetMapping("/{id}")
     @Override
-    public ResultJson getObject(@PathVariable Object id) {
+    public ResultJson getInfo(@PathVariable Object id) {
         if (Objects.isNull(id)) {
             return ResponseResult.resultFall("参数id为空");
         }
         SystemUserEntity entity = systemUserService.getById(id.toString());
-        return ResponseResult.resultSuccess(entity);
+        SystemUserVO vo = BeanUtils.transformFrom(entity, SystemUserVO.class);
+        return ResponseResult.resultSuccess(vo);
     }
 
     /**
@@ -184,7 +185,8 @@ public class SystemUserController extends AbstractBaseController<SystemUserVO> {
     @GetMapping("/findUser/{login}")
     public ResultJson findUserByLogin(@PathVariable String login) {
         SystemUserEntity userEntity = getUserEntity(login);
-        return ResponseResult.resultSuccess(userEntity);
+        SystemUserVO vo = BeanUtils.transformFrom(userEntity, SystemUserVO.class);
+        return ResponseResult.resultSuccess(vo);
     }
 
     /**

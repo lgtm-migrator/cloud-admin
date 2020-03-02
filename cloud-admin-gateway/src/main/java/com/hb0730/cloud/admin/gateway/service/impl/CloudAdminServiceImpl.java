@@ -2,7 +2,7 @@ package com.hb0730.cloud.admin.gateway.service.impl;
 
 import com.hb0730.cloud.admin.common.exception.NullPointerException;
 import com.hb0730.cloud.admin.common.util.BeanUtils;
-import com.hb0730.cloud.admin.gateway.model.GatewayRouteDefinition;
+import com.hb0730.cloud.admin.commons.router.model.vo.GatewayRouteDefinition;
 import com.hb0730.cloud.admin.gateway.service.ICloudAdminRouteService;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang.StringUtils;

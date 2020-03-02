@@ -1,4 +1,4 @@
-package com.hb0730.cloud.admin.gateway.model;
+package com.hb0730.cloud.admin.commons.router.model.vo;
 
 import lombok.*;
 

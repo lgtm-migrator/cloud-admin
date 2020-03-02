@@ -1,10 +1,11 @@
 package com.hb0730.cloud.admin.gateway.feign;
 
+import com.hb0730.cloud.admin.api.router.IRemoteRouter;
 import com.hb0730.cloud.admin.common.util.ServerNameConstants;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.commons.feign.configuration.FeignConfiguration;
+import com.hb0730.cloud.admin.commons.router.model.vo.GatewayRouteDefinition;
 import com.hb0730.cloud.admin.gateway.feign.fallback.RemoteRouterClientFallbackFactory;
-import com.hb0730.cloud.admin.gateway.model.GatewayRouteDefinition;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +24,7 @@ import static com.hb0730.cloud.admin.common.util.RequestMappingConstants.ROUTER_
  * @since V1.0
  */
 @FeignClient(name = ServerNameConstants.ROUTER_SERVER, path = ROUTER_SERVER_REQUEST, configuration = {FeignConfiguration.class}, fallbackFactory = RemoteRouterClientFallbackFactory.class)
-public interface IRemoteRouterClient {
+public interface IRemoteRouterClient extends IRemoteRouter {
     /**
      * <p>
      * 获取路由
@@ -32,6 +33,7 @@ public interface IRemoteRouterClient {
      * @return 路由集
      */
     @GetMapping("/routers")
+    @Override
     ResultJson getRouters();
 
     /**
@@ -43,6 +45,7 @@ public interface IRemoteRouterClient {
      * @return 是否成功
      */
     @PostMapping("/add")
+    @Override
     ResultJson save(@RequestBody GatewayRouteDefinition definition);
 
     /**
@@ -54,6 +57,7 @@ public interface IRemoteRouterClient {
      * @return 是否成功
      */
     @PostMapping("/update")
+    @Override
     ResultJson update(@RequestBody GatewayRouteDefinition definition);
 
     /**
@@ -65,6 +69,7 @@ public interface IRemoteRouterClient {
      * @return 是否成功
      */
     @GetMapping("/delete/{id}")
+    @Override
     ResultJson delete(@PathVariable("id") String id);
 
 }

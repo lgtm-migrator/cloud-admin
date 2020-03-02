@@ -15,9 +15,9 @@ import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
 import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
 import com.hb0730.cloud.admin.commons.model.security.UserDetail;
+import com.hb0730.cloud.admin.commons.user.model.vo.SystemUserVO;
 import com.hb0730.cloud.admin.server.router.feign.IRemoteUser;
 import com.hb0730.cloud.admin.server.router.system.model.entity.SystemRouterEntity;
-import com.hb0730.cloud.admin.server.router.system.model.entity.SystemUserEntity;
 import com.hb0730.cloud.admin.server.router.system.model.vo.*;
 import com.hb0730.cloud.admin.server.router.system.service.ISystemRouterService;
 import org.apache.commons.lang3.StringUtils;
@@ -125,7 +125,7 @@ public class SystemRouterController extends AbstractBaseController<SystemRouterV
     }
 
     @Override
-    public ResultJson getObject(Object id) {
+    public ResultJson getInfo(Object id) {
         return null;
     }
 
@@ -252,8 +252,8 @@ public class SystemRouterController extends AbstractBaseController<SystemRouterV
                 Map map = (Map) data;
                 return map.get("name").toString();
             } else {
-                SystemUserEntity userEntity = BeanUtils.transformFrom(data, SystemUserEntity.class);
-                return userEntity == null ? null : userEntity.getName();
+                SystemUserVO userVO = BeanUtils.transformFrom(data, SystemUserVO.class);
+                return userVO == null ? null : userVO.getName();
             }
         } else {
             return null;

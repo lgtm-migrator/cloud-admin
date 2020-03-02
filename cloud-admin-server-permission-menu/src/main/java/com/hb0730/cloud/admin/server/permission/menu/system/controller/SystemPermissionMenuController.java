@@ -63,7 +63,7 @@ public class SystemPermissionMenuController extends AbstractBaseController<Syste
 
     @GetMapping("/permission/menu/{id}")
     @Override
-    public ResultJson getObject(@PathVariable Object id) {
+    public ResultJson getInfo(@PathVariable Object id) {
         SystemPermissionMenuEntity result = systemPermissionMenuService.getById(id.toString());
         return ResponseResult.resultSuccess(result);
     }

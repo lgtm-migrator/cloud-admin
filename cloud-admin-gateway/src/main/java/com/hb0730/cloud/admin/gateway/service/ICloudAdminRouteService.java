@@ -1,6 +1,6 @@
 package com.hb0730.cloud.admin.gateway.service;
 
-import com.hb0730.cloud.admin.gateway.model.GatewayRouteDefinition;
+import com.hb0730.cloud.admin.commons.router.model.vo.GatewayRouteDefinition;
 
 import java.util.List;
 

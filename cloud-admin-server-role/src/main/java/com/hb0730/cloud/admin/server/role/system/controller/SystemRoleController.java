@@ -63,7 +63,7 @@ public class SystemRoleController extends AbstractBaseController<SystemRoleVO> {
     }
 
     @Override
-    public ResultJson getObject(Object id) {
+    public ResultJson getInfo(Object id) {
         return null;
     }
 

@@ -10,6 +10,7 @@ import java.util.Map;
 
 /**
  * <p>
+ * security 工具类 用户获取当前用户
  * </P>
  *
  * @author bing_huang

@@ -64,7 +64,7 @@ public class SystemUserRoleController extends AbstractBaseController<SystemUserR
     }
 
     @Override
-    public ResultJson getObject(Object id) {
+    public ResultJson getInfo(Object id) {
         return null;
     }
 

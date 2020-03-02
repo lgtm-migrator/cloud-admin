@@ -2,8 +2,8 @@ package com.hb0730.cloud.admin.gateway.feign.fallback;
 
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
+import com.hb0730.cloud.admin.commons.router.model.vo.GatewayRouteDefinition;
 import com.hb0730.cloud.admin.gateway.feign.IRemoteRouterClient;
-import com.hb0730.cloud.admin.gateway.model.GatewayRouteDefinition;
 import feign.hystrix.FallbackFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

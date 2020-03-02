@@ -2,7 +2,7 @@ package com.hb0730.cloud.admin.gateway.controller;
 
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
-import com.hb0730.cloud.admin.gateway.model.GatewayRouteDefinition;
+import com.hb0730.cloud.admin.commons.router.model.vo.GatewayRouteDefinition;
 import com.hb0730.cloud.admin.gateway.service.ICloudAdminRouteService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.annotation.*;
