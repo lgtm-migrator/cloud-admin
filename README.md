@@ -34,13 +34,15 @@ spring alibaba cloud admin Template
 ## 模块简介
 |模块名称|模块地址|模块说明|端口|
 |----|----|----|----|
-|cloud-admin-dependencies| |项目依赖|null|
-|cloud-admin-commons| |项目公共|null|
+|cloud-admin-dependencies| |项目jar依赖|null|
+|cloud-admin-commons| |项目公共pom工程|null|
 |cloud-admin-commons-web| |项目web公共|null|
 |cloud-admin-commons-domain| |领域模型|null|
 |cloud-admin-commons-service| |公共service|null|
 |cloud-admin-commons-generator| |公共逆向工程|null |
+|cloud-admin-commons-configuration| |项目公共配置pom工程|null|
 |cloud-admin-commons-security-feign-config| |openFeign携带access_token|null|
+|cloud-admin-api| |pom工程,feign远程调用api(接口)|null|
 |cloud-admin-gateway| |系统网关|1010|
 |cloud-admin-server-router| |系统路由|1020|
 |cloud-admin-server-user| | 系统用户|1030|
@@ -48,6 +50,9 @@ spring alibaba cloud admin Template
 |cloud-admin-server-menu| | 系统菜单|1050|
 |cloud-admin-server-permission| |系统权限|1060|
 |cloud-admin-server-role| |系统角色|1070|
+|cloud-admin-server-url-role| |系统用户角色绑定|1100|
+|cloud-admin-server-role-permission| |系统角色权限绑定|1090|
+|cloud-admin-server-permission-menu| |系统权限菜单绑定|1080|
 
 # 如何启动整个项目
  1. 首先启动基础设施(nacos,sentinel,redis,mysql等)
