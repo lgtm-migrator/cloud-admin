@@ -62,4 +62,12 @@ spring alibaba cloud admin Template
  3. 启动 cloud-admin-gateway网关服务
  
  4. 启动cloud-admin-server-user服务(无openFeign)
+
  5. 启动spring-cloud-server-oauth2 
+
+ 7. 随意启动任何服务
+
+# 前端
+前端采用前后分离Vue基于d2-admin框架之上进行开发
+
+前端地址: 
