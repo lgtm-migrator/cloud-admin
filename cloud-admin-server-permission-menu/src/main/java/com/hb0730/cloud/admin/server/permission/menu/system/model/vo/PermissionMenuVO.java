@@ -1,7 +1,8 @@
 package com.hb0730.cloud.admin.server.permission.menu.system.model.vo;
 
+import com.hb0730.cloud.admin.commons.menu.model.vo.SystemMenuVO;
+import com.hb0730.cloud.admin.commons.permission.model.vo.SystemPermissionVO;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 
