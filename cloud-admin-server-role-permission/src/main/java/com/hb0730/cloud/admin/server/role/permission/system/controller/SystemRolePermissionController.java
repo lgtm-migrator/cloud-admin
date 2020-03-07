@@ -2,21 +2,25 @@ package com.hb0730.cloud.admin.server.role.permission.system.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.google.common.collect.Lists;
 import com.hb0730.cloud.admin.common.util.BeanUtils;
 import com.hb0730.cloud.admin.common.web.controller.AbstractBaseController;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
+import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
 import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
 import com.hb0730.cloud.admin.commons.model.security.UserDetail;
 import com.hb0730.cloud.admin.server.role.permission.system.model.entity.SystemRolePermissionEntity;
 import com.hb0730.cloud.admin.server.role.permission.system.model.vo.SystemRolePermissionVO;
 import com.hb0730.cloud.admin.server.role.permission.system.service.ISystemRolePermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static com.hb0730.cloud.admin.common.util.RequestMappingConstants.ROLE_PERMISSION_SERVER_REQUEST;
 
@@ -54,6 +58,28 @@ public class SystemRolePermissionController extends AbstractBaseController<Syste
         return ResponseResult.resultSuccess("保存成功");
     }
 
+    /**
+     * <p>
+     * 保存
+     * </p>
+     *
+     * @param id            角色id
+     * @param permissionIds 权限id集
+     * @return 是否成功
+     */
+    @PostMapping("/save/{id}")
+    public ResultJson save(@PathVariable("id") Long id, @RequestBody List<Long> permissionIds) {
+        if (CollectionUtils.isEmpty(permissionIds)) {
+            return ResponseResult.resultFall("权限为空");
+        }
+        UserDetail currentUser = getCurrentUser();
+        if (Objects.isNull(currentUser)) {
+            return ResponseResult.result(CodeStatusEnum.NON_LOGIN, "用户未登录，请重新登录");
+        }
+        systemRolePermissionService.save(id, permissionIds, currentUser);
+        return ResponseResult.resultSuccess("更新成功");
+    }
+
     @Override
     public ResultJson delete(Object id) {
         return null;
@@ -69,6 +95,28 @@ public class SystemRolePermissionController extends AbstractBaseController<Syste
     public ResultJson getInfo(@PathVariable Object id) {
         SystemRolePermissionEntity result = systemRolePermissionService.getById(id.toString());
         return ResponseResult.resultSuccess(result);
+    }
+
+    /**
+     * <p>
+     * 获取权限id
+     * </p>
+     *
+     * @param id 角色id
+     * @return 权限id
+     */
+    @GetMapping("/getPermission/roleId/{id}")
+    public ResultJson getPermissionByRoleId(@PathVariable Long id) {
+
+        SystemRolePermissionEntity entity = new SystemRolePermissionEntity();
+        entity.setRoleId(id);
+        QueryWrapper<SystemRolePermissionEntity> queryWrapper = new QueryWrapper<>(entity);
+        List<SystemRolePermissionEntity> permissionRoles = systemRolePermissionService.list(queryWrapper);
+        List<String> permissionIds = Lists.newArrayList();
+        if (!CollectionUtils.isEmpty(permissionRoles)) {
+            permissionIds = permissionRoles.stream().map(rolePermission->Long.toString(rolePermission.getPermissionId())).collect(Collectors.toList());
+        }
+        return ResponseResult.resultSuccess(permissionIds);
     }
 
     /**
