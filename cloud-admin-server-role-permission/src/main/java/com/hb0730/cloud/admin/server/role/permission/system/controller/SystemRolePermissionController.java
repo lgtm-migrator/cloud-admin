@@ -8,9 +8,8 @@ import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
 import com.hb0730.cloud.admin.commons.model.security.UserDetail;
 import com.hb0730.cloud.admin.server.role.permission.system.model.entity.SystemRolePermissionEntity;
+import com.hb0730.cloud.admin.server.role.permission.system.model.vo.SystemRolePermissionVO;
 import com.hb0730.cloud.admin.server.role.permission.system.service.ISystemRolePermissionService;
-import com.hb0730.cloud.admin.server.role.permission.system.vo.SystemRolePermissionVO;
-import com.hb0730.cloud.admin.server.role.permission.utils.SecurityContextUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
@@ -40,7 +39,7 @@ public class SystemRolePermissionController extends AbstractBaseController<Syste
     public ResultJson save(@RequestBody SystemRolePermissionVO target) {
         UserDetail currentUser = null;
         try {
-            currentUser = SecurityContextUtils.getCurrentUser();
+            currentUser = getCurrentUser();
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseResult.resultFall("获取当前用户失败,请重新登录");

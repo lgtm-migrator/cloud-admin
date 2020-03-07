@@ -13,7 +13,7 @@ import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
 import com.hb0730.cloud.admin.commons.model.security.UserDetail;
 import com.hb0730.cloud.admin.server.role.system.model.entity.SystemRoleEntity;
 import com.hb0730.cloud.admin.server.role.system.service.ISystemRoleService;
-import com.hb0730.cloud.admin.server.role.system.vo.SystemRoleVO;
+import com.hb0730.cloud.admin.server.role.system.model.vo.SystemRoleVO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

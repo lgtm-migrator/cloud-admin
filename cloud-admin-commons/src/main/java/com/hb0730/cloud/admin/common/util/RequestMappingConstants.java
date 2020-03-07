@@ -72,7 +72,7 @@ public interface RequestMappingConstants {
      * 角色权限
      * </p>
      */
-    String ROLE_PERMISSION_SERVER_REQUEST = "/v1/server/system/role/permission";
+    String ROLE_PERMISSION_SERVER_REQUEST = "/v1/server/system/rolepermission";
 
     /**
      * <p>

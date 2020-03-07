@@ -1,5 +1,7 @@
 package com.hb0730.cloud.admin.server.permission.menu.system.model.vo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -20,6 +22,7 @@ public class PermissionMenuListVO implements Serializable {
      * id
      * </p>
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
     /**
      * 名称
