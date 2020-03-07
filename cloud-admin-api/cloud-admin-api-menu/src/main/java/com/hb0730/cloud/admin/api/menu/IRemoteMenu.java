@@ -21,4 +21,15 @@ public interface IRemoteMenu {
      * @return 菜单
      */
     ResultJson getMenuById(Long id);
+
+
+    /**
+     * <p>
+     * 根据父id获取菜单
+     * </p>
+     *
+     * @param parentId 父id
+     * @return 菜单
+     */
+    ResultJson getMenusByParentId(Long parentId);
 }

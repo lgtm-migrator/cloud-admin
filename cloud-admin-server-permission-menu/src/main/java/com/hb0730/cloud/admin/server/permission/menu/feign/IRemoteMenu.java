@@ -4,6 +4,7 @@ import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.commons.feign.configuration.FeignConfiguration;
 import com.hb0730.cloud.admin.server.permission.menu.feign.fallback.RemoteMenuFactory;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -32,4 +33,16 @@ public interface IRemoteMenu extends com.hb0730.cloud.admin.api.menu.IRemoteMenu
     @GetMapping("/{id}")
     @Override
     ResultJson getMenuById(@PathVariable("id") Long id);
+
+    /**
+     * <p>
+     * 获取菜单根据父类id
+     * </p>
+     *
+     * @param parentId 父类id
+     * @return 菜单
+     */
+    @GetMapping("/menu/{parentId}")
+    @Override
+    ResultJson getMenusByParentId(@PathVariable("parentId") Long parentId);
 }

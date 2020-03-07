@@ -9,6 +9,7 @@ import com.hb0730.cloud.admin.common.util.BeanUtils;
 import com.hb0730.cloud.admin.common.util.GsonUtils;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
+import com.hb0730.cloud.admin.commons.menu.model.vo.MenuVO;
 import com.hb0730.cloud.admin.commons.menu.model.vo.SystemMenuVO;
 import com.hb0730.cloud.admin.commons.permission.model.vo.SystemPermissionVO;
 import com.hb0730.cloud.admin.commons.service.BaseServiceImpl;
@@ -16,6 +17,7 @@ import com.hb0730.cloud.admin.server.permission.menu.feign.IRemoteMenu;
 import com.hb0730.cloud.admin.server.permission.menu.feign.IRemotePermission;
 import com.hb0730.cloud.admin.server.permission.menu.system.mapper.SystemPermissionMenuMapper;
 import com.hb0730.cloud.admin.server.permission.menu.system.model.entity.SystemPermissionMenuEntity;
+import com.hb0730.cloud.admin.server.permission.menu.system.model.vo.PermissionMenuListVO;
 import com.hb0730.cloud.admin.server.permission.menu.system.model.vo.PermissionMenuVO;
 import com.hb0730.cloud.admin.server.permission.menu.system.model.vo.SystemPermissionMenuVO;
 import com.hb0730.cloud.admin.server.permission.menu.system.service.ISystemPermissionMenuService;
@@ -23,13 +25,16 @@ import io.seata.core.context.RootContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * <p>
@@ -122,6 +127,116 @@ public class SystemPermissionMenuServiceImpl extends BaseServiceImpl<SystemPermi
         entity.setMenuId(menuId);
         QueryWrapper<SystemPermissionMenuEntity> queryWrapper = new QueryWrapper<>(entity);
         return remove(queryWrapper);
+    }
+
+    @Override
+    public List<PermissionMenuListVO> getAllPermissionMenu() {
+        List<PermissionMenuListVO> permissionMenus = Lists.newArrayList();
+        List<PermissionMenuListVO> menus = getMenusByParentId(0L);
+        if (CollectionUtils.isEmpty(menus)) {
+            return permissionMenus;
+        }
+        menus.forEach(menu -> {
+            List<PermissionMenuListVO> childrens = Lists.newArrayList();
+            PermissionMenuListVO childes = getChildes(menu, childrens);
+            permissionMenus.add(childes);
+        });
+        return permissionMenus;
+    }
+
+    /**
+     * <p>
+     * 获取子菜单权限
+     * </p>
+     *
+     * @param vo    父菜单权限
+     * @param menus 子集
+     * @return 菜单权限
+     */
+    private PermissionMenuListVO getChildes(PermissionMenuListVO vo, List<PermissionMenuListVO> menus) {
+
+        if (vo.getType() == 0) {
+            //获取菜单
+            List<PermissionMenuListVO> childes = getMenusByParentId(vo.getId());
+            List<PermissionMenuListVO> permissions = getPermissionByMenuId(vo.getId());
+            List<PermissionMenuListVO> childrens = vo.getChildren();
+            if (CollectionUtils.isEmpty(childrens)) {
+                vo.setChildren(menus);
+            } else {
+                vo.getChildren().addAll(menus);
+            }
+            if (!CollectionUtils.isEmpty(permissions)) {
+                vo.getChildren().addAll(permissions);
+            }
+            if (!CollectionUtils.isEmpty(childes)) {
+                childes.forEach(children -> {
+                    List<PermissionMenuListVO> voArrayList = Lists.newArrayList();
+                    PermissionMenuListVO listVO = getChildes(children, voArrayList);
+                    menus.add(listVO);
+                });
+            }
+        }
+        return vo;
+    }
+
+    /**
+     * <p>
+     * 根据菜单id获取权限
+     * </p>
+     *
+     * @param id 菜单id
+     * @return 权限
+     */
+    private List<PermissionMenuListVO> getPermissionByMenuId(@NonNull Long id) {
+        SystemPermissionMenuEntity entity = new SystemPermissionMenuEntity();
+        entity.setMenuId(id);
+        QueryWrapper<SystemPermissionMenuEntity> queryWrapper = new QueryWrapper<>(entity);
+        List<SystemPermissionMenuEntity> permissionMenuEntities = list(queryWrapper);
+        if (CollectionUtils.isEmpty(permissionMenuEntities)) {
+            return null;
+        }
+        List<Long> permissionIds = permissionMenuEntities.stream().map(SystemPermissionMenuEntity::getPermissionId).collect(Collectors.toList());
+        List<SystemPermissionVO> permissions = getPermissions(permissionIds);
+        if (CollectionUtils.isEmpty(permissions)) {
+            return null;
+        }
+        List<PermissionMenuListVO> permissionMenus = Lists.newArrayList();
+        permissions.forEach(permission->{
+            PermissionMenuListVO vo = new PermissionMenuListVO();
+            vo.setType(1);
+            vo.setName(permission.getName());
+            vo.setId(permission.getId());
+            permissionMenus.add(vo);
+        });
+        return permissionMenus;
+    }
+
+    /**
+     * <p>
+     * 根据父id获取菜单
+     * </P>
+     *
+     * @param id 父id
+     * @return 菜单权限vo
+     */
+    private List<PermissionMenuListVO> getMenusByParentId(@NonNull Long id) {
+        ResultJson result = remoteMenu.getMenusByParentId(id);
+        if (!CodeStatusEnum.SUCCESS.getCode().equals(result.getErrCode())) {
+            throw new BusinessException(result.getErrorMessage());
+        }
+        List<SystemMenuVO> vos = GsonUtils.json2List(JSONArray.toJSONString(result.getData()), SystemMenuVO.class);
+        if (CollectionUtils.isEmpty(vos)) {
+            return null;
+        }
+        List<PermissionMenuListVO> permissionMenus = Lists.newArrayList();
+        vos.forEach(menu -> {
+            PermissionMenuListVO vo = new PermissionMenuListVO();
+            vo.setType(0);
+            vo.setName(menu.getName());
+            vo.setId(menu.getId());
+            permissionMenus.add(vo);
+        });
+        return permissionMenus;
     }
 
     /**

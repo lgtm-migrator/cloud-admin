@@ -9,6 +9,7 @@ import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
 import com.hb0730.cloud.admin.commons.model.security.UserDetail;
 import com.hb0730.cloud.admin.server.permission.menu.system.model.entity.SystemPermissionMenuEntity;
+import com.hb0730.cloud.admin.server.permission.menu.system.model.vo.PermissionMenuListVO;
 import com.hb0730.cloud.admin.server.permission.menu.system.model.vo.PermissionMenuVO;
 import com.hb0730.cloud.admin.server.permission.menu.system.model.vo.SystemPermissionMenuVO;
 import com.hb0730.cloud.admin.server.permission.menu.system.service.ISystemPermissionMenuService;
@@ -133,6 +134,19 @@ public class SystemPermissionMenuController extends AbstractBaseController<Syste
     public ResultJson unBinding(@PathVariable Long permissionId, @PathVariable Long menuId) {
         systemPermissionMenuService.unBinding(permissionId, menuId);
         return ResponseResult.resultSuccess("解绑成功");
+    }
+
+    /**
+     * <p>
+     * 获取所有菜单权限
+     * </P>
+     *
+     * @return 菜单权限
+     */
+    @GetMapping("/getAll")
+    public ResultJson getAllPermissionMenu() {
+        List<PermissionMenuListVO> result = systemPermissionMenuService.getAllPermissionMenu();
+        return ResponseResult.resultSuccess(result);
     }
 }
 

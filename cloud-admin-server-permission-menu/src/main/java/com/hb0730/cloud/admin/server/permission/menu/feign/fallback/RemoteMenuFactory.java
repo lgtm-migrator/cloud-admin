@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * <p>
+ * 熔断
  * </P>
  *
  * @author bing_huang
@@ -22,6 +23,12 @@ public class RemoteMenuFactory implements FallbackFactory<IRemoteMenu> {
             public ResultJson getMenuById(Long id) {
                 return ResponseResult.resultFall("根据id获取菜单失败（熔断）");
             }
+
+            @Override
+            public ResultJson getMenusByParentId(Long parentId) {
+                return ResponseResult.resultFall("根据父id获取菜单失败（熔断）");
+            }
+
         };
     }
 }
