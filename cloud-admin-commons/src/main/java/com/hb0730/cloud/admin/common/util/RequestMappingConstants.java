@@ -80,4 +80,9 @@ public interface RequestMappingConstants {
      * </p>
      */
     String USER_ROLE_SERVER_REQUEST = "/v1/server/system/user/role";
+
+    /**
+     * 系统组织部门
+     */
+    String DEPT_SERVER_REQUEST = "/v1/server/system/dept";
 }

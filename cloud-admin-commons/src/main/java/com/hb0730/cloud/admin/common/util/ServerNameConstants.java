@@ -68,5 +68,8 @@ public interface ServerNameConstants {
      */
     String USER_ROLE_SERVER = "cloud-admin-user-role-server";
 
-
+    /**
+     * 组织部门
+     */
+    String DEPT_SERVER = "cloud-admin-dept-server";
 }
