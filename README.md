@@ -53,6 +53,8 @@ spring alibaba cloud admin Template
 |cloud-admin-server-url-role| |系统用户角色绑定|1100|
 |cloud-admin-server-role-permission| |系统角色权限绑定|1090|
 |cloud-admin-server-permission-menu| |系统权限菜单绑定|1080|
+|cloud-admin-server-dept| |系统组织|1110|
+|cloud-admin-server-dept-user| |系统用户组织|1120|
 
 # 如何启动整个项目
  1. 首先启动基础设施(nacos,sentinel,redis,mysql等)
