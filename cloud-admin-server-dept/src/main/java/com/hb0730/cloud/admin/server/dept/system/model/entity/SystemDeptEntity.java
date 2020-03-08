@@ -1,18 +1,14 @@
 package com.hb0730.cloud.admin.server.dept.system.model.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.Version;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.*;
 import com.hb0730.cloud.admin.commons.domain.BaseDomain;
-import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 系统部门 
+ * 系统部门
  * </p>
  *
  * @author bing_huang
@@ -29,56 +25,56 @@ public class SystemDeptEntity extends BaseDomain {
     /**
      * 是否删除
      */
-    @TableField("is_delete")
+    @TableField(value = "is_delete", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     @TableLogic
     private Integer isDelete;
 
     /**
      * 是否启用
      */
-    @TableField("is_enabled")
+    @TableField(value = "is_enabled", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     private Integer isEnabled;
 
     /**
      * 部门id
      */
-    @TableId("id")
+    @TableId(value = "id")
     private Long id;
 
     /**
      * 部门名称
      */
-    @TableField("name")
+    @TableField(value = "name", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     private String name;
 
     /**
      * 显示顺序
      */
-    @TableField("order")
+    @TableField(value = "order", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     private Integer order;
 
     /**
      * 祖级列表
      */
-    @TableField("ancestors")
+    @TableField(value = "ancestors", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     private String ancestors;
 
     /**
      * 负责人
      */
-    @TableField("leader")
+    @TableField(value = "leader", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     private String leader;
 
     /**
      * 联系电话
      */
-    @TableField("phone")
+    @TableField(value = "phone", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     private String phone;
 
     /**
      * 邮箱
      */
-    @TableField("email")
+    @TableField(value = "email", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     private String email;
 
 
