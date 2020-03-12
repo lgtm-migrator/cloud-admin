@@ -9,7 +9,7 @@
     <packaging>pom</packaging>
     <name>cloud-admin-parent</name>
     <description>spring cloud sample</description>
-    <url></url>
+    <url>https://github.com/hb0730/cloud-admin</url>
 
 
     <licenses>
@@ -20,16 +20,16 @@
     </licenses>
 
     <scm>
-        <connection></connection>
-        <developerConnection></developerConnection>
-        <url></url>
+        <connection>scm:git@github.com:hb0730/cloud-admin.git</connection>
+        <developerConnection>scm:git@github.com:hb0730/cloud-admin.git</developerConnection>
+        <url>https://github.com/hb0730/cloud-admin.git</url>
     </scm>
 
 
     <developers>
         <developer>
             <name>hb730</name>
-            <email>1278032416@qq.com</email>
+            <email>huangbing0730@gmail.com</email>
         </developer>
     </developers>
 

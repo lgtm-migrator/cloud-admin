@@ -1,7 +1,7 @@
 package com.hb0730.cloud.admin.common.exception;
 
-import com.sun.istack.internal.Nullable;
 import lombok.NonNull;
+import org.springframework.lang.Nullable;
 
 /**
  * <p>
