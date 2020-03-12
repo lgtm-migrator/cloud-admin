@@ -19,9 +19,11 @@ import static com.hb0730.cloud.admin.common.util.RequestMappingConstants.GATEWAY
  *
  * @author bing_huang
  * @since V1.0
+ * @see cloud-admin-server-router project com.hb0730.cloud.admin.server.router.system.controller#routers
  */
 @RestController
 @RequestMapping(GATEWAY_REQUEST)
+@Deprecated
 public class CloudAdminRouteController {
 
     private ICloudAdminRouteService cloudAdminRouteService;

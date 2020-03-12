@@ -18,7 +18,7 @@ import java.util.ArrayList;
  *
  * @author bing_huang
  * @since V1.0
- * @see <a hre="https://blog.csdn.net/xht555/article/details/89484091">重复头</a>
+ * @see <a href="https://blog.csdn.net/xht555/article/details/89484091">重复头</a>
  *
  */
 public class CorsResponseHeaderFilter implements GlobalFilter, Ordered {

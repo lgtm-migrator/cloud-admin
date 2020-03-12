@@ -13,7 +13,6 @@ import com.hb0730.cloud.admin.server.user.role.feign.IRemoteUser;
 import com.hb0730.cloud.admin.server.user.role.system.model.entity.SystemUserRoleEntity;
 import com.hb0730.cloud.admin.server.user.role.system.service.ISystemUserRoleService;
 import com.hb0730.cloud.admin.server.user.role.system.vo.SystemUserRoleVO;
-import com.hb0730.cloud.admin.server.user.role.utils.SecurityContextUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.util.Assert;
@@ -97,7 +96,7 @@ public class SystemUserRoleController extends AbstractBaseController<SystemUserR
         entity.setUserId(userId);
         UserDetail currentUser = null;
         try {
-            currentUser = SecurityContextUtils.getCurrentUser();
+            currentUser = getCurrentUser();
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseResult.resultSuccess("获取当前用户失败，请重新登录");
