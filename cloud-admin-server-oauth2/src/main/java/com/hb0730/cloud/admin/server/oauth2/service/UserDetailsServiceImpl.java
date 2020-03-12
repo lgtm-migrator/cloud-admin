@@ -39,7 +39,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 userDetail.setPassword(data.getPassword());
                 userDetail.setEmail(data.getEmail());
                 userDetail.setAvatar(data.getPortraits());
-                userDetail.setStatus(1);
+                userDetail.setStatus(data.getIsEnabled());
                 userDetail.setPerms("USER");
                 return userDetail;
             }

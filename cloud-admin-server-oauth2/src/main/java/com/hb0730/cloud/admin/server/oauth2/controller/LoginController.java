@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -69,7 +70,7 @@ public class LoginController {
      *
      * @param params 登录参数
      * @return {@link LoginSuccessResult}
-     * @see {@link org.springframework.security.oauth2.provider.endpoint.TokenEndpoint#postAccessToken}
+     * @see  org.springframework.security.oauth2.provider.endpoint.TokenEndpoint#postAccessToken(Principal, Map)
      */
     @PostMapping("/user/login")
     public ResultJson login(@RequestBody LoginParams params) throws IOException {
