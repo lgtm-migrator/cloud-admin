@@ -16,14 +16,9 @@ import java.util.List;
  * @since V1.0
  */
 @Component
-public class RemotePermissionFactory implements FallbackFactory<IRemotePermission> {
+public class RemotePermissionFallbackFactory implements FallbackFactory<IRemotePermission> {
     @Override
     public IRemotePermission create(Throwable throwable) {
-        return new IRemotePermission() {
-            @Override
-            public ResultJson getPermissionByIds(List<Long> id) {
-                return ResponseResult.resultFall("根据ids获取权限失败(熔断)");
-            }
-        };
+        return new RemotePermissionFallback(throwable);
     }
 }

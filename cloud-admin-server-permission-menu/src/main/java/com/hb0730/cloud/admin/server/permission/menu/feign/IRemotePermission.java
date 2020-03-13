@@ -2,7 +2,7 @@ package com.hb0730.cloud.admin.server.permission.menu.feign;
 
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.commons.feign.configuration.FeignConfiguration;
-import com.hb0730.cloud.admin.server.permission.menu.feign.fallback.RemotePermissionFactory;
+import com.hb0730.cloud.admin.server.permission.menu.feign.fallback.RemotePermissionFallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,12 +14,13 @@ import static com.hb0730.cloud.admin.common.util.ServerNameConstants.PERMISSION_
 
 /**
  * <p>
+ *     feign调用权限
  * </P>
  *
  * @author bing_huang
  * @since V1.0
  */
-@FeignClient(name = PERMISSION_SERVER, path = PERMISSION_SERVER_REQUEST, configuration = FeignConfiguration.class, fallbackFactory = RemotePermissionFactory.class)
+@FeignClient(name = PERMISSION_SERVER, path = PERMISSION_SERVER_REQUEST, configuration = FeignConfiguration.class, fallbackFactory = RemotePermissionFallbackFactory.class)
 public interface IRemotePermission extends com.hb0730.cloud.admin.api.permission.IRemotePermission {
 
 

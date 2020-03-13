@@ -2,9 +2,8 @@ package com.hb0730.cloud.admin.server.permission.menu.feign;
 
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.commons.feign.configuration.FeignConfiguration;
-import com.hb0730.cloud.admin.server.permission.menu.feign.fallback.RemoteMenuFactory;
+import com.hb0730.cloud.admin.server.permission.menu.feign.fallback.RemoteMenuFallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -13,13 +12,13 @@ import static com.hb0730.cloud.admin.common.util.ServerNameConstants.MENU_SERVER
 
 /**
  * <p>
- * feign调用
+ * feign调用菜单
  * </P>
  *
  * @author bing_huang
  * @since V1.0
  */
-@FeignClient(name = MENU_SERVER, path = MENU_SERVER_REQUEST, configuration = FeignConfiguration.class, fallbackFactory = RemoteMenuFactory.class)
+@FeignClient(name = MENU_SERVER, path = MENU_SERVER_REQUEST, configuration = FeignConfiguration.class, fallbackFactory = RemoteMenuFallbackFactory.class)
 public interface IRemoteMenu extends com.hb0730.cloud.admin.api.menu.IRemoteMenu {
 
     /**
