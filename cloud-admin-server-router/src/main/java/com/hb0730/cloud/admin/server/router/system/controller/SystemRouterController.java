@@ -70,6 +70,7 @@ public class SystemRouterController extends AbstractBaseController<SystemRouterV
         assert entity != null;
         entity.setCreateTime(new Date());
         entity.setCreateUserId(currentUser.getUserId());
+        entity.setVersion(1);
         systemRouterService.save(entity);
         return ResponseResult.resultSuccess("保存成功");
     }
@@ -90,10 +91,12 @@ public class SystemRouterController extends AbstractBaseController<SystemRouterV
         if (Objects.isNull(target.getId())) {
             return ResponseResult.resultFall("路由id为空");
         }
-        SystemRouterEntity entity = BeanUtils.transformFrom(target, SystemRouterEntity.class);
-        assert entity != null;
-        entity.setUpdateTime(new Date());
-        entity.setUpdateUserId(Objects.requireNonNull(getCurrentUser()).getUserId());
+        SystemRouterEntity targetEntity = BeanUtils.transformFrom(target, SystemRouterEntity.class);
+        SystemRouterEntity entity = systemRouterService.getById(target.getId());
+        assert targetEntity != null;
+        targetEntity.setUpdateTime(new Date());
+        targetEntity.setUpdateUserId(Objects.requireNonNull(getCurrentUser()).getUserId());
+        BeanUtils.updateProperties(entity, targetEntity);
         systemRouterService.updateById(entity);
         return ResponseResult.resultSuccess("更新成功");
     }
@@ -138,7 +141,7 @@ public class SystemRouterController extends AbstractBaseController<SystemRouterV
      */
     @GetMapping("/routers")
     public ResultJson routers() {
-        List<SystemRouterEntity> list = systemRouterService.list();
+        List<SystemRouterEntity> list = systemRouterService.getListByCache();
         List<GatewayRouteDefinition> definitions = Lists.newArrayList();
         if (!CollectionUtils.isEmpty(list)) {
             list.forEach(entity -> converToBean(entity, definitions));

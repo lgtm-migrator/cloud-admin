@@ -1,7 +1,9 @@
 package com.hb0730.cloud.admin.server.router.system.service;
 
-import com.hb0730.cloud.admin.server.router.system.model.entity.SystemRouterEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.hb0730.cloud.admin.server.router.system.model.entity.SystemRouterEntity;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,5 +14,14 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2020-02-21
  */
 public interface ISystemRouterService extends IService<SystemRouterEntity> {
+
+    /**
+     * <p>
+     * 获取全部cache
+     * </p>
+     *
+     * @return 路由
+     */
+    List<SystemRouterEntity> getListByCache();
 
 }

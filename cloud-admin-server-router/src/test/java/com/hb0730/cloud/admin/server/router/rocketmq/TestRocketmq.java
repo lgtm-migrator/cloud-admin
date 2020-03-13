@@ -1,6 +1,7 @@
 package com.hb0730.cloud.admin.server.router.rocketmq;
 
-import com.hb0730.cloud.admin.server.router.event.SendMessageEvent;
+import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
+import com.hb0730.cloud.admin.server.router.event.SendResultJsonEvent;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,6 @@ public class TestRocketmq {
 
     @Test
     public void test() {
-        applicationContext.publishEvent(new SendMessageEvent(this, "测试"));
+        applicationContext.publishEvent(new SendResultJsonEvent(this, ResponseResult.resultSuccess("测试"), applicationContext));
     }
 }
