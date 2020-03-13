@@ -43,5 +43,5 @@ public interface IRemoteUser extends com.hb0730.cloud.admin.api.user.IRemoteUser
      */
     @RequestMapping(value = "findUser/{login}", method = RequestMethod.GET)
     @Override
-    ResultJson<SystemUserVO> findUserByUserName(@PathVariable("login") String login);
+    ResultJson findUserByUserName(@PathVariable("login") String login);
 }

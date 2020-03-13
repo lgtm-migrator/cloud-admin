@@ -29,5 +29,5 @@ public interface IRemoteUser {
      * @param login 用户账号
      * @return 用户
      */
-    ResultJson<SystemUserVO> findUserByUserName(String login);
+    ResultJson findUserByUserName(String login);
 }

@@ -13,6 +13,7 @@ spring:
         dashboard: ${cloud.admin.sentinel.dashboard:localhost:8848}
       filter:
         enabled: false
+        url-patterns: /**
     gateway:
       discovery:
         locator:

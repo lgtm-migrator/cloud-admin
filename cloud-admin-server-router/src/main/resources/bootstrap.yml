@@ -3,9 +3,9 @@ spring:
     name: cloud-admin-router-server
   # 数据连接
   datasource:
-    url: jdbc:mysql://rm-bp14b893npcro13pmlo.mysql.rds.aliyuncs.com/cloud-admin?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8
-    username: bing_huang
-    password: HBhuangbing0730
+    url: jdbc:mysql://${cloud.admin.datasource.url:localhost:3306}/cloud-admin?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8
+    username: ${cloud.admin.datasource.username:root}
+    password: ${cloud.admin.datasource.password:Admin1234}
     driver-class-name: com.mysql.cj.jdbc.Driver
     platform: mysql
     type: com.zaxxer.hikari.HikariDataSource
@@ -25,8 +25,8 @@ spring:
     time-zone: GMT+8
   #redis
   redis:
-    host: r-bp12zjmtqgp11s9nrspd.redis.rds.aliyuncs.com
-    password: HBhuangbing0730
+    host: ${cloud.admin.redis.host:localhost}
+    password: ${cloud.admin.redis.password:Admin1234}
     port: 6379
     lettuce:
       pool:
@@ -37,19 +37,20 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 47.96.79.54:8848
+        server-addr: ${cloud.admin.discovery.server-addr:localhost:8848}
         namespace: aff3eac8-1bcc-4272-ba98-94b54fb1c016
         group: cloud-admin-group
     sentinel:
       transport:
         port: 8721
-        dashboard: 47.96.79.54:8408
-        heartbeat-interval-ms: 3000
+        dashboard: ${cloud.admin.sentinel.dashboard:localhost:8080}
+      filter:
+        url-patterns: /**
     stream:
       default-binder: rocketmq
       rocketmq:
         binder:
-          name-server: 47.96.79.54:9876
+          name-server: ${cloud.admin.rocketmq.name-server:localhost:9876}
         bindings:
           output-router:
             producer:
@@ -141,3 +142,18 @@ logging:
           stream:
             binder:
               rocketmq: debug
+cloud:
+  admin:
+    discovery:
+      server-addr: 47.96.79.54:8848
+    sentinel:
+      dashboard: localhost:8408
+    rocketmq:
+      name-server: 47.96.79.54:9876
+    datasource:
+      url: rm-bp14b893npcro13pmlo.mysql.rds.aliyuncs.com
+      username: bing_huang
+      password: HBhuangbing0730
+    redis:
+      host: r-bp12zjmtqgp11s9nrspd.redis.rds.aliyuncs.com
+      password: HBhuangbing0730

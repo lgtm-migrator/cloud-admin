@@ -98,11 +98,7 @@ public class SentinelConfiguration {
         Set<ApiDefinition> definitions = new HashSet<>();
         ApiDefinition api1 = new ApiDefinition("customized_api")
                 .setPredicateItems(new HashSet<ApiPredicateItem>() {{
-                    // article完全匹配
-                    add(new ApiPathPredicateItem().setPattern("/v1/server/system/router/**"));
-                    // blog/开头的
-                    add(new ApiPathPredicateItem().setPattern("/v1/server/system/user/**")
-                            .setMatchStrategy(SentinelGatewayConstants.PARAM_MATCH_STRATEGY_PREFIX));
+                    add(new ApiPathPredicateItem().setPattern("/v1/**"));
                 }});
         definitions.add(api1);
         GatewayApiDefinitionManager.loadApiDefinitions(definitions);

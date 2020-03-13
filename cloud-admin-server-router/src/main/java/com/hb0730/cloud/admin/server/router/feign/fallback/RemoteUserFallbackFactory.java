@@ -25,7 +25,7 @@ public class RemoteUserFallbackFactory implements FallbackFactory<IRemoteUser> {
             }
 
             @Override
-            public ResultJson<SystemUserVO> findUserByUserName(String login) {
+            public ResultJson findUserByUserName(String login) {
                 return null;
             }
         };

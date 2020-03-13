@@ -46,6 +46,8 @@ spring:
       transport:
         port: 8721
         dashboard: ${cloud.admin.sentinel.dashboard:localhost:8080}
+      filter:
+        url-patterns: /**
 feign:
   sentinel:
     enabled: true
