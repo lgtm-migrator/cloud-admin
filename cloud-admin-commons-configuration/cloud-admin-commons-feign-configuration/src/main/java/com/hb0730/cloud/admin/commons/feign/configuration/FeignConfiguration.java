@@ -28,10 +28,10 @@ import java.util.List;
 @Configuration
 public class FeignConfiguration {
 
-    @Bean
-    public Feign.Builder feignBuilder() {
-        return Feign.builder();
-    }
+//    @Bean
+//    public Feign.Builder feignBuilder() {
+//        return Feign.builder();
+//    }
 
     @Bean
     Logger.Level feignLoggerLevel() {
