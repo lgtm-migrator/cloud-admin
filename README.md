@@ -22,6 +22,8 @@ spring alibaba cloud admin Template
 * 分布式配置中心:Spring Cloud Alibaba Nacos-config
 * 分布式熔断降级: Spring Cloud Alibaba Sentinel
 * 分布式事务: Spring Cloud Alibaba Seata
+* 分布式消息中间件: Apache RocketMQ
+* 服务间调用: OpenFeign
 * MyBatis 分页插件: PageHelper
 ## 基础设施
 
@@ -56,20 +58,7 @@ spring alibaba cloud admin Template
 |cloud-admin-server-dept| |系统组织|1110|
 |cloud-admin-server-dept-user| |系统用户组织|1120|
 
-# 如何启动整个项目
- 1. 首先启动基础设施(nacos,sentinel,redis,mysql等)
- 
- 2. 启动cloud-admin-server-router 路由服务
- 
- 3. 启动 cloud-admin-gateway网关服务
- 
- 4. 启动cloud-admin-server-user服务(无openFeign)
-
- 5. 启动spring-cloud-server-oauth2 
-
- 7. 随意启动任何服务
-
 # 前端
 前端采用前后分离Vue基于d2-admin框架之上进行开发
 
-前端地址: 
+前端地址: <https://github.com/hb0730/cloud-admin-ui>
