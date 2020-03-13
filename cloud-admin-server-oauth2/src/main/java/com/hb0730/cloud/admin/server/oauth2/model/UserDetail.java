@@ -21,7 +21,7 @@ import java.util.Collection;
 @EqualsAndHashCode(callSuper = true)
 public class UserDetail extends com.hb0730.cloud.admin.commons.model.security.UserDetail implements UserDetails {
     private static final long serialVersionUID = 1L;
-    private long userId;
+    private Long userId;
     private String username;
     private String password;
     private Integer status;

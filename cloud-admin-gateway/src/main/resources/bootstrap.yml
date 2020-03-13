@@ -4,13 +4,15 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 47.96.79.54:8848
+        server-addr: ${cloud.admin.discovery.server-addr:localhost:8848}
         namespace: aff3eac8-1bcc-4272-ba98-94b54fb1c016
         group: cloud-admin-group
     sentinel:
       transport:
         port: 8721
-        dashboard: 47.96.79.54:8408
+        dashboard: ${cloud.admin.sentinel.dashboard:localhost:8848}
+      filter:
+        enabled: false
     gateway:
       discovery:
         locator:
@@ -19,7 +21,7 @@ spring:
     stream:
       rocketmq:
         binder:
-          name-server: 47.96.79.54:9876
+          name-server: ${cloud.admin.rocketmq.name-server:localhost:9876}
         bindings:
           input-router:
             consumer:
@@ -61,3 +63,13 @@ logging:
         cloud:
           admin:
             gateway: debug
+
+
+cloud:
+  admin:
+    discovery:
+      server-addr: 47.96.79.54:8848
+    sentinel:
+      dashboard: localhost:8408
+    rocketmq:
+      name-server: 47.96.79.54:9876

@@ -18,6 +18,7 @@ import java.util.Map;
 
 /**
  * <p>
+ * 自定义异常处理
  * </P>
  *
  * @author bing_huang

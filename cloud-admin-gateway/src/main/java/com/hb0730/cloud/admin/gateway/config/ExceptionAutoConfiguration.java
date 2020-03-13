@@ -1,5 +1,6 @@
-package com.hb0730.cloud.admin.gateway.exception;
+package com.hb0730.cloud.admin.gateway.config;
 
+import com.hb0730.cloud.admin.gateway.exception.CustomErrorWebExceptionHandler;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;

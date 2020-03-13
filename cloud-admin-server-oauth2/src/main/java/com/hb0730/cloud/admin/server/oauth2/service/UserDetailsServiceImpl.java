@@ -33,7 +33,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             if (!Objects.isNull(data)) {
                 //密码校验
                 UserDetail userDetail = new UserDetail();
-                userDetail.setUserId(data.getId().intValue());
+                userDetail.setUserId(data.getId());
                 userDetail.setName(data.getName());
                 userDetail.setUsername(data.getUsername());
                 userDetail.setPassword(data.getPassword());

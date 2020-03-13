@@ -52,8 +52,11 @@ public enum CodeStatusEnum {
     /**
      * 未找到
      */
-    NOT_FONT(404,"未找到");
-
+    NOT_FONT(404,"未找到"),
+    /**
+     * 限流
+     */
+    CURRENT_LIMITING(403,"限流");
     private Integer code;
     private String message;
 
