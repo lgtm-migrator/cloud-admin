@@ -12,19 +12,19 @@ public enum CodeStatusEnum {
     /**
      * 请求成功
      */
-    SUCCESS(200,"请求成功"),
+    SUCCESS(200, "请求成功"),
     /**
      * 请求失败
      */
-    FAIL(202,"请求失败"),
+    FAIL(202, "请求失败"),
     /**
      * 非法请求
      */
-    ILLEGAL_REQUEST(500,"非法请求"),
+    ILLEGAL_REQUEST(500, "非法请求"),
     /**
      * 连接超时
      */
-    CONNECT_TIME_OUT(500,"连接超时"),
+    CONNECT_TIME_OUT(500, "连接超时"),
     /**
      * 无权限
      */
@@ -32,31 +32,35 @@ public enum CodeStatusEnum {
     /**
      * 非法令牌
      */
-    ILLEGAL_TOKEN(508,"非法令牌"),
+    ILLEGAL_TOKEN(508, "非法令牌"),
     /**
      * 其他客户端登录
      */
-    OTHER_CLIENTS_LOGGED_IN(512,"其他客户登录"),
+    OTHER_CLIENTS_LOGGED_IN(512, "其他客户登录"),
     /**
      * 令牌已过期
      */
-    TOKEN_EXPIRED(514,"令牌已过期"),
+    TOKEN_EXPIRED(514, "令牌已过期"),
     /**
      * 登录失败
      */
-    LOGIN_FAILURE(514,"登录失败"),
+    LOGIN_FAILURE(514, "登录失败"),
     /**
      * 用户未登录
      */
-    NON_LOGIN(514,"用户未登录"),
+    NON_LOGIN(514, "用户未登录"),
     /**
      * 未找到
      */
-    NOT_FONT(404,"未找到"),
+    NOT_FONT(404, "未找到"),
     /**
      * 限流
      */
-    CURRENT_LIMITING(403,"限流");
+    CURRENT_LIMITING(403, "限流"),
+    /**
+     * 熔断
+     */
+    FALL_BACK(433, "熔断");
     private Integer code;
     private String message;
 

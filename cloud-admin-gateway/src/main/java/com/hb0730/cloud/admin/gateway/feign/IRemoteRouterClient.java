@@ -17,7 +17,6 @@ import static com.hb0730.cloud.admin.common.util.RequestMappingConstants.ROUTER_
 /**
  * <p>
  * 远程路由server
- * //, configuration = FeignConfiguration.class, fallbackFactory = RemoteRouterClientFactory.class
  * </P>
  *
  * @author bing_huang
