@@ -1,6 +1,6 @@
 package com.hb0730.cloud.admin.common.web.utils;
 
-import com.hb0730.cloud.admin.common.util.BeanUtils;
+import com.hb0730.cloud.admin.common.util.GsonUtils;
 import com.hb0730.cloud.admin.commons.model.security.UserDetail;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -49,8 +49,7 @@ public class SecurityContextUtils {
     public static UserDetail getCurrentUser() throws Exception {
         Object principal = getAuthentication().getPrincipal();
         if (principal instanceof Map) {
-            Map map = (Map) principal;
-            return BeanUtils.map2bean(map, UserDetail.class);
+            return GsonUtils.json2Bean(GsonUtils.json2String(principal), UserDetail.class);
         }
         return null;
     }
