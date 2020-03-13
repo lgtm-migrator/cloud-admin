@@ -20,7 +20,7 @@
 
         <spring-boot.version>2.2.5.RELEASE</spring-boot.version>
         <spring-cloud-alibaba.version>2.2.0.RELEASE</spring-cloud-alibaba.version>
-        <spring-cloud.version>Hoxton.SR3</spring-cloud.version>
+        <spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
         <mybatis-plus-boot.version>3.3.1.tmp</mybatis-plus-boot.version>
         <pagehelper-spring-boot.version>1.2.13</pagehelper-spring-boot.version>
         <jetcache-starter.version>2.5.16</jetcache-starter.version>
