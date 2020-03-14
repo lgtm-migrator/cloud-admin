@@ -20,7 +20,7 @@ import lombok.experimental.Accessors;
 @TableName("t_system_dept")
 public class SystemDeptEntity extends BaseDomain {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * 是否删除
@@ -45,6 +45,12 @@ public class SystemDeptEntity extends BaseDomain {
      */
     @TableField(value = "parent_id", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     private Long parentId;
+
+    /**
+     * 组织编码
+     */
+    @TableField(value = "number", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
+    private String number;
     /**
      * 部门名称
      */
@@ -87,7 +93,10 @@ public class SystemDeptEntity extends BaseDomain {
     public static final String IS_ENABLED = "is_enabled";
 
     public static final String ID = "id";
-    public static final String PARENT_ID="parent_id";
+
+    public static final String PARENT_ID = "parent_id";
+
+    public static final String NUMBER="number";
 
     public static final String NAME = "name";
 

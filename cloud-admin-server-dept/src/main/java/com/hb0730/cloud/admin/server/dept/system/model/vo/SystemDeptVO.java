@@ -1,5 +1,7 @@
 package com.hb0730.cloud.admin.server.dept.system.model.vo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.hb0730.cloud.admin.common.web.vo.BaseDomainVO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -31,11 +33,17 @@ public class SystemDeptVO extends BaseDomainVO {
     /**
      * 部门id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
     /**
      * 父id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long parentId;
+    /**
+     * 组织编码
+     */
+    private String number;
     /**
      * 部门名称
      */

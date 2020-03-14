@@ -1,15 +1,24 @@
 package com.hb0730.cloud.admin.server.dept.system.controller;
 
 
+import com.hb0730.cloud.admin.common.util.BeanUtils;
 import com.hb0730.cloud.admin.common.web.controller.AbstractBaseController;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
+import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
 import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
+import com.hb0730.cloud.admin.commons.model.security.UserDetail;
+import com.hb0730.cloud.admin.server.dept.system.model.entity.SystemDeptEntity;
+import com.hb0730.cloud.admin.server.dept.system.model.vo.DeptInfoVO;
 import com.hb0730.cloud.admin.server.dept.system.model.vo.SystemDeptVO;
 import com.hb0730.cloud.admin.server.dept.system.service.ISystemDeptService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.xml.transform.Result;
+
+import java.util.Date;
+import java.util.Objects;
 
 import static com.hb0730.cloud.admin.common.util.RequestMappingConstants.DEPT_SERVER_REQUEST;
 
@@ -24,10 +33,12 @@ import static com.hb0730.cloud.admin.common.util.RequestMappingConstants.DEPT_SE
 @RestController
 @RequestMapping(DEPT_SERVER_REQUEST)
 public class SystemDeptController extends AbstractBaseController<SystemDeptVO> {
+    private static final String F = "-1";
     @Autowired
     private ISystemDeptService systemDeptService;
 
     @Override
+    @Deprecated
     public ResultJson save(SystemDeptVO target) {
         return null;
     }
@@ -42,9 +53,11 @@ public class SystemDeptController extends AbstractBaseController<SystemDeptVO> {
         return null;
     }
 
+    @GetMapping("/info/{id}")
     @Override
-    public ResultJson getInfo(Object id) {
-        return null;
+    public ResultJson getInfo(@PathVariable("id") Object id) {
+        SystemDeptEntity info = systemDeptService.getById(id.toString());
+        return ResponseResult.resultSuccess(BeanUtils.transformFrom(info, SystemDeptVO.class));
     }
 
     /**
@@ -57,6 +70,58 @@ public class SystemDeptController extends AbstractBaseController<SystemDeptVO> {
     @GetMapping("/tree")
     public ResultJson getTree() {
         return ResponseResult.resultSuccess(systemDeptService.getTree());
+    }
+
+    /**
+     * 新增
+     *
+     * @param vo 组织info
+     * @return 是否成功
+     */
+    @PostMapping("/save")
+    public ResultJson save(@RequestBody DeptInfoVO vo) {
+        UserDetail currentUser = getCurrentUser();
+        if (Objects.isNull(currentUser)) {
+            return ResponseResult.result(CodeStatusEnum.NON_LOGIN, "用户为登录");
+        }
+        String number = vo.getNumber();
+        if (StringUtils.isBlank(number)) {
+            return ResponseResult.resultFall("组织编码为空");
+        }
+        String name = vo.getName();
+        if (StringUtils.isBlank(name)) {
+            return ResponseResult.resultFall("组织名称为空");
+        }
+        if (Objects.isNull(vo.getParentId())) {
+            return ResponseResult.resultFall("父组织id为空");
+        }
+        vo.setCreateTime(new Date());
+        vo.setCreateUserId(currentUser.getUserId());
+        vo.setVersion(1);
+        SystemDeptEntity entity = BeanUtils.transformFrom(vo, SystemDeptEntity.class);
+        systemDeptService.save(entity);
+        return ResponseResult.resultSuccess("新增成功");
+    }
+
+    /**
+     * 更新组织
+     *
+     * @param vo 组织信息
+     * @param id 组织id
+     * @return 是否成功
+     */
+    @PostMapping("/update/{id}")
+    public ResultJson update(@RequestBody SystemDeptVO vo, @PathVariable("id") Long id) {
+        Long parentId = vo.getParentId();
+        if (Objects.isNull(parentId)) {
+            ResponseResult.resultFall("父id为空");
+        }
+        SystemDeptEntity entity = systemDeptService.getById(id);
+        BeanUtils.updateProperties(vo, entity);
+        systemDeptService.updateById(entity);
+        entity.setUpdateTime(new Date());
+        entity.setUpdateUserId(getCurrentUser().getUserId());
+        return ResponseResult.resultSuccess("");
     }
 }
 
