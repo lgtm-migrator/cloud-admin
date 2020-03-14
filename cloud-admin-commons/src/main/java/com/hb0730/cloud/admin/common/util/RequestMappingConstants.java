@@ -85,4 +85,9 @@ public interface RequestMappingConstants {
      * 系统组织部门
      */
     String DEPT_SERVER_REQUEST = "/v1/server/system/dept";
+
+    /**
+     * 岗位
+     */
+    String POST_SERVER_REQUEST = "/v1/server/system/post";
 }

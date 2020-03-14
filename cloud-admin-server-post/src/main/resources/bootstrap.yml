@@ -1,6 +1,6 @@
 spring:
   application:
-    name: cloud-admin-dept-server
+    name: cloud-admin-post-server
   main:
     allow-bean-definition-overriding: true
   datasource:
@@ -76,13 +76,13 @@ management:
         include: '*'
 
 server:
-  port: 1110
+  port: 1130
 
 # jetcache 操作redis
 jetcache:
   statIntervalMinutes: 15
   areaInCacheName: true
-  hiddenPackages: com.hb0730.cloud.admin.server.dept
+  hiddenPackages: com.hb0730.cloud.admin.server.post
   local:
     default:
       limit: 100
