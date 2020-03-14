@@ -1,6 +1,6 @@
 package com.hb0730.cloud.admin.server.dept.system.model.vo;
 
-import com.hb0730.cloud.admin.commons.domain.BaseDomain;
+import com.hb0730.cloud.admin.common.web.vo.BaseDomainVO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class SystemDeptVO extends BaseDomain {
+public class SystemDeptVO extends BaseDomainVO {
 
     private static final long serialVersionUID = 1L;
 
@@ -32,7 +32,10 @@ public class SystemDeptVO extends BaseDomain {
      * 部门id
      */
     private Long id;
-
+    /**
+     * 父id
+     */
+    private Long parentId;
     /**
      * 部门名称
      */

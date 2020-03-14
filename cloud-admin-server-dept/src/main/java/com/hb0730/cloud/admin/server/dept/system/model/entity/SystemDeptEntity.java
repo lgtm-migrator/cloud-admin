@@ -40,7 +40,11 @@ public class SystemDeptEntity extends BaseDomain {
      */
     @TableId(value = "id")
     private Long id;
-
+    /**
+     * 父id
+     */
+    @TableField(value = "parent_id", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
+    private Long parentId;
     /**
      * 部门名称
      */
@@ -50,7 +54,7 @@ public class SystemDeptEntity extends BaseDomain {
     /**
      * 显示顺序
      */
-    @TableField(value = "order", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
+    @TableField(value = "`order`", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     private Integer order;
 
     /**
@@ -83,6 +87,7 @@ public class SystemDeptEntity extends BaseDomain {
     public static final String IS_ENABLED = "is_enabled";
 
     public static final String ID = "id";
+    public static final String PARENT_ID="parent_id";
 
     public static final String NAME = "name";
 
