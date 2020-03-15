@@ -1,5 +1,7 @@
-package com.hb0730.cloud.admin.server.post.system.model.entity.vo;
+package com.hb0730.cloud.admin.server.post.system.model.vo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.hb0730.cloud.admin.common.web.vo.BaseDomainVO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -33,6 +35,7 @@ public class SystemPostVO extends BaseDomainVO {
     /**
      * id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
     /**
@@ -50,17 +53,9 @@ public class SystemPostVO extends BaseDomainVO {
      */
     private Integer sort;
 
-
-    public static final String IS_DELETE = "is_delete";
-
-    public static final String IS_ENABLED = "is_enabled";
-
-    public static final String ID = "id";
-
-    public static final String CODE = "code";
-
-    public static final String NAME = "name";
-
-    public static final String SORT = "sort";
+    /**
+     * 描述
+     */
+    private String describe;
 
 }
