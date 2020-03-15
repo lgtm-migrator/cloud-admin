@@ -3,6 +3,7 @@ package com.hb0730.cloud.admin.server.post.system.model.vo;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.hb0730.cloud.admin.common.web.vo.BaseDomainVO;
+import com.hb0730.cloud.admin.common.web.vo.BusinessDomainVO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -18,7 +19,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-public class SystemPostVO extends BaseDomainVO {
+public class SystemPostVO extends BusinessDomainVO {
 
     private static final long serialVersionUID = 1L;
 

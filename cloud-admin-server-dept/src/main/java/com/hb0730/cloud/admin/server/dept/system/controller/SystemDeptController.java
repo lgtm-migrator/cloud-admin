@@ -1,6 +1,7 @@
 package com.hb0730.cloud.admin.server.dept.system.controller;
 
 
+import com.google.common.collect.Lists;
 import com.hb0730.cloud.admin.common.util.BeanUtils;
 import com.hb0730.cloud.admin.common.web.controller.AbstractBaseController;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
@@ -13,11 +14,13 @@ import com.hb0730.cloud.admin.server.dept.system.model.vo.SystemDeptVO;
 import com.hb0730.cloud.admin.server.dept.system.service.ISystemDeptService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.xml.transform.Result;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import static com.hb0730.cloud.admin.common.util.RequestMappingConstants.DEPT_SERVER_REQUEST;
@@ -122,6 +125,22 @@ public class SystemDeptController extends AbstractBaseController<SystemDeptVO> {
         entity.setUpdateTime(new Date());
         entity.setUpdateUserId(getCurrentUser().getUserId());
         return ResponseResult.resultSuccess("");
+    }
+
+    /**
+     * 根据id获取组织信息
+     *
+     * @param ids id集合
+     * @return 组织信息
+     */
+    @PostMapping("/getDeptById")
+    public ResultJson getDeptByIds(@RequestBody List<Long> ids) {
+        if (CollectionUtils.isEmpty(ids)) {
+            return ResponseResult.resultSuccess(Lists.newArrayList());
+        }
+        List<SystemDeptEntity> entity = systemDeptService.listByIds(ids);
+        List<SystemDeptVO> vos = BeanUtils.transformFromInBatch(entity, SystemDeptVO.class);
+        return ResponseResult.resultSuccess(vos);
     }
 }
 

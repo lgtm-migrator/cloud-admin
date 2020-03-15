@@ -1,4 +1,4 @@
-package com.hb0730.cloud.admin.server.dept.system.model.vo;
+package com.hb0730.cloud.admin.commons.dept.model.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;

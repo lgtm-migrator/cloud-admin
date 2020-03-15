@@ -19,6 +19,7 @@
         <module>cloud-admin-commons-model-web</module>
         <module>cloud-admin-commons-model-menu</module>
         <module>cloud-admin-commons-model-permission</module>
+        <module>cloud-admin-commons-model-dept</module>
     </modules>
 
     <dependencies>

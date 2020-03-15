@@ -1,17 +1,14 @@
 package com.hb0730.cloud.admin.server.post.dept.system.model.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.Version;
-import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.*;
 import com.hb0730.cloud.admin.commons.domain.BaseDomain;
-import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 系统组织岗位 
+ * 系统组织岗位
  * </p>
  *
  * @author bing_huang
@@ -28,32 +25,32 @@ public class SystemPostDeptEntity extends BaseDomain {
     /**
      * 是否删除
      */
-    @TableField("is_delete")
+    @TableField(value = "is_delete", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     @TableLogic
     private Integer isDelete;
 
     /**
      * 是否启用
      */
-    @TableField("is_enabled")
+    @TableField(value = "is_enabled", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     private Integer isEnabled;
 
     /**
      * id
      */
-    @TableField("id")
+    @TableField(value = "id", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     private Long id;
 
     /**
      * 组织
      */
-    @TableField("dept_id")
+    @TableField(value = "dept_id", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     private Long deptId;
 
     /**
      * 岗位
      */
-    @TableField("post_id")
+    @TableField(value = "post_id", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     private Long postId;
 
 
