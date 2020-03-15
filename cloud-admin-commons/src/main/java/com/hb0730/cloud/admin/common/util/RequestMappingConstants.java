@@ -90,4 +90,9 @@ public interface RequestMappingConstants {
      * 岗位
      */
     String POST_SERVER_REQUEST = "/v1/server/system/post";
+
+    /**
+     * 岗位组织
+     */
+    String POST_DEPT_SERVER_REQUEST = "/v1/server/system/postDept";
 }

@@ -63,6 +63,7 @@
         <module>cloud-admin-server-dept</module>
         <module>cloud-admin-server-dept-user</module>
         <module>cloud-admin-server-post</module>
+        <module>cloud-admin-server-post-dept</module>
     </modules>
 
     <dependencyManagement>

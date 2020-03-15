@@ -77,4 +77,9 @@ public interface ServerNameConstants {
      * 岗位
      */
     String POST_SERVER = "cloud-admin-post-server";
+
+    /**
+     * 岗位组织
+     */
+    String POST_DEPT_SERVER = "cloud-admin-post-dept-server";
 }
