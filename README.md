@@ -59,6 +59,7 @@ spring alibaba cloud admin Template
 |cloud-admin-server-dept-user| |系统用户组织|1120|
 |cloud-admin-server-post| |系统岗位|1130|
 |cloud-admin-server-post-dept| |系统岗位组织|1140|
+|cloud-admin-server-role-dept| |系统角色组织|1150|
 
 # 前端
 前端采用前后分离Vue基于d2-admin框架之上进行开发
