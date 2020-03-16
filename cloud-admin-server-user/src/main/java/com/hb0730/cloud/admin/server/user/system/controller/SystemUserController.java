@@ -40,7 +40,7 @@ public class SystemUserController extends AbstractBaseController<SystemUserVO> {
     @Autowired
     private ISystemUserService systemUserService;
 
-//    @PostMapping("/save")
+    //    @PostMapping("/save")
     @Override
     @Deprecated
     public ResultJson save(@RequestBody SystemUserVO target) {
@@ -91,8 +91,8 @@ public class SystemUserController extends AbstractBaseController<SystemUserVO> {
      * @return 是否成功
      */
     @PostMapping("/save")
-    public ResultJson save(UserSaveVO saveVO) {
-        boolean save = systemUserService.save(saveVO,getCurrentUser());
+    public ResultJson save(@RequestBody UserSaveVO saveVO) {
+        boolean save = systemUserService.save(saveVO, getCurrentUser());
         return ResponseResult.resultSuccess("保存成功");
     }
 
