@@ -35,14 +35,15 @@ public class SystemRouterServiceImpl extends BaseServiceImpl<SystemRouterMapper,
     @Override
     public boolean save(SystemRouterEntity entity) {
         boolean b = super.save(entity);
-        applicationContext.publishEvent(new SendResultJsonEvent(this, ResponseResult.resultSuccess("保存路由成功"),applicationContext));
+        applicationContext.publishEvent(new SendResultJsonEvent(this, ResponseResult.resultSuccess("保存路由成功"), applicationContext));
         return b;
     }
 
     @Override
     public boolean updateById(SystemRouterEntity entity) {
-        applicationContext.publishEvent(new SendResultJsonEvent(this, ResponseResult.resultSuccess("修改路由成功"),applicationContext));
-        return super.updateById(entity);
+        boolean b = super.updateById(entity);
+        applicationContext.publishEvent(new SendResultJsonEvent(this, ResponseResult.resultSuccess("修改路由成功"), applicationContext));
+        return b;
     }
 
     @Override

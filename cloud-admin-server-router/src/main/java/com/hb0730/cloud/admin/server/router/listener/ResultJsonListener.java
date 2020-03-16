@@ -35,7 +35,6 @@ public class ResultJsonListener {
     @Async
     public void onApplicationEvent(SendResultJsonEvent event) {
         ResultJson resultJson = event.getResultJson();
-        senderService.send(resultJson);
         ApplicationContext applicationContext = event.getApplicationContext();
         ISystemRouterService service = applicationContext.getBean(ISystemRouterService.class);
         SystemRouterEntity entity = new SystemRouterEntity();
@@ -43,5 +42,6 @@ public class ResultJsonListener {
         QueryWrapper<SystemRouterEntity> queryWrapper = new QueryWrapper<>(entity);
         List<SystemRouterEntity> entityList = service.list(queryWrapper);
         cacheHandler.updateCache(RedisJetcacheUtil.RouterCache.KEY_ALL, entityList);
+        senderService.send(resultJson);
     }
 }
