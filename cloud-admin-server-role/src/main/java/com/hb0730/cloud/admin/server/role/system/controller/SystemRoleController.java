@@ -45,6 +45,7 @@ public class SystemRoleController extends AbstractBaseController<SystemRoleVO> {
         UserDetail currentUser = getCurrentUser();
         target.setCreateTime(new Date());
         target.setCreateUserId(currentUser.getUserId());
+        target.setVersion(1);
         SystemRoleEntity entity = BeanUtils.transformFrom(target, SystemRoleEntity.class);
         systemRoleService.save(entity);
         return ResponseResult.resultSuccess("保存成功");
@@ -104,11 +105,10 @@ public class SystemRoleController extends AbstractBaseController<SystemRoleVO> {
     @PostMapping("/update/{id}")
     public ResultJson updateById(@PathVariable Long id, @RequestBody SystemRoleVO vo) {
         verification(vo);
-        vo.setId(id);
-        UserDetail currentUser = getCurrentUser();
-        vo.setUpdateTime(new Date());
-        vo.setUpdateUserId(currentUser.getUserId());
-        SystemRoleEntity entity = BeanUtils.transformFrom(vo, SystemRoleEntity.class);
+        SystemRoleEntity entity = systemRoleService.getById(id);
+        BeanUtils.updateProperties(vo, entity);
+        entity.setUpdateTime(new Date());
+        entity.setUpdateUserId(getCurrentUser().getUserId());
         systemRoleService.updateById(entity);
         return ResponseResult.resultSuccess("修改成功");
     }

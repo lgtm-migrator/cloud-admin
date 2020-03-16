@@ -26,7 +26,7 @@ public class SystemRoleVO extends BusinessDomainVO {
     /**
      * 是否启用
      */
-    private Integer isEnabled = 1;
+    private Integer isEnabled;
 
     /**
      * id
