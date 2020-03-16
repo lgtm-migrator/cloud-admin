@@ -57,7 +57,7 @@ public class SystemRoleDeptServiceImpl extends BaseServiceImpl<SystemRoleDeptMap
             return true;
         }
         deptIds.parallelStream().forEach(deptId -> getEntityList(deptId, roleId, list, userDetail));
-        return false;
+        return saveBatch(list);
     }
 
     /**
