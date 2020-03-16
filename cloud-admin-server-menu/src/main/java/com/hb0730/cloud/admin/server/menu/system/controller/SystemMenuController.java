@@ -49,6 +49,7 @@ public class SystemMenuController extends AbstractBaseController<SystemMenuVO> {
         }
         target.setCreateUserId(currentUser.getUserId());
         target.setCreateTime(new Date());
+        target.setVersion(1);
         SystemMenuEntity entity = BeanUtils.transformFrom(target, SystemMenuEntity.class);
         systemMenuService.save(entity);
         return ResponseResult.resultSuccess("保存成功");
