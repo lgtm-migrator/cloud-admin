@@ -94,6 +94,19 @@ public class SystemPostController extends AbstractBaseController<SystemPostVO> {
     }
 
     /**
+     * <p>
+     * 获取岗位
+     * </p>
+     *
+     * @return 岗位信息
+     */
+    @GetMapping("/posts")
+    public ResultJson getPosts() {
+        List<SystemPostVO> posts = systemPostService.posts();
+        return ResponseResult.resultSuccess(posts);
+    }
+
+    /**
      * 更新岗位
      *
      * @param id     id
