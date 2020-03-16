@@ -16,16 +16,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @EnableTransactionManagement
 @Configuration
-@MapperScan("com.hb0730.cloud.admin.server.user.**.mapper")
+@MapperScan("com.hb0730.cloud.admin.server.user.role.**.mapper")
 public class MybatisPlusConfig {
-    /**
-     * 分页插件
-     */
-    @Bean
-    public PaginationInterceptor paginationInterceptor() {
-        return new PaginationInterceptor();
-    }
-
     /**
      * 乐观锁插件
      *

@@ -2,7 +2,7 @@ package com.hb0730.cloud.admin.server.user.feign;
 
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.commons.feign.configuration.FeignConfiguration;
-import com.hb0730.cloud.admin.server.user.feign.fallback.RemoteUserPostFallbackFactory;
+import com.hb0730.cloud.admin.server.user.feign.fallback.RemoteUserRoleFallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-import static com.hb0730.cloud.admin.common.util.RequestMappingConstants.USER_POST_SERVER_REQUEST;
-import static com.hb0730.cloud.admin.common.util.ServerNameConstants.USER_POST_SERVER;
+import static com.hb0730.cloud.admin.common.util.RequestMappingConstants.USER_ROLE_SERVER_REQUEST;
+import static com.hb0730.cloud.admin.common.util.ServerNameConstants.USER_ROLE_SERVER;
 
 /**
  * <p>
@@ -21,8 +21,9 @@ import static com.hb0730.cloud.admin.common.util.ServerNameConstants.USER_POST_S
  * @author bing_huang
  * @since V1.0
  */
-@FeignClient(name = USER_POST_SERVER, url = USER_POST_SERVER_REQUEST, configuration = FeignConfiguration.class, fallbackFactory = RemoteUserPostFallbackFactory.class)
-public interface IRemoteUserPost extends com.hb0730.cloud.admin.api.user.post.IRemoteUserPost {
+@FeignClient(name = USER_ROLE_SERVER, url = USER_ROLE_SERVER_REQUEST, configuration = FeignConfiguration.class, fallbackFactory = RemoteUserRoleFallbackFactory.class)
+public interface IRemoteUserRole extends com.hb0730.clou.admin.api.user.role.IRemoteUserRole {
+
     /**
      * <p>
      * 根据用户id获取岗位id
@@ -32,8 +33,8 @@ public interface IRemoteUserPost extends com.hb0730.cloud.admin.api.user.post.IR
      * @return 岗位id
      */
     @Override
-    @GetMapping("/getPostId/{userId}")
-    ResultJson getPostByUserId(@PathVariable("userId") Long userId);
+    @GetMapping("/getRoleId/{userId}")
+    public ResultJson getRoleByUserId(@PathVariable("userId") Long userId);
 
     /**
      * <p>
@@ -45,6 +46,6 @@ public interface IRemoteUserPost extends com.hb0730.cloud.admin.api.user.post.IR
      * @return 是否成功
      */
     @Override
-    @PostMapping("/bindingPostId/{userId}")
-    public ResultJson bindingPostByUserId(@PathVariable("userId") Long userId, @RequestBody List<Long> postIds);
+    @PostMapping("/bindingRoleId/{userId}")
+    ResultJson bindingRoleByUserId(@PathVariable("userId") Long userId, @RequestBody List<Long> postIds);
 }

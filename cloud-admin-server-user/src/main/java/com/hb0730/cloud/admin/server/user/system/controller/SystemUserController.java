@@ -40,7 +40,7 @@ public class SystemUserController extends AbstractBaseController<SystemUserVO> {
     @Autowired
     private ISystemUserService systemUserService;
 
-    @PostMapping("/save")
+//    @PostMapping("/save")
     @Override
     @Deprecated
     public ResultJson save(@RequestBody SystemUserVO target) {

@@ -4,21 +4,18 @@ spring:
   main:
     allow-bean-definition-overriding: true
   datasource:
-    url: jdbc:mysql://${cloud.admin.datasource.url:localhost:3306}/cloud-admin?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8
-    username: ${cloud.admin.datasource.username:root}
-    password: ${cloud.admin.datasource.password:Admin1234}
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    platform: mysql
     type: com.zaxxer.hikari.HikariDataSource
+    platform: mysql
     hikari:
       minimum-idle: 5
       maximum-pool-size: 10
-      idle-timeout: 600000
       auto-commit: true
       pool-name: MyHikariCP
-      max-lifetime: 1800000
-      connection-timeout: 30000
       connection-test-query: SELECT 1
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbc-url: jdbc:mysql://${cloud.admin.datasource.url:localhost:3306}/cloud-admin?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8
+      username: ${cloud.admin.datasource.username:root}
+      password: ${cloud.admin.datasource.password:Admin1234}
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
@@ -188,3 +185,10 @@ seata:
     nacos:
       namespace: "0842cd23-b1ca-48f2-abca-67225d35248b"
       server-addr: ${spring.cloud.nacos.discovery.server-addr}
+feign:
+  sentinel:
+    enabled: true
+  okhttp:
+    enabled: true
+  httpclient:
+    enabled: false

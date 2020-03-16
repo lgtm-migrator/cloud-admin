@@ -135,20 +135,6 @@ public class SystemUserRoleController extends AbstractBaseController<SystemUserR
 
     /**
      * <p>
-     * 根据用户获取角色
-     * </p>
-     *
-     * @param userId 用户id
-     * @return 角色
-     */
-    @GetMapping("/getRole/user/{userId}")
-    @Deprecated
-    public ResultJson getRoleByUserId(@PathVariable Long userId) {
-        return remoteRole.findRoleByUserId(userId);
-    }
-
-    /**
-     * <p>
      * 根据角色id获取用户id
      * </p>
      *
@@ -170,7 +156,7 @@ public class SystemUserRoleController extends AbstractBaseController<SystemUserR
      * @return 岗位id
      */
     @GetMapping("/getRoleId/{userId}")
-    public ResultJson getPostByUserId(@PathVariable Long userId) {
+    public ResultJson getRoleByUserId(@PathVariable Long userId) {
         SystemUserRoleEntity entity = new SystemUserRoleEntity();
         entity.setIsEnabled(1);
         QueryWrapper<SystemUserRoleEntity> queryWrapper = new QueryWrapper<>(entity);
@@ -192,7 +178,7 @@ public class SystemUserRoleController extends AbstractBaseController<SystemUserR
      * @return 是否成功
      */
     @PostMapping("/bindingRoleId/{userId}")
-    public ResultJson bindingPostByUserId(@PathVariable Long userId, @RequestBody List<Long> postIds) {
+    public ResultJson bindingRoleByUserId(@PathVariable Long userId, @RequestBody List<Long> postIds) {
         systemUserRoleService.bindingRoleByUserId(userId, postIds, getCurrentUser());
         return ResponseResult.resultSuccess("绑定成功");
     }

@@ -20,6 +20,7 @@
         <module>cloud-admin-api-dept</module>
         <module>cloud-admin-api-user-dept</module>
         <module>cloud-admin-api-user-post</module>
+        <module>cloud-admin-api-user-role</module>
     </modules>
     <dependencies>
         <dependency>
