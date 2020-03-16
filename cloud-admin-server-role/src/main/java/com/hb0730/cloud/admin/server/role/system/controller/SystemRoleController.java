@@ -94,6 +94,17 @@ public class SystemRoleController extends AbstractBaseController<SystemRoleVO> {
     }
 
     /**
+     * 获取全部角色
+     *
+     * @return 角色
+     */
+    @GetMapping("/roles")
+    public ResultJson getRoles() {
+        List<SystemRoleVO> roles = systemRoleService.roles();
+        return ResponseResult.resultSuccess(roles);
+    }
+
+    /**
      * <p>
      * 根据id更新角色信息
      * </p>

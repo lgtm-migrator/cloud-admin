@@ -46,4 +46,23 @@ public class RedisJetcacheUtil {
          */
         public static final String KEY_ALL = "all";
     }
+
+    /**
+     * 角色缓存
+     */
+    public static class RoleCache {
+        /**
+         * area
+         */
+        public static final String AREA = "cloud-admin";
+        /**
+         * name
+         */
+        public static final String NAME = "role";
+
+        /**
+         * 更新全部
+         */
+        public static final String KEY_ALL = "all";
+    }
 }
