@@ -1,22 +1,29 @@
 package com.hb0730.cloud.admin.server.user.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.google.common.collect.Lists;
 import com.hb0730.cloud.admin.common.exception.BusinessException;
 import com.hb0730.cloud.admin.common.util.BeanUtils;
-import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
+import com.hb0730.cloud.admin.common.web.response.ResultJson;
+import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
 import com.hb0730.cloud.admin.commons.model.security.UserDetail;
-import com.hb0730.cloud.admin.server.user.system.model.entity.SystemUserEntity;
+import com.hb0730.cloud.admin.commons.service.BaseServiceImpl;
+import com.hb0730.cloud.admin.server.user.feign.IRemoteUserDept;
 import com.hb0730.cloud.admin.server.user.system.mapper.SystemUserMapper;
+import com.hb0730.cloud.admin.server.user.system.model.entity.SystemUserEntity;
 import com.hb0730.cloud.admin.server.user.system.model.vo.UserSaveVO;
 import com.hb0730.cloud.admin.server.user.system.service.ISystemUserService;
-import com.hb0730.cloud.admin.commons.service.BaseServiceImpl;
+import io.seata.spring.annotation.GlobalTransactional;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -31,8 +38,12 @@ import java.util.Objects;
 public class SystemUserServiceImpl extends BaseServiceImpl<SystemUserMapper, SystemUserEntity> implements ISystemUserService {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+    @Autowired
+    private IRemoteUserDept remoteUserDept;
+
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @GlobalTransactional(name = "cloud-admin-user-save-seata")
     public boolean save(UserSaveVO saveVO, UserDetail userDetail) {
         //参数校验
         if (Objects.isNull(saveVO)) {
@@ -60,8 +71,25 @@ public class SystemUserServiceImpl extends BaseServiceImpl<SystemUserMapper, Sys
         saveVO.setCreateUserId(userDetail.getUserId());
         SystemUserEntity entity = BeanUtils.transformFrom(saveVO, SystemUserEntity.class);
         boolean save = save(entity);
-
+        Long deptId = saveVO.getDeptId();
+        assert entity != null;
+        if (!Objects.isNull(deptId)) {
+            remoteSaveDeptByUserId(Lists.newArrayList(deptId), entity.getId());
+        }
         return false;
+    }
+
+    /**
+     * 远程调用组织用户绑定
+     *
+     * @param deptId 组织id
+     * @param userId 用户id
+     */
+    private void remoteSaveDeptByUserId(@NonNull List<Long> deptId, @Nullable Long userId) {
+        ResultJson result = remoteUserDept.bindingDeptByUserId(userId, deptId);
+        if (!CodeStatusEnum.SUCCESS.getCode().equals(result.getErrCode())) {
+            throw new BusinessException(result.getData().toString());
+        }
     }
 
     /**
@@ -82,7 +110,7 @@ public class SystemUserServiceImpl extends BaseServiceImpl<SystemUserMapper, Sys
         entity.setUsername(null);
         entity.setEmail(login);
         queryWrapper.setEntity(entity);
-        userEntity =getOne(queryWrapper);
+        userEntity = getOne(queryWrapper);
         if (!Objects.isNull(userEntity)) {
             return userEntity;
         }

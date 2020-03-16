@@ -18,6 +18,7 @@
         <module>cloud-admin-api-menu</module>
         <module>cloud-admin-api-permission</module>
         <module>cloud-admin-api-dept</module>
+        <module>cloud-admin-api-user-dept</module>
     </modules>
     <dependencies>
         <dependency>
