@@ -31,4 +31,9 @@ public class RouterParamsVO implements Serializable {
      * 说明
      */
     private String description;
+
+    /**
+     * 是否启用
+     */
+    private Integer isEnabled;
 }

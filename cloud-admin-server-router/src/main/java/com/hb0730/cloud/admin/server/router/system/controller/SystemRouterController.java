@@ -96,7 +96,7 @@ public class SystemRouterController extends AbstractBaseController<SystemRouterV
         assert targetEntity != null;
         targetEntity.setUpdateTime(new Date());
         targetEntity.setUpdateUserId(Objects.requireNonNull(getCurrentUser()).getUserId());
-        BeanUtils.updateProperties(entity, targetEntity);
+        BeanUtils.updateProperties(targetEntity, entity);
         systemRouterService.updateById(entity);
         return ResponseResult.resultSuccess("更新成功");
     }
@@ -161,10 +161,7 @@ public class SystemRouterController extends AbstractBaseController<SystemRouterV
     @PostMapping("/routers/{page}/{pageSize}")
     public ResultJson routers(@PathVariable int page, @PathVariable int pageSize, @RequestBody RouterParamsVO paramsVO) {
         PageHelper.startPage(page, pageSize);
-        SystemRouterEntity entity = new SystemRouterEntity();
-        entity.setId(paramsVO.getId());
-        entity.setDescription(paramsVO.getDescription());
-        entity.setUri(paramsVO.getUri());
+        SystemRouterEntity entity = BeanUtils.transformFrom(paramsVO, SystemRouterEntity.class);
         QueryWrapper<SystemRouterEntity> queryWrapper = new QueryWrapper<>(entity);
         List<SystemRouterEntity> list = systemRouterService.list(queryWrapper);
         PageInfo<SystemRouterEntity> pageInfo = new PageInfo<>(list);
