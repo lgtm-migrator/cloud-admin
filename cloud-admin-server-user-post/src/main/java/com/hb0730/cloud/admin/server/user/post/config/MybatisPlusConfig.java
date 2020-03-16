@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @EnableTransactionManagement
 @Configuration
-@MapperScan("com.hb0730.cloud.admin.server.user.dept.**.mapper")
+@MapperScan("com.hb0730.cloud.admin.server.user.post.**.mapper")
 public class MybatisPlusConfig {
 
     /**

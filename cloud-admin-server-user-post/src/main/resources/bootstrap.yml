@@ -77,7 +77,7 @@ management:
       exposure:
         include: '*'
 server:
-  port: 11760
+  port: 1170
 
 # jetcache 操作redis
 jetcache:
@@ -137,7 +137,7 @@ cloud:
       password: HBhuangbing0730
 seata:
   enabled: true
-  application-id: cloud-admin-user-dept-seata
+  application-id: cloud-admin-user-post-seata
   tx-service-group: cloud-admin-tx-steata-group # 事务群组（可以每个应用独立取名，也可以使用相同的名字）
   client:
     rm-report-success-enable: true

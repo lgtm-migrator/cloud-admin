@@ -19,6 +19,7 @@
         <module>cloud-admin-api-permission</module>
         <module>cloud-admin-api-dept</module>
         <module>cloud-admin-api-user-dept</module>
+        <module>cloud-admin-api-user-post</module>
     </modules>
     <dependencies>
         <dependency>

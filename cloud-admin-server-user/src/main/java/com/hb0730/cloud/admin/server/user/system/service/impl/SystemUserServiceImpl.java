@@ -9,6 +9,7 @@ import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
 import com.hb0730.cloud.admin.commons.model.security.UserDetail;
 import com.hb0730.cloud.admin.commons.service.BaseServiceImpl;
 import com.hb0730.cloud.admin.server.user.feign.IRemoteUserDept;
+import com.hb0730.cloud.admin.server.user.feign.IRemoteUserPost;
 import com.hb0730.cloud.admin.server.user.system.mapper.SystemUserMapper;
 import com.hb0730.cloud.admin.server.user.system.model.entity.SystemUserEntity;
 import com.hb0730.cloud.admin.server.user.system.model.vo.UserSaveVO;
@@ -21,6 +22,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -40,6 +42,8 @@ public class SystemUserServiceImpl extends BaseServiceImpl<SystemUserMapper, Sys
     private BCryptPasswordEncoder passwordEncoder;
     @Autowired
     private IRemoteUserDept remoteUserDept;
+    @Autowired
+    private IRemoteUserPost remoteUserPost;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -76,6 +80,9 @@ public class SystemUserServiceImpl extends BaseServiceImpl<SystemUserMapper, Sys
         if (!Objects.isNull(deptId)) {
             remoteSaveDeptByUserId(Lists.newArrayList(deptId), entity.getId());
         }
+        if (!CollectionUtils.isEmpty(saveVO.getPosts())) {
+            remoteSavePostByUserId(saveVO.getPosts(), entity.getId());
+        }
         return false;
     }
 
@@ -85,8 +92,23 @@ public class SystemUserServiceImpl extends BaseServiceImpl<SystemUserMapper, Sys
      * @param deptId 组织id
      * @param userId 用户id
      */
-    private void remoteSaveDeptByUserId(@NonNull List<Long> deptId, @Nullable Long userId) {
+    private void remoteSaveDeptByUserId(@NonNull List<Long> deptId, @NonNull Long userId) {
         ResultJson result = remoteUserDept.bindingDeptByUserId(userId, deptId);
+        if (!CodeStatusEnum.SUCCESS.getCode().equals(result.getErrCode())) {
+            throw new BusinessException(result.getData().toString());
+        }
+    }
+
+    /**
+     * <p>
+     * 远程调用岗位用户绑定
+     * </p>
+     *
+     * @param postIds 岗位
+     * @param userId  用户
+     */
+    private void remoteSavePostByUserId(@NonNull List<Long> postIds, @NonNull Long userId) {
+        ResultJson result = remoteUserPost.bindingPostByUserId(userId, postIds);
         if (!CodeStatusEnum.SUCCESS.getCode().equals(result.getErrCode())) {
             throw new BusinessException(result.getData().toString());
         }
