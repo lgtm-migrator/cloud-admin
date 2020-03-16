@@ -82,6 +82,10 @@ public interface ServerNameConstants {
      */
     String USER_DEPT_SERVER = "cloud-admin-user-dept-server";
     /**
+     * 用户岗位
+     */
+    String USER_POST_SERVER="cloud-admin-user-post-server";
+    /**
      * 岗位
      */
     String POST_SERVER = "cloud-admin-post-server";

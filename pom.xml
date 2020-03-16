@@ -61,11 +61,11 @@
         <module>cloud-admin-commons-model</module>
         <module>cloud-admin-api</module>
         <module>cloud-admin-server-dept</module>
-        <module>cloud-admin-server-dept-user</module>
         <module>cloud-admin-server-post</module>
         <module>cloud-admin-server-post-dept</module>
         <module>cloud-admin-server-role-dept</module>
         <module>cloud-admin-server-user-dept</module>
+        <module>cloud-admin-server-user-post</module>
     </modules>
 
     <dependencyManagement>

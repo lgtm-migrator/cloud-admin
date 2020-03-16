@@ -56,11 +56,11 @@ spring alibaba cloud admin Template
 |cloud-admin-server-role-permission| |系统角色权限绑定|1090|
 |cloud-admin-server-permission-menu| |系统权限菜单绑定|1080|
 |cloud-admin-server-dept| |系统组织|1110|
-|cloud-admin-server-dept-user| |系统用户组织|1120|
 |cloud-admin-server-post| |系统岗位|1130|
-|cloud-admin-server-post-dept| |系统岗位组织|1140|
-|cloud-admin-server-role-dept| |系统角色组织|1150|
+|cloud-admin-server-post-dept| |岗位组织|1140|
+|cloud-admin-server-role-dept| |角色组织|1150|
 |cloud-admin-server-user-dept| |用户组织|1160|
+|cloud-admin-server-uer-post| |用户岗位|1170|
 
 # 前端
 前端采用前后分离Vue基于d2-admin框架之上进行开发

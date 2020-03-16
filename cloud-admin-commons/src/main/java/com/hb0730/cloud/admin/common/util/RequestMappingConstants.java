@@ -93,6 +93,11 @@ public interface RequestMappingConstants {
      * 用户组织
      */
     String USER_DEPT_SERVER_REQUEST = "/v1/server/system/userDept";
+
+    /**
+     * 用户岗位
+     */
+    String USER_POST_SERVER_REQUEST = "/v1/server/system/userPost";
     /**
      * 岗位
      */
