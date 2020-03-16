@@ -128,7 +128,7 @@ cloud:
 
 seata:
   enabled: true
-  application-id: cloud-admin-user-save-seata
+  application-id: cloud-admin-user-seata
   tx-service-group: cloud-admin-tx-steata-group # 事务群组（可以每个应用独立取名，也可以使用相同的名字）
   client:
     rm-report-success-enable: true
