@@ -1,17 +1,14 @@
 package com.hb0730.cloud.admin.server.user.dept.system.model.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.Version;
-import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.*;
 import com.hb0730.cloud.admin.commons.domain.BaseDomain;
-import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 用户组织 
+ * 用户组织
  * </p>
  *
  * @author bing_huang
@@ -23,37 +20,37 @@ import lombok.experimental.Accessors;
 @TableName("t_system_user_dept")
 public class SystemUserDeptEntity extends BaseDomain {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * 是否删除
      */
-    @TableField("is_delete")
+    @TableField(value = "is_delete", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     @TableLogic
     private Integer isDelete;
 
     /**
      * 是否启用
      */
-    @TableField("is_enabled")
+    @TableField(value = "is_enabled", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     private Integer isEnabled;
 
     /**
      * id
      */
-    @TableField("id")
+    @TableId(value = "id")
     private Long id;
 
     /**
      * 用户id
      */
-    @TableField("user_id")
+    @TableField(value = "user_id", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     private Long userId;
 
     /**
      * 组织id
      */
-    @TableField("dept_id")
+    @TableField(value = "dept_id", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     private Long deptId;
 
 

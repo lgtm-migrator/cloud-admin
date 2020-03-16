@@ -20,7 +20,7 @@ import lombok.experimental.Accessors;
 @TableName("t_system_post_dept")
 public class SystemPostDeptEntity extends BaseDomain {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * 是否删除
@@ -38,7 +38,7 @@ public class SystemPostDeptEntity extends BaseDomain {
     /**
      * id
      */
-    @TableField(value = "id", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
+    @TableId(value = "id")
     private Long id;
 
     /**
