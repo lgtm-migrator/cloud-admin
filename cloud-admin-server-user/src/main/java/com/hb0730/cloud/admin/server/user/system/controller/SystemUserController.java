@@ -12,6 +12,7 @@ import com.hb0730.cloud.admin.commons.model.security.UserDetail;
 import com.hb0730.cloud.admin.server.user.system.model.entity.SystemUserEntity;
 import com.hb0730.cloud.admin.server.user.system.model.vo.SettingPasswordParams;
 import com.hb0730.cloud.admin.server.user.system.model.vo.SystemUserVO;
+import com.hb0730.cloud.admin.server.user.system.model.vo.UserSaveVO;
 import com.hb0730.cloud.admin.server.user.system.service.ISystemUserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,7 @@ public class SystemUserController extends AbstractBaseController<SystemUserVO> {
 
     @PostMapping("/save")
     @Override
+    @Deprecated
     public ResultJson save(@RequestBody SystemUserVO target) {
         //参数校验
         if (Objects.isNull(target)) {
@@ -80,6 +82,18 @@ public class SystemUserController extends AbstractBaseController<SystemUserVO> {
         SystemUserEntity entity = BeanUtils.transformFrom(target, SystemUserEntity.class);
         systemUserService.save(entity);
         return ResponseResult.resultSuccess("新增成功");
+    }
+
+    /**
+     * 用户保存
+     *
+     * @param saveVO 用户信息
+     * @return 是否成功
+     */
+    @PostMapping("/save")
+    public ResultJson save(UserSaveVO saveVO) {
+        boolean save = systemUserService.save(saveVO,getCurrentUser());
+        return ResponseResult.resultSuccess("保存成功");
     }
 
     @GetMapping("/delete/{id}")

@@ -65,6 +65,7 @@
         <module>cloud-admin-server-post</module>
         <module>cloud-admin-server-post-dept</module>
         <module>cloud-admin-server-role-dept</module>
+        <module>cloud-admin-server-user-dept</module>
     </modules>
 
     <dependencyManagement>

@@ -1,12 +1,11 @@
-package com.hb0730.cloud.admin.server.user;
+package com.hb0730.cloud.admin.server.user.dept;
 
 import com.alicp.jetcache.anno.config.EnableCreateCacheAnnotation;
 import com.alicp.jetcache.anno.config.EnableMethodCache;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.event.SpringApplicationEvent;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.context.annotation.ComponentScan;
 
 /**
  * <p>
@@ -17,11 +16,10 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableMethodCache(basePackages = "com.hb0730.cloud.admin.server.user")
+@EnableMethodCache(basePackages = "com.hb0730.cloud.admin.server.user.dept")
 @EnableCreateCacheAnnotation
-@EnableFeignClients
-public class UserServerApplication {
+public class UserDeptServerApplication {
     public static void main(String[] args) {
-        SpringApplication.run(UserServerApplication.class, args);
+        SpringApplication.run(UserDeptServerApplication.class, args);
     }
 }
