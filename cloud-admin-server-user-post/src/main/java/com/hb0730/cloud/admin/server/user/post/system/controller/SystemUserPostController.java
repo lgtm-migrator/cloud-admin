@@ -62,6 +62,7 @@ public class SystemUserPostController extends AbstractBaseController<SystemUserP
     @GetMapping("/getPostId/{userId}")
     public ResultJson getPostByUserId(@PathVariable Long userId) {
         SystemUserPostEntity entity = new SystemUserPostEntity();
+        entity.setUserId(userId);
         entity.setIsEnabled(1);
         QueryWrapper<SystemUserPostEntity> queryWrapper = new QueryWrapper<>(entity);
         List<SystemUserPostEntity> list = systemUserPostService.list(queryWrapper);

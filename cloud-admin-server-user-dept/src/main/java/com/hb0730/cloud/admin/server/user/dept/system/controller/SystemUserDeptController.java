@@ -2,11 +2,15 @@ package com.hb0730.cloud.admin.server.user.dept.system.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.hb0730.cloud.admin.common.util.PageInfoUtil;
 import com.hb0730.cloud.admin.common.web.controller.AbstractBaseController;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
 import com.hb0730.cloud.admin.server.user.dept.system.model.entity.SystemUserDeptEntity;
 import com.hb0730.cloud.admin.server.user.dept.system.model.vo.SystemUserDeptVO;
+import com.hb0730.cloud.admin.server.user.dept.system.model.vo.UserDeptParamsVO;
 import com.hb0730.cloud.admin.server.user.dept.system.service.ISystemUserDeptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
@@ -55,6 +59,7 @@ public class SystemUserDeptController extends AbstractBaseController<SystemUserD
     public ResultJson getDeptByUserId(@PathVariable Long userId) {
         SystemUserDeptEntity entity = new SystemUserDeptEntity();
         entity.setIsEnabled(1);
+        entity.setUserId(userId);
         QueryWrapper<SystemUserDeptEntity> queryWrapper = new QueryWrapper<>(entity);
         List<SystemUserDeptEntity> list = systemUserDeptService.list(queryWrapper);
         if (CollectionUtils.isEmpty(list)) {
@@ -77,6 +82,28 @@ public class SystemUserDeptController extends AbstractBaseController<SystemUserD
     public ResultJson bindingDeptByUserId(@PathVariable Long userId, @RequestBody List<Long> deptIds) {
         systemUserDeptService.bindingDeptByUserId(userId, deptIds, getCurrentUser());
         return ResponseResult.resultSuccess("绑定成功");
+    }
+
+    /**
+     * <p>
+     * 获取人员组织信息
+     * </p>
+     *
+     * @param page     页数
+     * @param pageSize 数量
+     * @return 人员岗位
+     */
+    @PostMapping("/getPage/{page}/{pageSize}")
+    public ResultJson getUserDeptPage(@PathVariable Integer page, @PathVariable Integer pageSize, @RequestBody UserDeptParamsVO params) {
+        PageHelper.startPage(page, pageSize);
+        SystemUserDeptEntity entity = new SystemUserDeptEntity();
+        entity.setUserId(params.getUserId());
+        entity.setDeptId(params.getDeptId());
+        QueryWrapper<SystemUserDeptEntity> queryWrapper = new QueryWrapper<>(entity);
+        List<SystemUserDeptEntity> list = systemUserDeptService.list(queryWrapper);
+        PageInfo<SystemUserDeptEntity> info = new PageInfo<>(list);
+        PageInfo<SystemUserDeptVO> pageInfo = PageInfoUtil.toBean(info, SystemUserDeptVO.class);
+        return ResponseResult.resultSuccess(pageInfo);
     }
 }
 

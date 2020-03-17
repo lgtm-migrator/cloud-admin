@@ -2,6 +2,7 @@ package com.hb0730.cloud.admin.server.user.feign;
 
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.commons.feign.configuration.FeignConfiguration;
+import com.hb0730.cloud.admin.commons.user.dept.model.vo.UserDeptParamsVO;
 import com.hb0730.cloud.admin.server.user.feign.fallback.RemoteUserDeptFallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,4 +51,16 @@ public interface IRemoteUserDept extends com.hb0730.cloud.admin.api.user.dept.IR
     @Override
     @PostMapping("/bindingDeptId/{userId}")
     ResultJson bindingDeptByUserId(@PathVariable("userId") Long userId, @RequestBody List<Long> deptIds);
+
+    /**
+     * <p>
+     * 获取用户组织
+     * </p>
+     *
+     * @param page     页数
+     * @param pageSize 数量
+     * @return 用户组织
+     */
+    @GetMapping("/getPage/{page}/{pageSize}")
+    ResultJson getPage(@PathVariable("page") Integer page, @PathVariable("pageSize") Integer pageSize, @RequestBody UserDeptParamsVO params);
 }

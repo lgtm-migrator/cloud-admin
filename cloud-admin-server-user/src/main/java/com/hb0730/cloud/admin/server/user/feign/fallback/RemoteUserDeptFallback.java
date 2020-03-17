@@ -3,6 +3,7 @@ package com.hb0730.cloud.admin.server.user.feign.fallback;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
 import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
+import com.hb0730.cloud.admin.commons.user.dept.model.vo.UserDeptParamsVO;
 import com.hb0730.cloud.admin.server.user.feign.IRemoteUserDept;
 
 import java.util.List;
@@ -29,5 +30,10 @@ public class RemoteUserDeptFallback implements IRemoteUserDept {
     @Override
     public ResultJson bindingDeptByUserId(Long userId, List<Long> deptIds) {
         return ResponseResult.result(CodeStatusEnum.FALL_BACK, "绑定组织失败,fallback:" + throwable.getClass().getSimpleName() + ",message:" + throwable.getMessage());
+    }
+
+    @Override
+    public ResultJson getPage(Integer page, Integer pageSize, UserDeptParamsVO params) {
+        return ResponseResult.result(CodeStatusEnum.FALL_BACK, "获取用户组织失败,fallback Message:" + throwable.getMessage());
     }
 }

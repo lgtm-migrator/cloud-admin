@@ -20,6 +20,7 @@
         <module>cloud-admin-commons-model-menu</module>
         <module>cloud-admin-commons-model-permission</module>
         <module>cloud-admin-commons-model-dept</module>
+        <module>cloud-admin-commons-model-user-dept</module>
     </modules>
 
     <dependencies>

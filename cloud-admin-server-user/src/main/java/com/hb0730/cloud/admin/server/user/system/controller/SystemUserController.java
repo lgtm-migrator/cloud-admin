@@ -3,6 +3,7 @@ package com.hb0730.cloud.admin.server.user.system.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.github.pagehelper.PageInfo;
 import com.hb0730.cloud.admin.common.util.BeanUtils;
 import com.hb0730.cloud.admin.common.web.controller.AbstractBaseController;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
@@ -12,6 +13,7 @@ import com.hb0730.cloud.admin.commons.model.security.UserDetail;
 import com.hb0730.cloud.admin.server.user.system.model.entity.SystemUserEntity;
 import com.hb0730.cloud.admin.server.user.system.model.vo.SettingPasswordParams;
 import com.hb0730.cloud.admin.server.user.system.model.vo.SystemUserVO;
+import com.hb0730.cloud.admin.server.user.system.model.vo.UserParams;
 import com.hb0730.cloud.admin.server.user.system.model.vo.UserSaveVO;
 import com.hb0730.cloud.admin.server.user.system.service.ISystemUserService;
 import org.apache.commons.lang3.StringUtils;
@@ -201,6 +203,50 @@ public class SystemUserController extends AbstractBaseController<SystemUserVO> {
         SystemUserEntity userEntity = getUserEntity(login);
         SystemUserVO vo = BeanUtils.transformFrom(userEntity, SystemUserVO.class);
         return ResponseResult.resultSuccess(vo);
+    }
+
+    /**
+     * <p>
+     * 获取用户
+     * </P>
+     *
+     * @param page     分页页数
+     * @param pageSize 分数量
+     * @return 分页后用户
+     */
+    @PostMapping("/getUser/{page}/{pageSize}")
+    public ResultJson getUserPage(@PathVariable Integer page, @PathVariable Integer pageSize, @RequestBody UserParams params) {
+        PageInfo pageInfo = systemUserService.getUserPage(page, pageSize, params);
+        return ResponseResult.resultSuccess(pageInfo);
+    }
+
+    /**
+     * <p>
+     * 获取用户详情
+     * </p>
+     *
+     * @param userId 用户id
+     * @return 用户详情
+     */
+    @GetMapping("/userInfo/{userId}")
+    public ResultJson getUserInfo(@PathVariable Long userId) {
+        UserSaveVO userInfo = systemUserService.getUserInfo(userId);
+        return ResponseResult.resultSuccess(userInfo);
+    }
+
+    /**
+     * <p>
+     * 根据id更新用户信息
+     * </p>
+     *
+     * @param userId 用户id
+     * @param saveVO 用户信息
+     * @return 是否成功
+     */
+    @PostMapping("/updateUser/{userId}")
+    public ResultJson updateById(@PathVariable Long userId, @RequestBody UserSaveVO saveVO) {
+        systemUserService.updateById(userId, saveVO, getCurrentUser());
+        return ResponseResult.resultSuccess("更新成功");
     }
 
     /**

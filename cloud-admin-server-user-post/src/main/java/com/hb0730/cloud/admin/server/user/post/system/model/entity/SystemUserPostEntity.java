@@ -1,18 +1,14 @@
 package com.hb0730.cloud.admin.server.user.post.system.model.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.Version;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.*;
 import com.hb0730.cloud.admin.commons.domain.BaseDomain;
-import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 用户岗位 
+ * 用户岗位
  * </p>
  *
  * @author bing_huang
@@ -29,14 +25,14 @@ public class SystemUserPostEntity extends BaseDomain {
     /**
      * 是否删除
      */
-    @TableField("is_delete")
+    @TableField(value = "is_delete", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     @TableLogic
-    private Integer isDelete;
+    private Integer isDelete=0;
 
     /**
      * 是否启用
      */
-    @TableField("is_enabled")
+    @TableField(value = "is_enabled", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     private Integer isEnabled;
 
     /**
@@ -48,13 +44,13 @@ public class SystemUserPostEntity extends BaseDomain {
     /**
      * 用户id
      */
-    @TableField("user_id")
+    @TableField(value = "user_id", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     private Long userId;
 
     /**
      * 岗位id
      */
-    @TableField("post_id")
+    @TableField(value = "post_id", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     private Long postId;
 
 

@@ -1,11 +1,8 @@
 package com.hb0730.cloud.admin.api.user.dept;
 
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
-import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
-import org.springframework.util.CollectionUtils;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * <p>

@@ -159,6 +159,7 @@ public class SystemUserRoleController extends AbstractBaseController<SystemUserR
     public ResultJson getRoleByUserId(@PathVariable Long userId) {
         SystemUserRoleEntity entity = new SystemUserRoleEntity();
         entity.setIsEnabled(1);
+        entity.setUserId(userId);
         QueryWrapper<SystemUserRoleEntity> queryWrapper = new QueryWrapper<>(entity);
         List<SystemUserRoleEntity> list = systemUserRoleService.list(queryWrapper);
         if (CollectionUtils.isEmpty(list)) {
