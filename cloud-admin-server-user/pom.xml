@@ -102,6 +102,16 @@
             <artifactId>cloud-admin-commons-model-user-dept</artifactId>
             <version>${parent.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.hb0730</groupId>
+            <artifactId>cloud-admin-api-role-permission</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hb0730</groupId>
+            <artifactId>cloud-admin-api-permission</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>mysql</groupId>

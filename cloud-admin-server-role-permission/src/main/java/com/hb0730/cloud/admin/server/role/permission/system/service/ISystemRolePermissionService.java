@@ -3,6 +3,7 @@ package com.hb0730.cloud.admin.server.role.permission.system.service;
 import com.hb0730.cloud.admin.commons.model.security.UserDetail;
 import com.hb0730.cloud.admin.server.role.permission.system.model.entity.SystemRolePermissionEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -27,4 +28,14 @@ public interface ISystemRolePermissionService extends IService<SystemRolePermiss
      * @return 是否成功
      */
     boolean save(Long id, List<Long> permissionIds, UserDetail userDetail);
+
+    /**
+     * <p>
+     * 根据角色id获取权限集合
+     * </p>
+     *
+     * @param roleIds 角色id集合
+     * @return 权限集合
+     */
+    List<Long> getPermissionIdByRoleIds(List<Long> roleIds);
 }

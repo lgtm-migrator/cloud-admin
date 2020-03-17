@@ -2,13 +2,14 @@ package com.hb0730.cloud.admin.server.user.system.service;
 
 import com.github.pagehelper.PageInfo;
 import com.hb0730.cloud.admin.commons.model.security.UserDetail;
+import com.hb0730.cloud.admin.commons.permission.model.vo.SystemPermissionVO;
 import com.hb0730.cloud.admin.server.user.system.model.entity.SystemUserEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.hb0730.cloud.admin.server.user.system.model.vo.UserParams;
 import com.hb0730.cloud.admin.server.user.system.model.vo.UserSaveVO;
 import org.springframework.lang.NonNull;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.List;
 
 /**
  * <p>
@@ -69,4 +70,14 @@ public interface ISystemUserService extends IService<SystemUserEntity> {
      * @return 是否成功
      */
     boolean removeById(@NonNull Long id);
+
+    /**
+     * <p>
+     * 获取用户权限
+     * </p>
+     *
+     * @param id id
+     * @return 权限信息
+     */
+    List<SystemPermissionVO> getPermissionByUserId(@NonNull Long id);
 }

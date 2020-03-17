@@ -114,7 +114,7 @@ public class SystemRolePermissionController extends AbstractBaseController<Syste
         List<SystemRolePermissionEntity> permissionRoles = systemRolePermissionService.list(queryWrapper);
         List<String> permissionIds = Lists.newArrayList();
         if (!CollectionUtils.isEmpty(permissionRoles)) {
-            permissionIds = permissionRoles.stream().map(rolePermission->Long.toString(rolePermission.getPermissionId())).collect(Collectors.toList());
+            permissionIds = permissionRoles.stream().map(rolePermission -> Long.toString(rolePermission.getPermissionId())).collect(Collectors.toList());
         }
         return ResponseResult.resultSuccess(permissionIds);
     }
@@ -182,6 +182,23 @@ public class SystemRolePermissionController extends AbstractBaseController<Syste
         QueryWrapper<SystemRolePermissionEntity> queryWrapper = new QueryWrapper<>(entity);
         List<SystemRolePermissionEntity> results = systemRolePermissionService.list(queryWrapper);
         return ResponseResult.resultSuccess(results);
+    }
+
+    /**
+     * <p>
+     * 根据角色id集合获取权限集合
+     * </p>
+     *
+     * @param roleIds 角色id集合
+     * @return 权限集合
+     */
+    @PostMapping("/getPermission/roleId")
+    public ResultJson getPermissionIdByRoleIds(@RequestBody List<Long> roleIds) {
+        if (CollectionUtils.isEmpty(roleIds)) {
+            return ResponseResult.resultSuccess(Lists.newArrayList());
+        }
+        List<Long> result = systemRolePermissionService.getPermissionIdByRoleIds(roleIds);
+        return ResponseResult.resultSuccess(result);
     }
 }
 

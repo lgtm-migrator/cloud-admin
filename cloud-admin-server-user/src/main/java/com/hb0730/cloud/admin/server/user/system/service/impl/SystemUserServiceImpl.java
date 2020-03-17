@@ -9,12 +9,14 @@ import com.hb0730.cloud.admin.common.util.GsonUtils;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
 import com.hb0730.cloud.admin.commons.model.security.UserDetail;
+import com.hb0730.cloud.admin.commons.permission.model.vo.SystemPermissionVO;
 import com.hb0730.cloud.admin.commons.service.BaseServiceImpl;
 import com.hb0730.cloud.admin.commons.user.dept.model.vo.SystemUserDeptVO;
 import com.hb0730.cloud.admin.commons.user.dept.model.vo.UserDeptParamsVO;
 import com.hb0730.cloud.admin.server.user.feign.IRemoteUserDept;
 import com.hb0730.cloud.admin.server.user.feign.IRemoteUserPost;
 import com.hb0730.cloud.admin.server.user.feign.IRemoteUserRole;
+import com.hb0730.cloud.admin.server.user.handler.RolePermissionHandler;
 import com.hb0730.cloud.admin.server.user.system.mapper.SystemUserMapper;
 import com.hb0730.cloud.admin.server.user.system.model.entity.SystemUserEntity;
 import com.hb0730.cloud.admin.server.user.system.model.vo.SystemUserVO;
@@ -30,7 +32,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -54,6 +55,8 @@ public class SystemUserServiceImpl extends BaseServiceImpl<SystemUserMapper, Sys
     private IRemoteUserPost remoteUserPost;
     @Autowired
     private IRemoteUserRole remoteUserRole;
+    @Autowired
+    private RolePermissionHandler rolePermissionHandler;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -149,6 +152,18 @@ public class SystemUserServiceImpl extends BaseServiceImpl<SystemUserMapper, Sys
             throw new BusinessException(resultJson.getData().toString());
         }
         return b;
+    }
+
+    @Override
+    public List<SystemPermissionVO> getPermissionByUserId(@NonNull Long id) {
+        ResultJson resultJson = remoteUserRole.getRoleByUserId(id);
+        if (!CodeStatusEnum.SUCCESS.getCode().equals(resultJson.getErrCode())) {
+            throw new BusinessException(resultJson.getData().toString());
+        }
+        // 角色id
+        List<Long> roleIds = GsonUtils.json2List(GsonUtils.json2String(resultJson.getData()), Long.class);
+        //获取角色权限
+        return rolePermissionHandler.getPermission(roleIds);
     }
 
     /**

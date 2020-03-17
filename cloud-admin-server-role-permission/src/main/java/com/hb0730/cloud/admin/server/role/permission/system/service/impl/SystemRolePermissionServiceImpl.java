@@ -1,7 +1,9 @@
 package com.hb0730.cloud.admin.server.role.permission.system.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.hb0730.cloud.admin.commons.model.security.UserDetail;
 import com.hb0730.cloud.admin.server.role.permission.system.model.entity.SystemRolePermissionEntity;
 import com.hb0730.cloud.admin.server.role.permission.system.mapper.SystemRolePermissionMapper;
@@ -13,6 +15,8 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -48,5 +52,25 @@ public class SystemRolePermissionServiceImpl extends BaseServiceImpl<SystemRoleP
         });
         saveBatch(entitys);
         return false;
+    }
+
+    @Override
+    public List<Long> getPermissionIdByRoleIds(List<Long> roleIds) {
+        if (CollectionUtils.isEmpty(roleIds)) {
+            return Lists.newArrayList();
+        }
+        List<Long> resultPermissionIds = Lists.newArrayList();
+        roleIds.parallelStream().forEach(roleId -> {
+            SystemRolePermissionEntity entity = new SystemRolePermissionEntity();
+            entity.setRoleId(roleId);
+            entity.setIsEnabled(1);
+            QueryWrapper<SystemRolePermissionEntity> queryWrapper = new QueryWrapper<>(entity);
+            List<SystemRolePermissionEntity> result = list(queryWrapper);
+            if (!CollectionUtils.isEmpty(result)) {
+                Set<Long> permissionIds = result.parallelStream().map(SystemRolePermissionEntity::getPermissionId).collect(Collectors.toSet());
+                resultPermissionIds.addAll(permissionIds);
+            }
+        });
+        return resultPermissionIds;
     }
 }
