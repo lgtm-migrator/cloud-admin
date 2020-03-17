@@ -23,11 +23,11 @@ public class RemoteUserRoleFallback implements IRemoteUserRole {
 
     @Override
     public ResultJson getRoleByUserId(Long userId) {
-        return ResponseResult.result(CodeStatusEnum.FALL_BACK, "获取用户角色失败,fallback:" + throwable.getClass().getSimpleName());
+        return ResponseResult.result(CodeStatusEnum.FALL_BACK, "获取用户角色失败,fallback:" + throwable.getClass().getSimpleName() + ",message" + throwable.getMessage());
     }
 
     @Override
     public ResultJson bindingRoleByUserId(Long userId, List<Long> postIds) {
-        return ResponseResult.result(CodeStatusEnum.FALL_BACK, "绑定用户角色失败,fallback:" + throwable.getClass().getSimpleName());
+        return ResponseResult.result(CodeStatusEnum.FALL_BACK, "绑定用户角色失败,fallback:" + throwable.getClass().getSimpleName() + ",message" + throwable.getMessage());
     }
 }

@@ -21,7 +21,7 @@ import static com.hb0730.cloud.admin.common.util.ServerNameConstants.USER_ROLE_S
  * @author bing_huang
  * @since V1.0
  */
-@FeignClient(name = USER_ROLE_SERVER, url = USER_ROLE_SERVER_REQUEST, configuration = FeignConfiguration.class, fallbackFactory = RemoteUserRoleFallbackFactory.class)
+@FeignClient(value = USER_ROLE_SERVER, path = USER_ROLE_SERVER_REQUEST, configuration = FeignConfiguration.class, fallbackFactory = RemoteUserRoleFallbackFactory.class)
 public interface IRemoteUserRole extends com.hb0730.clou.admin.api.user.role.IRemoteUserRole {
 
     /**

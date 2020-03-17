@@ -33,31 +33,18 @@ public class SystemUserPostServiceImpl extends BaseServiceImpl<SystemUserPostMap
         SystemUserPostEntity entity = new SystemUserPostEntity();
         entity.setUserId(userId);
         QueryWrapper<SystemUserPostEntity> queryWrapper = new QueryWrapper<>(entity);
-        List<SystemUserPostEntity> list = list(queryWrapper);
-        List<SystemUserPostEntity> entities = Lists.newArrayList();
-        if (CollectionUtils.isEmpty(list)) {
-            entities = getEntity(userId, postIds, userDetail);
-            return saveBatch(entities);
-        }
-        List<Long> resultDeptIds = list.parallelStream().map(SystemUserPostEntity::getPostId).collect(Collectors.toList());
-        postIds.removeAll(resultDeptIds);
-        if (!CollectionUtils.isEmpty(postIds)) {
-            entities = getEntity(userId, postIds, userDetail);
-            return saveBatch(entities);
-        }
-        return true;
-    }
-
-    private List<SystemUserPostEntity> getEntity(@NonNull Long userId, @NonNull List<Long> postIds, @NonNull UserDetail userDetail) {
+        remove(queryWrapper);
         List<SystemUserPostEntity> entities = Lists.newArrayList();
         postIds.parallelStream().forEach(postId -> {
             SystemUserPostEntity e1 = new SystemUserPostEntity();
-            e1.setUserId(userId);
             e1.setPostId(postId);
+            e1.setUserId(userId);
+            e1.setIsEnabled(1);
+            e1.setVersion(1);
             e1.setCreateTime(new Date());
             e1.setCreateUserId(userDetail.getUserId());
             entities.add(e1);
         });
-        return entities;
+        return saveBatch(entities);
     }
 }

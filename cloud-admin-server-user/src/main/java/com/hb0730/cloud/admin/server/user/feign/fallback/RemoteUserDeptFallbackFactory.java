@@ -15,6 +15,6 @@ import org.springframework.stereotype.Component;
 public class RemoteUserDeptFallbackFactory implements FallbackFactory<IRemoteUserDept> {
     @Override
     public IRemoteUserDept create(Throwable throwable) {
-        return null;
+        return new RemoteUserDeptFallback(throwable);
     }
 }

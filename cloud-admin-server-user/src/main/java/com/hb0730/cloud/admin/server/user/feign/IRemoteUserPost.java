@@ -21,7 +21,7 @@ import static com.hb0730.cloud.admin.common.util.ServerNameConstants.USER_POST_S
  * @author bing_huang
  * @since V1.0
  */
-@FeignClient(name = USER_POST_SERVER, url = USER_POST_SERVER_REQUEST, configuration = FeignConfiguration.class, fallbackFactory = RemoteUserPostFallbackFactory.class)
+@FeignClient(value = USER_POST_SERVER, path = USER_POST_SERVER_REQUEST, configuration = FeignConfiguration.class, fallbackFactory = RemoteUserPostFallbackFactory.class)
 public interface IRemoteUserPost extends com.hb0730.cloud.admin.api.user.post.IRemoteUserPost {
     /**
      * <p>

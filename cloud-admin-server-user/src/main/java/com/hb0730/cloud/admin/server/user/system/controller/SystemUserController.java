@@ -92,7 +92,7 @@ public class SystemUserController extends AbstractBaseController<SystemUserVO> {
      */
     @PostMapping("/save")
     public ResultJson save(@RequestBody UserSaveVO saveVO) {
-        boolean save = systemUserService.save(saveVO, getCurrentUser());
+        systemUserService.save(saveVO, getCurrentUser());
         return ResponseResult.resultSuccess("保存成功");
     }
 

@@ -141,6 +141,9 @@ public class SystemUserServiceImpl extends BaseServiceImpl<SystemUserMapper, Sys
      * @return 用户
      */
     private SystemUserEntity getUserEntity(String login) {
+        if (StringUtils.isBlank(login)) {
+            return null;
+        }
         SystemUserEntity entity = new SystemUserEntity();
         QueryWrapper<SystemUserEntity> queryWrapper = new QueryWrapper<>(entity.setUsername(login));
         SystemUserEntity userEntity = getOne(queryWrapper);

@@ -23,11 +23,11 @@ public class RemoteUserDeptFallback implements IRemoteUserDept {
 
     @Override
     public ResultJson getDeptByUserId(Long userId) {
-        return ResponseResult.result(CodeStatusEnum.FALL_BACK, "获取组织失败,fallback:" + throwable.getClass().getSimpleName());
+        return ResponseResult.result(CodeStatusEnum.FALL_BACK, "获取组织失败,fallback:" + throwable.getClass().getSimpleName() + ",message:" + throwable.getMessage());
     }
 
     @Override
     public ResultJson bindingDeptByUserId(Long userId, List<Long> deptIds) {
-        return ResponseResult.result(CodeStatusEnum.FALL_BACK, "绑定组织失败,fallback:" + throwable.getClass().getSimpleName());
+        return ResponseResult.result(CodeStatusEnum.FALL_BACK, "绑定组织失败,fallback:" + throwable.getClass().getSimpleName() + ",message:" + throwable.getMessage());
     }
 }

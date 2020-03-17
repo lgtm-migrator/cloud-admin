@@ -23,11 +23,11 @@ public class RemoteUserPostFallback implements IRemoteUserPost {
 
     @Override
     public ResultJson getPostByUserId(Long userId) {
-        return ResponseResult.result(CodeStatusEnum.FALL_BACK, "获取岗位失败,fallback:" + throwable.getClass().getSimpleName());
+        return ResponseResult.result(CodeStatusEnum.FALL_BACK, "获取岗位失败,fallback:" + throwable.getClass().getSimpleName() + ",message:" + throwable.getMessage());
     }
 
     @Override
     public ResultJson bindingPostByUserId(Long userId, List<Long> postIds) {
-        return ResponseResult.result(CodeStatusEnum.FALL_BACK, "绑定岗位失败,fallback:" + throwable.getClass().getSimpleName());
+        return ResponseResult.result(CodeStatusEnum.FALL_BACK, "绑定岗位失败,fallback:" + throwable.getClass().getSimpleName() + ",message:" + throwable.getMessage());
     }
 }
