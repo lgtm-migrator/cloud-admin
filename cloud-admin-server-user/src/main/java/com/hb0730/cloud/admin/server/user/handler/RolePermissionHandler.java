@@ -37,6 +37,23 @@ public class RolePermissionHandler {
      * @param roleIds 角色集合
      */
     public List<SystemPermissionVO> getPermission(List<Long> roleIds) {
+        List<Long> permissionIds = getPermissionIds(roleIds);
+        ResultJson resultPermission = remotePermission.getPermissionByIds(permissionIds);
+        if (!CodeStatusEnum.SUCCESS.getCode().equals(resultPermission.getErrCode())) {
+            throw new BusinessException(resultPermission.getData().toString());
+        }
+        return GsonUtils.json2List(GsonUtils.json2String(resultPermission.getData()), SystemPermissionVO.class);
+    }
+
+    /**
+     * <p>
+     * 根据角色获取权限id
+     * </p>
+     *
+     * @param roleIds 角色id
+     * @return 权限id
+     */
+    public List<Long> getPermissionIds(List<Long> roleIds) {
         if (CollectionUtils.isEmpty(roleIds)) {
             return Lists.newArrayList();
         }
@@ -44,11 +61,6 @@ public class RolePermissionHandler {
         if (!CodeStatusEnum.SUCCESS.getCode().equals(resultPermissionIds.getErrCode())) {
             throw new BusinessException(resultPermissionIds.getData().toString());
         }
-        List<Long> permissionIds = GsonUtils.json2List(GsonUtils.json2String(resultPermissionIds.getData()), Long.class);
-        ResultJson resultPermission = remotePermission.getPermissionByIds(permissionIds);
-        if (!CodeStatusEnum.SUCCESS.getCode().equals(resultPermissionIds.getErrCode())) {
-            throw new BusinessException(resultPermissionIds.getData().toString());
-        }
-        return GsonUtils.json2List(GsonUtils.json2String(resultPermission.getData()), SystemPermissionVO.class);
+        return GsonUtils.json2List(GsonUtils.json2String(resultPermissionIds.getData()), Long.class);
     }
 }

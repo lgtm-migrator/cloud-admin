@@ -115,6 +115,22 @@ public class SystemMenuServiceImpl extends BaseServiceImpl<SystemMenuMapper, Sys
     }
 
     /**
+     * 获取树形菜单
+     *
+     * @param menuIds 菜单id
+     * @return 树形菜单
+     */
+    @Override
+    public List<MenuVO> getTree(List<Long> menuIds) {
+        if (CollectionUtils.isEmpty(menuIds)) {
+            return Lists.newArrayList();
+        }
+        Set<Long> menuIdsSet = com.google.common.collect.Sets.newHashSet(menuIds);
+
+        return null;
+    }
+
+    /**
      * 获取子集id
      *
      * @param vo  树形菜单

@@ -14,6 +14,7 @@ import com.hb0730.cloud.admin.server.menu.system.model.vo.MenuVO;
 import com.hb0730.cloud.admin.server.menu.system.model.vo.SystemMenuVO;
 import com.hb0730.cloud.admin.server.menu.system.service.ISystemMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -169,6 +170,12 @@ public class SystemMenuController extends AbstractBaseController<SystemMenuVO> {
         BeanUtils.updateProperties(vo, entity);
         systemMenuService.updateById(entity);
         return ResponseResult.resultSuccess("修改成功");
+    }
+
+    @PostMapping("/tree")
+    public ResultJson getTree(@RequestBody List<Long> menuIds) {
+
+        return ResponseResult.resultSuccess(null);
     }
 
     /**

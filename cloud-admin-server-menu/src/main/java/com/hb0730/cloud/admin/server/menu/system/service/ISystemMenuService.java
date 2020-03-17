@@ -3,6 +3,7 @@ package com.hb0730.cloud.admin.server.menu.system.service;
 import com.hb0730.cloud.admin.server.menu.system.model.entity.SystemMenuEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.hb0730.cloud.admin.server.menu.system.model.vo.MenuVO;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Set;
@@ -45,4 +46,14 @@ public interface ISystemMenuService extends IService<SystemMenuEntity> {
      * @return id集
      */
     Set<Long> getChildrenId(Long id);
+
+    /**
+     * <p>
+     * 获取树形菜单
+     * </p>
+     *
+     * @param menuIds 菜单id
+     * @return 树形菜单
+     */
+    List<MenuVO> getTree(List<Long> menuIds);
 }

@@ -2,6 +2,8 @@ package com.hb0730.cloud.admin.server.permission.menu.system.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.hb0730.cloud.admin.common.exception.Oauth2Exception;
 import com.hb0730.cloud.admin.common.util.BeanUtils;
 import com.hb0730.cloud.admin.common.web.controller.AbstractBaseController;
@@ -19,6 +21,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static com.hb0730.cloud.admin.common.util.RequestMappingConstants.PERMISSION_MENU_SERVER_REQUEST;
 
@@ -147,6 +151,34 @@ public class SystemPermissionMenuController extends AbstractBaseController<Syste
     public ResultJson getAllPermissionMenu() {
         List<PermissionMenuListVO> result = systemPermissionMenuService.getAllPermissionMenu();
         return ResponseResult.resultSuccess(result);
+    }
+
+    /**
+     * <p>
+     * 根据权限id获取菜单id
+     * </p>
+     *
+     * @param permissionIds 权限id
+     * @return 树形菜单
+     */
+    @PostMapping("/menus")
+    public ResultJson getMenuByPermission(List<Long> permissionIds) {
+        if (!CollectionUtils.isEmpty(permissionIds)) {
+            return ResponseResult.resultSuccess(Lists.newArrayList());
+        }
+        Set<Long> menuIds = Sets.newConcurrentHashSet();
+        permissionIds.parallelStream().forEach(permissionId -> {
+            SystemPermissionMenuEntity entity = new SystemPermissionMenuEntity();
+            entity.setPermissionId(permissionId);
+            entity.setIsEnabled(1);
+            QueryWrapper<SystemPermissionMenuEntity> queryWrapper = new QueryWrapper<>(entity);
+            List<SystemPermissionMenuEntity> result = systemPermissionMenuService.list(queryWrapper);
+            if (!CollectionUtils.isEmpty(result)) {
+                Set<Long> resultMenuIds = result.parallelStream().map(SystemPermissionMenuEntity::getMenuId).collect(Collectors.toSet());
+                menuIds.addAll(resultMenuIds);
+            }
+        });
+        return ResponseResult.resultSuccess(Lists.newArrayList(menuIds));
     }
 }
 
