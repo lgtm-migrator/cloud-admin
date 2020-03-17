@@ -6,6 +6,7 @@ import com.hb0730.cloud.admin.server.user.system.model.entity.SystemUserEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.hb0730.cloud.admin.server.user.system.model.vo.UserParams;
 import com.hb0730.cloud.admin.server.user.system.model.vo.UserSaveVO;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -25,7 +26,7 @@ public interface ISystemUserService extends IService<SystemUserEntity> {
      * @param currentUser 当前用户信息
      * @return 是否成功
      */
-    boolean save(UserSaveVO saveVO, UserDetail currentUser);
+    boolean save(@NonNull UserSaveVO saveVO, @NonNull UserDetail currentUser);
 
     /**
      * 获取用户信息
@@ -35,7 +36,7 @@ public interface ISystemUserService extends IService<SystemUserEntity> {
      * @param params   参数
      * @return 分页后的用户
      */
-    PageInfo getUserPage(Integer page, Integer pageSize, UserParams params);
+    PageInfo getUserPage(@NonNull Integer page, @NonNull Integer pageSize, UserParams params);
 
     /**
      * <p>
@@ -45,7 +46,7 @@ public interface ISystemUserService extends IService<SystemUserEntity> {
      * @param userInfo 用户id
      * @return 用户信息(包含用户组织, 用户角色以及用户岗位)
      */
-    UserSaveVO getUserInfo(Long userInfo);
+    UserSaveVO getUserInfo(@NonNull Long userInfo);
 
     /**
      * <p>
@@ -57,5 +58,15 @@ public interface ISystemUserService extends IService<SystemUserEntity> {
      * @param userDetail 当前用户
      * @return 是否成功
      */
-    boolean updateById(Long userId, UserSaveVO saveVO, UserDetail userDetail);
+    boolean updateById(@NonNull Long userId, UserSaveVO saveVO, @NonNull UserDetail userDetail);
+
+    /**
+     * <p>
+     * 根据id删除
+     * </p>
+     *
+     * @param id id
+     * @return 是否成功
+     */
+    boolean removeById(@NonNull Long id);
 }

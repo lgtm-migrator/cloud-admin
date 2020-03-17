@@ -185,6 +185,21 @@ public class SystemUserRoleController extends AbstractBaseController<SystemUserR
     }
 
     /**
+     * 根据用户删除
+     *
+     * @param userId 用户id
+     * @return 是否成功
+     */
+    @GetMapping("/delete/user/{id}")
+    public ResultJson removeByUserId(@PathVariable("id") Long userId) {
+        SystemUserRoleEntity entity = new SystemUserRoleEntity();
+        entity.setUserId(userId);
+        QueryWrapper<SystemUserRoleEntity> queryWrapper = new QueryWrapper<>(entity);
+        systemUserRoleService.remove(queryWrapper);
+        return ResponseResult.resultSuccess("删除成功");
+    }
+
+    /**
      * <p>
      * 查询相同用户是否绑定相同角色
      * </P>

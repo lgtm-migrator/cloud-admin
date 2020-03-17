@@ -1,6 +1,7 @@
 package com.hb0730.cloud.admin.server.user.feign;
 
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
+import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
 import com.hb0730.cloud.admin.commons.feign.configuration.FeignConfiguration;
 import com.hb0730.cloud.admin.commons.user.dept.model.vo.UserDeptParamsVO;
 import com.hb0730.cloud.admin.server.user.feign.fallback.RemoteUserDeptFallbackFactory;
@@ -63,4 +64,16 @@ public interface IRemoteUserDept extends com.hb0730.cloud.admin.api.user.dept.IR
      */
     @GetMapping("/getPage/{page}/{pageSize}")
     ResultJson getPage(@PathVariable("page") Integer page, @PathVariable("pageSize") Integer pageSize, @RequestBody UserDeptParamsVO params);
+
+    /**
+     * <p>
+     * 根据用户id删除
+     * </p>
+     *
+     * @param userId 用户id
+     * @return 是否成功
+     */
+    @Override
+    @GetMapping("/delete/user/{id}")
+    ResultJson removeByUserId(@PathVariable("id") Long userId);
 }

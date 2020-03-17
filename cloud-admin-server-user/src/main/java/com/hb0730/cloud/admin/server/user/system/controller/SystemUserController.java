@@ -4,6 +4,7 @@ package com.hb0730.cloud.admin.server.user.system.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.primitives.Longs;
 import com.hb0730.cloud.admin.common.util.BeanUtils;
 import com.hb0730.cloud.admin.common.web.controller.AbstractBaseController;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
@@ -104,13 +105,8 @@ public class SystemUserController extends AbstractBaseController<SystemUserVO> {
         if (Objects.isNull(id)) {
             return ResponseResult.resultFall("参数id为空");
         }
-        //删除清空缓存
 
-        SystemUserEntity entity = new SystemUserEntity();
-        entity.setId(Long.valueOf(id.toString()));
-        entity.setIsEnabled(0);
-        UpdateWrapper<SystemUserEntity> updateWrapper = new UpdateWrapper<>(entity);
-        systemUserService.remove(updateWrapper);
+        systemUserService.removeById(new Long(id.toString()));
         return ResponseResult.resultSuccess("修改成功");
     }
 

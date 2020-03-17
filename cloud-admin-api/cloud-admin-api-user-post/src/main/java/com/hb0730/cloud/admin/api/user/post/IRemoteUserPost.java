@@ -31,4 +31,12 @@ public interface IRemoteUserPost {
      * @return 是否成功
      */
     ResultJson bindingPostByUserId(Long userId, List<Long> postIds);
+
+    /**
+     * 根据用户删除
+     *
+     * @param userId 用户id
+     * @return 是否成功
+     */
+    ResultJson removeByUserId(Long userId);
 }

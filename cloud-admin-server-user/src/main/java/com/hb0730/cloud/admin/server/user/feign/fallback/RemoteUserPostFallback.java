@@ -30,4 +30,9 @@ public class RemoteUserPostFallback implements IRemoteUserPost {
     public ResultJson bindingPostByUserId(Long userId, List<Long> postIds) {
         return ResponseResult.result(CodeStatusEnum.FALL_BACK, "绑定岗位失败,fallback:" + throwable.getClass().getSimpleName() + ",message:" + throwable.getMessage());
     }
+
+    @Override
+    public ResultJson removeByUserId(Long userId) {
+        return ResponseResult.result(CodeStatusEnum.FALL_BACK, "根据用户删除岗位失败, fallback:" + throwable.getMessage());
+    }
 }

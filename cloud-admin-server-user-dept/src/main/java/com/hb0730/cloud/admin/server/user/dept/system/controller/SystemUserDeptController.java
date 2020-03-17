@@ -105,5 +105,20 @@ public class SystemUserDeptController extends AbstractBaseController<SystemUserD
         PageInfo<SystemUserDeptVO> pageInfo = PageInfoUtil.toBean(info, SystemUserDeptVO.class);
         return ResponseResult.resultSuccess(pageInfo);
     }
+
+    /**
+     * 根据用户删除
+     *
+     * @param userId 用户id
+     * @return 是否成功
+     */
+    @GetMapping("/delete/user/{id}")
+    public ResultJson removeByUserId(@PathVariable("id") Long userId) {
+        SystemUserDeptEntity entity = new SystemUserDeptEntity();
+        entity.setUserId(userId);
+        QueryWrapper<SystemUserDeptEntity> queryWrapper = new QueryWrapper<>(entity);
+        systemUserDeptService.remove(queryWrapper);
+        return ResponseResult.resultSuccess("删除成功");
+    }
 }
 

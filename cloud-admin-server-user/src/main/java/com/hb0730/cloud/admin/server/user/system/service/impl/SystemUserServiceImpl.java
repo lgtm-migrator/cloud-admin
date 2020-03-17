@@ -30,6 +30,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -57,7 +58,7 @@ public class SystemUserServiceImpl extends BaseServiceImpl<SystemUserMapper, Sys
     @Override
     @Transactional(rollbackFor = Exception.class)
     @GlobalTransactional(name = "cloud-admin-user-save-seata")
-    public boolean save(UserSaveVO saveVO, UserDetail userDetail) {
+    public boolean save(@NonNull UserSaveVO saveVO, @NonNull UserDetail userDetail) {
         verify(saveVO, false);
         //用户加密
         String password = passwordEncode(saveVO.getPassword());
@@ -72,7 +73,7 @@ public class SystemUserServiceImpl extends BaseServiceImpl<SystemUserMapper, Sys
     }
 
     @Override
-    public PageInfo getUserPage(Integer page, Integer pageSize, UserParams params) {
+    public PageInfo getUserPage(@NonNull Integer page, @NonNull Integer pageSize, UserParams params) {
         UserDeptParamsVO userDeptParams = new UserDeptParamsVO();
         userDeptParams.setDeptId(params.getDeptId());
         ResultJson result = remoteUserDept.getPage(page, pageSize, userDeptParams);
@@ -94,7 +95,7 @@ public class SystemUserServiceImpl extends BaseServiceImpl<SystemUserMapper, Sys
     }
 
     @Override
-    public UserSaveVO getUserInfo(Long userId) {
+    public UserSaveVO getUserInfo(@NonNull Long userId) {
         ResultJson resultDeptUser = remoteUserDept.getDeptByUserId(userId);
         ResultJson resultUserPosts = remoteUserPost.getPostByUserId(userId);
         ResultJson resultUserRole = remoteUserRole.getRoleByUserId(userId);
@@ -119,7 +120,7 @@ public class SystemUserServiceImpl extends BaseServiceImpl<SystemUserMapper, Sys
     @Override
     @Transactional(rollbackFor = Exception.class)
     @GlobalTransactional(name = "cloud-admin-user-save-seata")
-    public boolean updateById(Long userId, UserSaveVO saveVO, UserDetail userDetail) {
+    public boolean updateById(@NonNull Long userId, UserSaveVO saveVO, @NonNull UserDetail userDetail) {
         verify(saveVO, true);
         SystemUserEntity entity = getById(userId);
         saveVO.setPassword(null);
@@ -128,6 +129,26 @@ public class SystemUserServiceImpl extends BaseServiceImpl<SystemUserMapper, Sys
         BeanUtils.updateProperties(saveVO, entity);
         remote(userId, saveVO);
         return updateById(entity);
+    }
+
+    @GlobalTransactional(name = "cloud-admin-user-save-seata")
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean removeById(@NonNull Long id) {
+        boolean b = super.removeById(id);
+        ResultJson resultJson = remoteUserDept.removeByUserId(id);
+        if (!CodeStatusEnum.SUCCESS.getCode().equals(resultJson.getErrCode())) {
+            throw new BusinessException(resultJson.getData().toString());
+        }
+        resultJson = remoteUserPost.removeByUserId(id);
+        if (!CodeStatusEnum.SUCCESS.getCode().equals(resultJson.getErrCode())) {
+            throw new BusinessException(resultJson.getData().toString());
+        }
+        resultJson = remoteUserRole.removeByUserId(id);
+        if (!CodeStatusEnum.SUCCESS.getCode().equals(resultJson.getErrCode())) {
+            throw new BusinessException(resultJson.getData().toString());
+        }
+        return b;
     }
 
     /**

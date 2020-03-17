@@ -33,6 +33,11 @@ public class RemoteUserDeptFallback implements IRemoteUserDept {
     }
 
     @Override
+    public ResultJson removeByUserId(Long userId) {
+        return ResponseResult.result(CodeStatusEnum.FALL_BACK, "删除组织失败,fallback message" + throwable.getMessage());
+    }
+
+    @Override
     public ResultJson getPage(Integer page, Integer pageSize, UserDeptParamsVO params) {
         return ResponseResult.result(CodeStatusEnum.FALL_BACK, "获取用户组织失败,fallback Message:" + throwable.getMessage());
     }

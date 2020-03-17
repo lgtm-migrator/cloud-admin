@@ -46,5 +46,15 @@ public interface IRemoteUserPost extends com.hb0730.cloud.admin.api.user.post.IR
      */
     @Override
     @PostMapping("/bindingPostId/{userId}")
-    public ResultJson bindingPostByUserId(@PathVariable("userId") Long userId, @RequestBody List<Long> postIds);
+    ResultJson bindingPostByUserId(@PathVariable("userId") Long userId, @RequestBody List<Long> postIds);
+
+    /**
+     * 根据用户删除
+     *
+     * @param userId 用户id
+     * @return 是否成功
+     */
+    @Override
+    @GetMapping("/delete/user/{id}")
+    ResultJson removeByUserId(@PathVariable("id") Long userId);
 }

@@ -48,4 +48,14 @@ public interface IRemoteUserRole extends com.hb0730.clou.admin.api.user.role.IRe
     @Override
     @PostMapping("/bindingRoleId/{userId}")
     ResultJson bindingRoleByUserId(@PathVariable("userId") Long userId, @RequestBody List<Long> postIds);
+
+    /**
+     * 根据用户删除
+     *
+     * @param userId 用户id
+     * @return 是否成功
+     */
+    @Override
+    @GetMapping("/delete/user/{id}")
+    ResultJson removeByUserId(@PathVariable("id") Long userId);
 }

@@ -87,5 +87,20 @@ public class SystemUserPostController extends AbstractBaseController<SystemUserP
         systemUserPostService.bindingPostByUserId(userId, postIds, getCurrentUser());
         return ResponseResult.resultSuccess("绑定成功");
     }
+
+    /**
+     * 根据用户删除
+     *
+     * @param userId 用户id
+     * @return 是否成功
+     */
+    @GetMapping("/delete/user/{id}")
+    public ResultJson removeByUserId(@PathVariable("id") Long userId) {
+        SystemUserPostEntity entity = new SystemUserPostEntity();
+        entity.setUserId(userId);
+        QueryWrapper<SystemUserPostEntity> queryWrapper = new QueryWrapper<>(entity);
+        systemUserPostService.remove(queryWrapper);
+        return ResponseResult.resultSuccess("删除成功");
+    }
 }
 

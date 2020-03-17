@@ -31,4 +31,14 @@ public interface IRemoteUserDept {
      * @return 是否成功
      */
     ResultJson bindingDeptByUserId(Long userId, List<Long> deptIds);
+
+    /**
+     * <p>
+     *根据用户id删除
+     * </p>
+     *
+     * @param userId 用户id
+     * @return 是否成功
+     */
+    ResultJson removeByUserId(Long userId);
 }
