@@ -14,6 +14,7 @@ import com.hb0730.cloud.admin.server.dept.system.model.vo.SystemDeptVO;
 import com.hb0730.cloud.admin.server.dept.system.service.ISystemDeptService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -82,6 +83,7 @@ public class SystemDeptController extends AbstractBaseController<SystemDeptVO> {
      * @return 是否成功
      */
     @PostMapping("/save")
+    @PreAuthorize("hasAnyAuthority('dept:save')")
     public ResultJson save(@RequestBody DeptInfoVO vo) {
         UserDetail currentUser = getCurrentUser();
         if (Objects.isNull(currentUser)) {
@@ -101,6 +103,7 @@ public class SystemDeptController extends AbstractBaseController<SystemDeptVO> {
         vo.setCreateTime(new Date());
         vo.setCreateUserId(currentUser.getId());
         vo.setVersion(1);
+        vo.setIsEnabled(1);
         SystemDeptEntity entity = BeanUtils.transformFrom(vo, SystemDeptEntity.class);
         systemDeptService.save(entity);
         return ResponseResult.resultSuccess("新增成功");
@@ -114,6 +117,7 @@ public class SystemDeptController extends AbstractBaseController<SystemDeptVO> {
      * @return 是否成功
      */
     @PostMapping("/update/{id}")
+    @PreAuthorize("hasAnyAuthority('dept:update')")
     public ResultJson update(@RequestBody SystemDeptVO vo, @PathVariable("id") Long id) {
         Long parentId = vo.getParentId();
         if (Objects.isNull(parentId)) {

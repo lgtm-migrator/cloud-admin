@@ -27,7 +27,7 @@ public class SystemDeptEntity extends BaseDomain {
      */
     @TableField(value = "is_delete", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
     @TableLogic
-    private Integer isDelete;
+    private Integer isDelete=0;
 
     /**
      * 是否启用
