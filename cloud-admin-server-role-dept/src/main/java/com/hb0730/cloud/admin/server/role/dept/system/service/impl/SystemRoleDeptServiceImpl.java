@@ -42,21 +42,26 @@ public class SystemRoleDeptServiceImpl extends BaseServiceImpl<SystemRoleDeptMap
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean bindingDeptIds(@NonNull Long roleId, @NonNull List<Long> deptIds, @NonNull UserDetail userDetail) {
+        //移除之前的
         SystemRoleDeptEntity entity = new SystemRoleDeptEntity();
         entity.setRoleId(roleId);
         QueryWrapper<SystemRoleDeptEntity> queryWrapper = new QueryWrapper<>(entity);
-        List<SystemRoleDeptEntity> entityList = list(queryWrapper);
-        List<SystemRoleDeptEntity> list = Lists.newArrayList();
-        if (CollectionUtils.isEmpty(entityList)) {
-            deptIds.parallelStream().forEach(deptId -> getEntityList(deptId, roleId, list, userDetail));
-            return saveBatch(list);
-        }
-        List<Long> entityDeptIds = entityList.parallelStream().map(SystemRoleDeptEntity::getDeptId).collect(Collectors.toList());
-        deptIds.removeAll(entityDeptIds);
+        remove(queryWrapper);
         if (CollectionUtils.isEmpty(deptIds)) {
-            return true;
+            return false;
         }
-        deptIds.parallelStream().forEach(deptId -> getEntityList(deptId, roleId, list, userDetail));
+        //批量保存
+        List<SystemRoleDeptEntity> list = Lists.newArrayList();
+        deptIds.forEach(dept -> {
+            SystemRoleDeptEntity e1 = new SystemRoleDeptEntity();
+            e1.setRoleId(roleId);
+            e1.setDeptId(dept);
+            e1.setIsEnabled(1);
+            e1.setVersion(1);
+            e1.setCreateUserId(userDetail.getId());
+            e1.setCreateTime(new Date());
+            list.add(e1);
+        });
         return saveBatch(list);
     }
 

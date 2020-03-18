@@ -7,6 +7,7 @@ import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
 import com.hb0730.cloud.admin.server.role.dept.system.model.vo.SystemRoleDeptVO;
 import com.hb0730.cloud.admin.server.role.dept.system.service.ISystemRoleDeptService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -70,6 +71,7 @@ public class SystemRoleDeptController extends AbstractBaseController<SystemRoleD
      * @return 是否成功
      */
     @PostMapping("/bindingDept/{roleId}")
+    @PreAuthorize("hasAnyAuthority('binding:role:dept')")
     public ResultJson bindingDeptIds(@PathVariable Long roleId, @RequestBody List<Long> deptIds) {
         if (CollectionUtils.isEmpty(deptIds)) {
             return ResponseResult.resultFall("组织id为空");

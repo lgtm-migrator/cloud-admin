@@ -47,7 +47,7 @@ public class DeptResourceConfig extends ResourceServerConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers(DEPT_SERVER_REQUEST + "/getDeptById/**").permitAll()
-                .antMatchers("/**").hasAnyAuthority("USER");
+                .antMatchers("/**").authenticated();
     }
 
     @Override
