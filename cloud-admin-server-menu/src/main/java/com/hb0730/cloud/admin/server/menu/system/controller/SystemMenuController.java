@@ -61,6 +61,7 @@ public class SystemMenuController extends AbstractBaseController<SystemMenuVO> {
         SystemMenuEntity entity = new SystemMenuEntity();
         entity.setUpdateUserId(getCurrentUser().getId());
         entity.setUpdateTime(new Date());
+        entity.setId(new Long(id.toString()));
         systemMenuService.removeById(entity);
         return ResponseResult.resultSuccess("删除成功");
     }
