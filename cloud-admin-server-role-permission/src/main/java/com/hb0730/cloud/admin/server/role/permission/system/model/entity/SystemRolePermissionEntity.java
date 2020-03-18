@@ -33,7 +33,7 @@ public class SystemRolePermissionEntity extends BaseDomain {
      * 是否启用
      */
     @TableField(value = "is_enabled", insertStrategy = FieldStrategy.NOT_EMPTY, updateStrategy = FieldStrategy.NOT_EMPTY, whereStrategy = FieldStrategy.NOT_EMPTY)
-    private Integer isEnabled=1;
+    private Integer isEnabled;
 
     /**
      * id
