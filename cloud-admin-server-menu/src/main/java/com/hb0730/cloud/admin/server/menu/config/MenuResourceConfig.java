@@ -42,7 +42,7 @@ public class MenuResourceConfig extends ResourceServerConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/**").hasAnyRole("USER");
+                .antMatchers("/**").authenticated();
     }
 
     @Override
