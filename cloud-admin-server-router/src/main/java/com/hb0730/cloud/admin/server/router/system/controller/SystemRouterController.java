@@ -85,6 +85,7 @@ public class SystemRouterController extends AbstractBaseController<SystemRouterV
      * @return 是否成功
      */
     @PostMapping("/update")
+    @PreAuthorize("hasAnyAuthority('router:update')")
     public ResultJson update(@RequestBody SystemRouterVO target) throws Exception {
         if (Objects.isNull(target)) {
             return ResponseResult.resultFall("参数为空");
@@ -96,7 +97,7 @@ public class SystemRouterController extends AbstractBaseController<SystemRouterV
         SystemRouterEntity entity = systemRouterService.getById(target.getId());
         assert targetEntity != null;
         targetEntity.setUpdateTime(new Date());
-        targetEntity.setUpdateUserId(Objects.requireNonNull(getCurrentUser()).getId());
+        targetEntity.setUpdateUserId(getCurrentUser().getId());
         BeanUtils.updateProperties(targetEntity, entity);
         systemRouterService.updateById(entity);
         return ResponseResult.resultSuccess("更新成功");
@@ -104,6 +105,7 @@ public class SystemRouterController extends AbstractBaseController<SystemRouterV
 
     @GetMapping("/delete/{id}")
     @Override
+    @PreAuthorize("hasAnyAuthority('router:remove')")
     public ResultJson delete(@PathVariable Object id) {
         UserDetail currentUser = null;
         try {

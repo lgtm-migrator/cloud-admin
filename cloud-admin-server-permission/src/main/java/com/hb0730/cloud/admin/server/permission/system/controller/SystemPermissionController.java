@@ -12,6 +12,7 @@ import com.hb0730.cloud.admin.server.permission.system.model.vo.PermissionMenuVO
 import com.hb0730.cloud.admin.server.permission.system.model.vo.SystemPermissionVO;
 import com.hb0730.cloud.admin.server.permission.system.service.ISystemPermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,6 +53,7 @@ public class SystemPermissionController extends AbstractBaseController<SystemPer
     }
 
     @PostMapping("/save")
+    @PreAuthorize("hasAnyAuthority('permission:save')")
     public ResultJson save(@RequestBody PermissionMenuVO permissionMenuVO) {
         UserDetail currentUser = getCurrentUser();
         if (Objects.isNull(currentUser)) {
@@ -120,6 +122,7 @@ public class SystemPermissionController extends AbstractBaseController<SystemPer
      * @return 是否成功
      */
     @PostMapping("/update/{id}")
+    @PreAuthorize("hasAnyAuthority('permission:update')")
     public ResultJson updateByIds(@PathVariable Long id, @RequestBody SystemPermissionVO vo) {
         UserDetail currentUser = getCurrentUser();
         if (Objects.isNull(currentUser)) {

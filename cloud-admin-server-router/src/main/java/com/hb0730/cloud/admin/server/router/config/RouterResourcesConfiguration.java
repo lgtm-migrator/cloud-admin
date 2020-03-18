@@ -46,7 +46,8 @@ public class RouterResourcesConfiguration extends ResourceServerConfigurerAdapte
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(ROUTER_SERVER_REQUEST + "/routers").permitAll();
+                .antMatchers(ROUTER_SERVER_REQUEST + "/routers").permitAll()
+                .antMatchers("/**").authenticated();
     }
 
     @Override
