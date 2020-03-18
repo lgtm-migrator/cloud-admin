@@ -13,6 +13,7 @@ import com.hb0730.cloud.admin.server.role.permission.system.model.entity.SystemR
 import com.hb0730.cloud.admin.server.role.permission.system.model.vo.SystemRolePermissionVO;
 import com.hb0730.cloud.admin.server.role.permission.system.service.ISystemRolePermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.parameters.P;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
@@ -68,6 +69,7 @@ public class SystemRolePermissionController extends AbstractBaseController<Syste
      * @return 是否成功
      */
     @PostMapping("/save/{id}")
+    @PreAuthorize("hasAnyAuthority('binding:role:permission')")
     public ResultJson save(@PathVariable("id") Long id, @RequestBody List<Long> permissionIds) {
         if (CollectionUtils.isEmpty(permissionIds)) {
             return ResponseResult.resultFall("权限为空");
@@ -106,6 +108,7 @@ public class SystemRolePermissionController extends AbstractBaseController<Syste
      * @return 权限id
      */
     @GetMapping("/getPermission/roleId/{id}")
+    @PreAuthorize("hasAnyAuthority('role:query')")
     public ResultJson getPermissionByRoleId(@PathVariable Long id) {
 
         SystemRolePermissionEntity entity = new SystemRolePermissionEntity();

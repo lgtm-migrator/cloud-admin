@@ -17,6 +17,7 @@ import com.hb0730.cloud.admin.server.role.system.model.vo.SystemRoleVO;
 import com.hb0730.cloud.admin.server.role.system.service.ISystemRoleService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,6 +44,7 @@ public class SystemRoleController extends AbstractBaseController<SystemRoleVO> {
 
     @PostMapping("/save")
     @Override
+    @PreAuthorize("hasAnyAuthority('role:save')")
     public ResultJson save(@RequestBody SystemRoleVO target) {
         verification(target);
         UserDetail currentUser = getCurrentUser();
@@ -56,6 +58,7 @@ public class SystemRoleController extends AbstractBaseController<SystemRoleVO> {
 
     @Override
     @GetMapping("/delete/{id}")
+    @PreAuthorize("hasAnyAuthority('role:remove')")
     public ResultJson delete(@PathVariable Object id) {
         systemRoleService.removeById(id.toString());
         return ResponseResult.resultSuccess("修改成功");
@@ -88,6 +91,7 @@ public class SystemRoleController extends AbstractBaseController<SystemRoleVO> {
      * @return 计划
      */
     @GetMapping("/roles/{page}/{pageSize}")
+    @PreAuthorize("hasAnyAuthority('role:query')")
     public ResultJson getListByPage(@PathVariable Integer page, @PathVariable Integer pageSize) {
         PageHelper.startPage(page, pageSize);
         List<SystemRoleEntity> entityList = systemRoleService.list();
@@ -117,6 +121,7 @@ public class SystemRoleController extends AbstractBaseController<SystemRoleVO> {
      * @return 是否成功
      */
     @PostMapping("/update/{id}")
+    @PreAuthorize("hasAnyAuthority('role:update')")
     public ResultJson updateById(@PathVariable Long id, @RequestBody SystemRoleVO vo) {
         verification(vo);
         SystemRoleEntity entity = systemRoleService.getById(id);

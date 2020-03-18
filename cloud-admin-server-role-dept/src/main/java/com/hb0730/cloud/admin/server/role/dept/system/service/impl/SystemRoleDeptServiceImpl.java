@@ -74,7 +74,7 @@ public class SystemRoleDeptServiceImpl extends BaseServiceImpl<SystemRoleDeptMap
         e1.setDeptId(deptId);
         e1.setVersion(1);
         e1.setCreateTime(new Date());
-        e1.setCreateUserId(userDetail.getUserId());
+        e1.setCreateUserId(userDetail.getId());
         list.add(e1);
     }
 }

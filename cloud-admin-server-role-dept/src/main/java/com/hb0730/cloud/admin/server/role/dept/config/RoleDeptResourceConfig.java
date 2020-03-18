@@ -42,8 +42,7 @@ public class RoleDeptResourceConfig extends ResourceServerConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-//                .antMatchers(MENU_SERVER_REQUEST + "/findUser/**").permitAll()
-                .antMatchers("/**").hasAnyAuthority("USER");
+                .antMatchers("/**").authenticated();
     }
 
     @Override

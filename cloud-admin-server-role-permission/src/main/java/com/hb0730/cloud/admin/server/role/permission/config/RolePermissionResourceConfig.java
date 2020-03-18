@@ -45,7 +45,7 @@ public class RolePermissionResourceConfig extends ResourceServerConfigurerAdapte
                 .and()
                 .authorizeRequests()
                 .antMatchers(ROLE_PERMISSION_SERVER_REQUEST + "/getPermission/roleId").permitAll()
-                .antMatchers("/**").hasAnyAuthority("USER");
+                .antMatchers("/**").authenticated();
     }
 
     @Override
