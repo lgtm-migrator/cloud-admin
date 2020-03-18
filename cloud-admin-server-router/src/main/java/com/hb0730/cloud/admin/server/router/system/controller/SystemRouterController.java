@@ -24,6 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -159,6 +160,7 @@ public class SystemRouterController extends AbstractBaseController<SystemRouterV
      * @return 分页的路由集
      */
     @PostMapping("/routers/{page}/{pageSize}")
+    @PreAuthorize("hasAnyAuthority('router:query')")
     public ResultJson routers(@PathVariable int page, @PathVariable int pageSize, @RequestBody RouterParamsVO paramsVO) {
         PageHelper.startPage(page, pageSize);
         SystemRouterEntity entity = BeanUtils.transformFrom(paramsVO, SystemRouterEntity.class);

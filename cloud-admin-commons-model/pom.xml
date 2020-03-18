@@ -21,6 +21,7 @@
         <module>cloud-admin-commons-model-permission</module>
         <module>cloud-admin-commons-model-dept</module>
         <module>cloud-admin-commons-model-user-dept</module>
+        <module>cloud-admin-commons-model-role</module>
     </modules>
 
     <dependencies>

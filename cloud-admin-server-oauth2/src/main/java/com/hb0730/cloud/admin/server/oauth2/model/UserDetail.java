@@ -1,5 +1,7 @@
 package com.hb0730.cloud.admin.server.oauth2.model;
 
+import com.google.common.collect.Sets;
+import com.hb0730.clou.admin.commons.model.role.SystemRoleVO;
 import com.hb0730.cloud.admin.common.util.SecurityCommonConstant;
 import com.hb0730.cloud.admin.commons.permission.model.vo.SystemPermissionVO;
 import lombok.Data;
@@ -12,6 +14,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -26,6 +29,7 @@ import java.util.stream.Collectors;
 @EqualsAndHashCode(callSuper = true)
 public class UserDetail extends com.hb0730.cloud.admin.commons.model.security.UserDetail implements UserDetails {
     private static final long serialVersionUID = 1L;
+    private static final String ROLE = "ROLE_";
 
     public UserDetail() {
     }
@@ -40,6 +44,14 @@ public class UserDetail extends com.hb0730.cloud.admin.commons.model.security.Us
         if (!CollectionUtils.isEmpty(userPermission)) {
             List<String> permissions = userPermission.parallelStream().map(SystemPermissionVO::getUrl).collect(Collectors.toList());
             perms = StringUtils.join(permissions.toArray(), ",");
+        }
+        List<SystemRoleVO> userRole = getUserRole();
+        if (!CollectionUtils.isEmpty(userRole)) {
+            Set<String> s = Sets.newConcurrentHashSet();
+            userRole.parallelStream().forEach(role -> {
+                s.add(ROLE + role.getEnname());
+            });
+            perms += "," + StringUtils.join(s.toArray(), ",");
         }
         return AuthorityUtils.commaSeparatedStringToAuthorityList(perms);
     }

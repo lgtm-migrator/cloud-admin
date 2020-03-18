@@ -14,6 +14,7 @@ import com.hb0730.cloud.admin.server.menu.system.model.vo.MenuVO;
 import com.hb0730.cloud.admin.server.menu.system.model.vo.SystemMenuVO;
 import com.hb0730.cloud.admin.server.menu.system.service.ISystemMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.parameters.P;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
@@ -93,6 +94,7 @@ public class SystemMenuController extends AbstractBaseController<SystemMenuVO> {
      * @return 菜单
      */
     @GetMapping("/menu/{parentId}")
+    @PreAuthorize("hasAnyAuthority('menu:query')")
     public ResultJson getMenusByParentId(@PathVariable Long parentId) {
         SystemMenuEntity entity = new SystemMenuEntity();
         entity.setParentId(parentId);

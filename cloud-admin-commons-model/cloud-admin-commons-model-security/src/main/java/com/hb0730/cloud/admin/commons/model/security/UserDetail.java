@@ -1,5 +1,6 @@
 package com.hb0730.cloud.admin.commons.model.security;
 
+import com.hb0730.clou.admin.commons.model.role.SystemRoleVO;
 import com.hb0730.cloud.admin.commons.dept.model.vo.SystemDeptVO;
 import com.hb0730.cloud.admin.commons.permission.model.vo.SystemPermissionVO;
 import com.hb0730.cloud.admin.commons.user.model.vo.SystemUserVO;
@@ -28,4 +29,9 @@ public class UserDetail extends SystemUserVO {
      * 用户权限
      */
     private List<SystemPermissionVO> userPermission;
+
+    /**
+     * 用户角色信息
+     */
+    private List<SystemRoleVO> userRole;
 }

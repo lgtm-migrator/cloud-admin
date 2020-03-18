@@ -3,6 +3,7 @@ package com.hb0730.cloud.admin.server.role.system.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Lists;
 import com.hb0730.cloud.admin.common.exception.BusinessException;
 import com.hb0730.cloud.admin.common.exception.UserNonLoginException;
 import com.hb0730.cloud.admin.common.util.BeanUtils;
@@ -16,11 +17,13 @@ import com.hb0730.cloud.admin.server.role.system.model.vo.SystemRoleVO;
 import com.hb0730.cloud.admin.server.role.system.service.ISystemRoleService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static com.hb0730.cloud.admin.common.util.RequestMappingConstants.ROLE_SERVER_REQUEST;
 
@@ -122,6 +125,25 @@ public class SystemRoleController extends AbstractBaseController<SystemRoleVO> {
         entity.setUpdateUserId(getCurrentUser().getId());
         systemRoleService.updateById(entity);
         return ResponseResult.resultSuccess("修改成功");
+    }
+
+    /**
+     * <p>
+     * 根据角色id获取角色信息
+     * </p>
+     *
+     * @param ids 角色id
+     * @return 角色信息
+     */
+    @PostMapping("/roles")
+    public ResultJson getRolesByIds(@RequestBody List<Long> ids) {
+        if (CollectionUtils.isEmpty(ids)) {
+            return ResponseResult.resultSuccess(Lists.newArrayList());
+        }
+        List<SystemRoleEntity> entityList = systemRoleService.listByIds(ids);
+        List<SystemRoleEntity> entities = entityList.parallelStream().filter(e1 -> e1.getIsEnabled() == 1).collect(Collectors.toList());
+        List<SystemRoleVO> result = BeanUtils.transformFromInBatch(entities, SystemRoleVO.class);
+        return ResponseResult.resultSuccess(result);
     }
 
     /**

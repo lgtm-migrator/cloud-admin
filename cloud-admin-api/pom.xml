@@ -23,6 +23,7 @@
         <module>cloud-admin-api-user-role</module>
         <module>cloud-admin-api-permission-menu</module>
         <module>cloud-admin-api-role-permission</module>
+        <module>cloud-admin-api-role</module>
     </modules>
     <dependencies>
         <dependency>

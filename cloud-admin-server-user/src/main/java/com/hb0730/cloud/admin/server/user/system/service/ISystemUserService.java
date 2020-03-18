@@ -1,17 +1,17 @@
 package com.hb0730.cloud.admin.server.user.system.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.PageInfo;
+import com.hb0730.clou.admin.commons.model.role.SystemRoleVO;
 import com.hb0730.cloud.admin.commons.model.security.UserDetail;
 import com.hb0730.cloud.admin.commons.permission.model.vo.SystemPermissionVO;
 import com.hb0730.cloud.admin.server.user.system.model.entity.SystemUserEntity;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.hb0730.cloud.admin.server.user.system.model.vo.UserParams;
 import com.hb0730.cloud.admin.server.user.system.model.vo.UserSaveVO;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -22,21 +22,24 @@ import java.util.Map;
  * @since 2020-02-20
  */
 public interface ISystemUserService extends IService<SystemUserEntity> {
+
     /**
-     * 用户保存
+     * 保存用户信息
      *
-     * @param saveVO      用户信息
-     * @param currentUser 当前用户信息
+     * @param saveVO      需要保存的用户信息
+     * @param currentUser 当前用户
      * @return 是否成功
      */
     boolean save(@NonNull UserSaveVO saveVO, @NonNull UserDetail currentUser);
 
     /**
      * 根据账号获取用户信息
+     *
      * @param username 用户账号
      * @return 登录信息
      */
     UserDetail findUserByUserName(@PathVariable String username);
+
     /**
      * 获取用户信息
      *
@@ -49,7 +52,7 @@ public interface ISystemUserService extends IService<SystemUserEntity> {
 
     /**
      * <p>
-     * 获取用户详情
+     * 根据用户id获取用户详情
      * </p>
      *
      * @param userInfo 用户id
@@ -59,34 +62,42 @@ public interface ISystemUserService extends IService<SystemUserEntity> {
 
     /**
      * <p>
-     * 更新用户信息
-     * </p>
+     * 根据用户id更新用户信息
+     * </P>
      *
      * @param userId     用户id
-     * @param saveVO     用户信息
+     * @param saveVO     需要更新的信息
      * @param userDetail 当前用户
      * @return 是否成功
      */
     boolean updateById(@NonNull Long userId, UserSaveVO saveVO, @NonNull UserDetail userDetail);
 
     /**
-     * <p>
-     * 根据id删除
-     * </p>
+     * 根据用户id删除
      *
-     * @param id id
+     * @param id 用户id
      * @return 是否成功
      */
     boolean removeById(@NonNull Long id);
 
     /**
      * <p>
-     * 获取用户权限
-     * </p>
+     * 根据用户id获取用户权限信息
+     * </P>
      *
-     * @param id id
+     * @param id 用户id
      * @return 权限信息
      */
     List<SystemPermissionVO> getPermissionByUserId(@NonNull Long id);
+
+    /**
+     * <p>
+     * 根据用户id获取角色信息
+     * </P>
+     *
+     * @param userId 用户id
+     * @return 角色信息
+     */
+    List<SystemRoleVO> getRoleInfoByUserId(@NonNull Long userId);
 
 }

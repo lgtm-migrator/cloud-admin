@@ -46,9 +46,9 @@ public class RouterResourcesConfiguration extends ResourceServerConfigurerAdapte
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(ROUTER_SERVER_REQUEST + "/routers").permitAll()
-                .antMatchers("/**").hasAnyAuthority("USER");
+                .antMatchers(ROUTER_SERVER_REQUEST + "/routers").permitAll();
     }
+
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
         resources.accessDeniedHandler(accessDeniedHandler).authenticationEntryPoint(exceptionEntryPoint).stateless(false);

@@ -28,6 +28,11 @@
             <artifactId>cloud-admin-commons-model-permission</artifactId>
             <version>${parent.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.hb0730</groupId>
+            <artifactId>cloud-admin-commons-model-role</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

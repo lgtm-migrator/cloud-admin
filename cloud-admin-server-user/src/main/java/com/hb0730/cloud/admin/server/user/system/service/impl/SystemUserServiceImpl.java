@@ -3,6 +3,7 @@ package com.hb0730.cloud.admin.server.user.system.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
+import com.hb0730.clou.admin.commons.model.role.SystemRoleVO;
 import com.hb0730.cloud.admin.common.exception.BusinessException;
 import com.hb0730.cloud.admin.common.util.BeanUtils;
 import com.hb0730.cloud.admin.common.util.GsonUtils;
@@ -91,8 +92,12 @@ public class SystemUserServiceImpl extends BaseServiceImpl<SystemUserMapper, Sys
         assert userDetail != null;
         List<SystemPermissionVO> permission = getPermissionByUserId(userDetail.getId());
         userDetail.setUserPermission(permission);
+        //组织
         SystemDeptVO deptInfo = deptHandler.getDeptByUserId(userDetail.getId());
         userDetail.setUserDept(deptInfo);
+        //角色
+        List<SystemRoleVO> roleList = userRoleHandler.getRoleInfoByUserId(userDetail.getId());
+        userDetail.setUserRole(roleList);
         return userDetail;
     }
 
@@ -157,6 +162,11 @@ public class SystemUserServiceImpl extends BaseServiceImpl<SystemUserMapper, Sys
         List<Long> roleIds = userRoleHandler.getRoleIdByUserId(id);
         //获取角色权限
         return rolePermissionHandler.getPermission(roleIds);
+    }
+
+    @Override
+    public List<SystemRoleVO> getRoleInfoByUserId(@NonNull Long userId) {
+        return null;
     }
 
     /**
