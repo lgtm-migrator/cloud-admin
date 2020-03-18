@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import static com.hb0730.cloud.admin.common.util.RequestMappingConstants.MENU_SERVER_REQUEST;
@@ -172,10 +173,18 @@ public class SystemMenuController extends AbstractBaseController<SystemMenuVO> {
         return ResponseResult.resultSuccess("修改成功");
     }
 
-    @PostMapping("/tree")
-    public ResultJson getTree(@RequestBody List<Long> menuIds) {
-
-        return ResponseResult.resultSuccess(null);
+    /**
+     * <p>
+     * 获取前端vue所需结构类型的树形菜单
+     * </P>
+     *
+     * @param menuIds 菜单id
+     * @return vue结构菜单
+     */
+    @PostMapping("/vueMenuTree")
+    public ResultJson getVueMenuTree(@RequestBody List<Long> menuIds) {
+        List<Map<String, Object>> vueTree = systemMenuService.getVueTree(menuIds);
+        return ResponseResult.resultSuccess(vueTree);
     }
 
     /**
