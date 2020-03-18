@@ -14,7 +14,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 
 import javax.annotation.Resource;
 
-import static com.hb0730.cloud.admin.common.util.RequestMappingConstants.USER_SERVER_REQUEST;
+import static com.hb0730.cloud.admin.common.util.RequestMappingConstants.USER_DEPT_SERVER_REQUEST;
 
 /**
  * <p>
@@ -44,7 +44,7 @@ public class UserDeptResourceConfig extends ResourceServerConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(USER_SERVER_REQUEST + "/findUser/**").permitAll()
+                .antMatchers(USER_DEPT_SERVER_REQUEST + "/getDeptId/**").permitAll()
                 .antMatchers("/**").hasAnyAuthority("USER");
     }
 

@@ -22,18 +22,6 @@ public class RemoteUserFallbackFactory implements FallbackFactory<IRemoteUser> {
 
     @Override
     public IRemoteUser create(Throwable throwable) {
-        return new IRemoteUser() {
-            @Override
-            public ResultJson findUserById(Long id) {
-                return null;
-            }
-
-            @Override
-            public ResultJson findUserByUserName(String login) {
-                throwable.fillInStackTrace();
-                logger.error("根据用户名查询失败（熔断）");
-                return ResponseResult.resultFall("根据用户名查询失败（熔断）");
-            }
-        };
+        return new RemoteUserFallback(throwable);
     }
 }

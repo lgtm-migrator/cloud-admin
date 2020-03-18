@@ -8,15 +8,17 @@ import com.hb0730.cloud.admin.common.util.BeanUtils;
 import com.hb0730.cloud.admin.common.util.GsonUtils;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
+import com.hb0730.cloud.admin.commons.dept.model.vo.SystemDeptVO;
 import com.hb0730.cloud.admin.commons.model.security.UserDetail;
 import com.hb0730.cloud.admin.commons.permission.model.vo.SystemPermissionVO;
 import com.hb0730.cloud.admin.commons.service.BaseServiceImpl;
 import com.hb0730.cloud.admin.commons.user.dept.model.vo.SystemUserDeptVO;
 import com.hb0730.cloud.admin.commons.user.dept.model.vo.UserDeptParamsVO;
-import com.hb0730.cloud.admin.server.user.feign.IRemoteUserDept;
-import com.hb0730.cloud.admin.server.user.feign.IRemoteUserPost;
 import com.hb0730.cloud.admin.server.user.feign.IRemoteUserRole;
+import com.hb0730.cloud.admin.server.user.handler.DeptHandler;
 import com.hb0730.cloud.admin.server.user.handler.RolePermissionHandler;
+import com.hb0730.cloud.admin.server.user.handler.UserPostHandler;
+import com.hb0730.cloud.admin.server.user.handler.UserRoleHandler;
 import com.hb0730.cloud.admin.server.user.system.mapper.SystemUserMapper;
 import com.hb0730.cloud.admin.server.user.system.model.entity.SystemUserEntity;
 import com.hb0730.cloud.admin.server.user.system.model.vo.SystemUserVO;
@@ -50,13 +52,13 @@ public class SystemUserServiceImpl extends BaseServiceImpl<SystemUserMapper, Sys
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
     @Autowired
-    private IRemoteUserDept remoteUserDept;
+    private UserPostHandler userPostHandler;
     @Autowired
-    private IRemoteUserPost remoteUserPost;
-    @Autowired
-    private IRemoteUserRole remoteUserRole;
+    private UserRoleHandler userRoleHandler;
     @Autowired
     private RolePermissionHandler rolePermissionHandler;
+    @Autowired
+    private DeptHandler deptHandler;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -67,7 +69,7 @@ public class SystemUserServiceImpl extends BaseServiceImpl<SystemUserMapper, Sys
         String password = passwordEncode(saveVO.getPassword());
         saveVO.setPassword(password);
         saveVO.setCreateTime(new Date());
-        saveVO.setCreateUserId(userDetail.getUserId());
+        saveVO.setCreateUserId(userDetail.getId());
         SystemUserEntity entity = BeanUtils.transformFrom(saveVO, SystemUserEntity.class);
         boolean save = save(entity);
         assert entity != null;
@@ -76,15 +78,29 @@ public class SystemUserServiceImpl extends BaseServiceImpl<SystemUserMapper, Sys
     }
 
     @Override
+    public UserDetail findUserByUserName(String username) {
+        SystemUserEntity entity = new SystemUserEntity();
+        entity.setUsername(username);
+        QueryWrapper<SystemUserEntity> queryWrapper = new QueryWrapper<>(entity);
+        SystemUserEntity e1 = getOne(queryWrapper);
+        if (Objects.isNull(e1)) {
+            throw new BusinessException("根据用户账号获取用户失败,用户为空");
+        }
+        UserDetail userDetail = BeanUtils.transformFrom(e1, UserDetail.class);
+        //获取权限
+        assert userDetail != null;
+        List<SystemPermissionVO> permission = getPermissionByUserId(userDetail.getId());
+        userDetail.setUserPermission(permission);
+        SystemDeptVO deptInfo = deptHandler.getDeptByUserId(userDetail.getId());
+        userDetail.setUserDept(deptInfo);
+        return userDetail;
+    }
+
+    @Override
     public PageInfo getUserPage(@NonNull Integer page, @NonNull Integer pageSize, UserParams params) {
         UserDeptParamsVO userDeptParams = new UserDeptParamsVO();
         userDeptParams.setDeptId(params.getDeptId());
-        ResultJson result = remoteUserDept.getPage(page, pageSize, userDeptParams);
-        if (!CodeStatusEnum.SUCCESS.getCode().equals(result.getErrCode())) {
-            throw new BusinessException(result.getData().toString());
-        }
-        String resultJson = GsonUtils.gson2String(result.getData());
-        PageInfo pageInfo = GsonUtils.json2Bean(resultJson, PageInfo.class);
+        PageInfo pageInfo = deptHandler.getPage(page, pageSize, userDeptParams);
         List resultList = pageInfo.getList();
         if (CollectionUtils.isEmpty(resultList)) {
             return pageInfo;
@@ -99,23 +115,14 @@ public class SystemUserServiceImpl extends BaseServiceImpl<SystemUserMapper, Sys
 
     @Override
     public UserSaveVO getUserInfo(@NonNull Long userId) {
-        ResultJson resultDeptUser = remoteUserDept.getDeptByUserId(userId);
-        ResultJson resultUserPosts = remoteUserPost.getPostByUserId(userId);
-        ResultJson resultUserRole = remoteUserRole.getRoleByUserId(userId);
-        if (!CodeStatusEnum.SUCCESS.getCode().equals(resultDeptUser.getErrCode())) {
-            throw new BusinessException(resultDeptUser.getData().toString());
-        }
-        if (!CodeStatusEnum.SUCCESS.getCode().equals(resultUserPosts.getErrCode())) {
-            throw new BusinessException(resultUserPosts.getData().toString());
-        }
-        List<Long> deptIds = GsonUtils.json2List(GsonUtils.json2String(resultDeptUser.getData()), Long.class);
-        List<Long> postsIds = GsonUtils.json2List(GsonUtils.json2String(resultUserPosts.getData()), Long.class);
-        List<Long> roleIds = GsonUtils.json2List(GsonUtils.json2String(resultUserRole.getData()), Long.class);
+        Long deptId = deptHandler.getDeptIdByUserId(userId);
+        List<Long> postIds = userPostHandler.getPostIdByUserId(userId);
+        List<Long> roleIds = userRoleHandler.getRoleIdByUserId(userId);
         SystemUserEntity entity = getById(userId);
         UserSaveVO userVO = BeanUtils.transformFrom(entity, UserSaveVO.class);
         assert userVO != null;
-        userVO.setDeptId(deptIds == null ? null : deptIds.get(0));
-        userVO.setPosts(postsIds);
+        userVO.setDeptId(deptId);
+        userVO.setPosts(postIds);
         userVO.setRoles(roleIds);
         return userVO;
     }
@@ -127,7 +134,7 @@ public class SystemUserServiceImpl extends BaseServiceImpl<SystemUserMapper, Sys
         verify(saveVO, true);
         SystemUserEntity entity = getById(userId);
         saveVO.setPassword(null);
-        entity.setUpdateUserId(userDetail.getUserId());
+        entity.setUpdateUserId(userDetail.getId());
         entity.setUpdateTime(new Date());
         BeanUtils.updateProperties(saveVO, entity);
         remote(userId, saveVO);
@@ -139,29 +146,15 @@ public class SystemUserServiceImpl extends BaseServiceImpl<SystemUserMapper, Sys
     @Transactional(rollbackFor = Exception.class)
     public boolean removeById(@NonNull Long id) {
         boolean b = super.removeById(id);
-        ResultJson resultJson = remoteUserDept.removeByUserId(id);
-        if (!CodeStatusEnum.SUCCESS.getCode().equals(resultJson.getErrCode())) {
-            throw new BusinessException(resultJson.getData().toString());
-        }
-        resultJson = remoteUserPost.removeByUserId(id);
-        if (!CodeStatusEnum.SUCCESS.getCode().equals(resultJson.getErrCode())) {
-            throw new BusinessException(resultJson.getData().toString());
-        }
-        resultJson = remoteUserRole.removeByUserId(id);
-        if (!CodeStatusEnum.SUCCESS.getCode().equals(resultJson.getErrCode())) {
-            throw new BusinessException(resultJson.getData().toString());
-        }
+        deptHandler.removeByUserId(id);
+        userPostHandler.removeByUserId(id);
+        userRoleHandler.removeByUserId(id);
         return b;
     }
 
     @Override
     public List<SystemPermissionVO> getPermissionByUserId(@NonNull Long id) {
-        ResultJson resultJson = remoteUserRole.getRoleByUserId(id);
-        if (!CodeStatusEnum.SUCCESS.getCode().equals(resultJson.getErrCode())) {
-            throw new BusinessException(resultJson.getData().toString());
-        }
-        // 角色id
-        List<Long> roleIds = GsonUtils.json2List(GsonUtils.json2String(resultJson.getData()), Long.class);
+        List<Long> roleIds = userRoleHandler.getRoleIdByUserId(id);
         //获取角色权限
         return rolePermissionHandler.getPermission(roleIds);
     }
@@ -228,10 +221,7 @@ public class SystemUserServiceImpl extends BaseServiceImpl<SystemUserMapper, Sys
      * @param userId 用户id
      */
     private void remoteSaveDeptByUserId(@NonNull List<Long> deptId, @NonNull Long userId) {
-        ResultJson result = remoteUserDept.bindingDeptByUserId(userId, deptId);
-        if (!CodeStatusEnum.SUCCESS.getCode().equals(result.getErrCode())) {
-            throw new BusinessException(result.getData().toString());
-        }
+        deptHandler.bindingDeptByUserId(userId, deptId);
     }
 
     /**
@@ -243,10 +233,7 @@ public class SystemUserServiceImpl extends BaseServiceImpl<SystemUserMapper, Sys
      * @param userId  用户
      */
     private void remoteSavePostByUserId(@NonNull List<Long> postIds, @NonNull Long userId) {
-        ResultJson result = remoteUserPost.bindingPostByUserId(userId, postIds);
-        if (!CodeStatusEnum.SUCCESS.getCode().equals(result.getErrCode())) {
-            throw new BusinessException(result.getData().toString());
-        }
+        userPostHandler.bindingPostByUserId(userId, postIds);
     }
 
     /**
@@ -256,10 +243,7 @@ public class SystemUserServiceImpl extends BaseServiceImpl<SystemUserMapper, Sys
      * @param userId  用户id
      */
     private void remoteSaveRole(@NonNull List<Long> roleIds, @NonNull Long userId) {
-        ResultJson result = remoteUserRole.bindingRoleByUserId(userId, roleIds);
-        if (!CodeStatusEnum.SUCCESS.getCode().equals(result.getErrCode())) {
-            throw new BusinessException(result.getData().toString());
-        }
+        userRoleHandler.bindingRoleByUserId(userId, roleIds);
     }
 
     /**

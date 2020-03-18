@@ -99,7 +99,7 @@ public class SystemDeptController extends AbstractBaseController<SystemDeptVO> {
             return ResponseResult.resultFall("父组织id为空");
         }
         vo.setCreateTime(new Date());
-        vo.setCreateUserId(currentUser.getUserId());
+        vo.setCreateUserId(currentUser.getId());
         vo.setVersion(1);
         SystemDeptEntity entity = BeanUtils.transformFrom(vo, SystemDeptEntity.class);
         systemDeptService.save(entity);
@@ -123,7 +123,7 @@ public class SystemDeptController extends AbstractBaseController<SystemDeptVO> {
         BeanUtils.updateProperties(vo, entity);
         systemDeptService.updateById(entity);
         entity.setUpdateTime(new Date());
-        entity.setUpdateUserId(getCurrentUser().getUserId());
+        entity.setUpdateUserId(getCurrentUser().getId());
         return ResponseResult.resultSuccess("");
     }
 

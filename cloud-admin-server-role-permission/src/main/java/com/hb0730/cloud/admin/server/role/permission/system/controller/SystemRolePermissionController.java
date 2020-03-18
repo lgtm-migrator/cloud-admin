@@ -51,7 +51,7 @@ public class SystemRolePermissionController extends AbstractBaseController<Syste
         if (Objects.isNull(currentUser)) {
             return ResponseResult.resultFall("获取当前用户失败,请重新登录");
         }
-        target.setCreateUserId(currentUser.getUserId());
+        target.setCreateUserId(currentUser.getId());
         target.setCreateTime(new Date());
         SystemRolePermissionEntity entity = BeanUtils.transformFrom(target, SystemRolePermissionEntity.class);
         systemRolePermissionService.save(entity);

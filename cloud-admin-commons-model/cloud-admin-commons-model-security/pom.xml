@@ -12,5 +12,22 @@
 
     <artifactId>cloud-admin-commons-model-security</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.hb0730</groupId>
+            <artifactId>cloud-admin-commons-model-user</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hb0730</groupId>
+            <artifactId>cloud-admin-commons-model-dept</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hb0730</groupId>
+            <artifactId>cloud-admin-commons-model-permission</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+    </dependencies>
 
 </project>

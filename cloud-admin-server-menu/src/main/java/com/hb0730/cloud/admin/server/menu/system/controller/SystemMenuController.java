@@ -49,7 +49,7 @@ public class SystemMenuController extends AbstractBaseController<SystemMenuVO> {
         } catch (Oauth2Exception e) {
             return ResponseResult.resultFall(e.getMessage());
         }
-        target.setCreateUserId(currentUser.getUserId());
+        target.setCreateUserId(currentUser.getId());
         target.setCreateTime(new Date());
         target.setVersion(1);
         SystemMenuEntity entity = BeanUtils.transformFrom(target, SystemMenuEntity.class);
@@ -65,7 +65,7 @@ public class SystemMenuController extends AbstractBaseController<SystemMenuVO> {
             return ResponseResult.result(CodeStatusEnum.NON_LOGIN, "获取用户失败,请重新登录");
         }
         SystemMenuEntity entity = new SystemMenuEntity();
-        entity.setUpdateUserId(currentUser.getUserId());
+        entity.setUpdateUserId(currentUser.getId());
         entity.setUpdateTime(new Date());
         systemMenuService.removeById(entity);
         return ResponseResult.resultSuccess("删除成功");
@@ -163,7 +163,7 @@ public class SystemMenuController extends AbstractBaseController<SystemMenuVO> {
             return ResponseResult.result(CodeStatusEnum.NON_LOGIN, "获取当前用户失败");
         }
         vo.setUpdateTime(new Date());
-        vo.setUpdateUserId(currentUser.getUserId());
+        vo.setUpdateUserId(currentUser.getId());
         SystemMenuEntity entity = systemMenuService.getById(id);
         if (Objects.isNull(entity)) {
             return ResponseResult.resultFall("根据id获取菜单失败,请检查");

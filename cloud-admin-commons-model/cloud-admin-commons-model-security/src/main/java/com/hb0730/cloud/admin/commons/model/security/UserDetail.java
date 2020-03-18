@@ -1,31 +1,31 @@
 package com.hb0730.cloud.admin.commons.model.security;
 
+import com.hb0730.cloud.admin.commons.dept.model.vo.SystemDeptVO;
+import com.hb0730.cloud.admin.commons.permission.model.vo.SystemPermissionVO;
+import com.hb0730.cloud.admin.commons.user.model.vo.SystemUserVO;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
+ * oauth认证后的用户信息
  * </P>
  *
  * @author bing_huang
  * @since V1.0
  */
 @Data
-public class UserDetail implements Serializable {
+@EqualsAndHashCode(callSuper = true)
+public class UserDetail extends SystemUserVO {
     private static final long serialVersionUID = -18396L;
-    private Long userId;
-    private String name;
-    private String username;
-    private String password;
-    private Integer status;
-    private String perms;
-    private String avatar;
-    private String sex;
-    private Long deptId;
-    private String deptName;
-    private String email;
-    private String phone;
-    private String describe;
-    private String roleName;
+    /**
+     * 用户组织
+     */
+    private SystemDeptVO userDept;
+    /**
+     * 用户权限
+     */
+    private List<SystemPermissionVO> userPermission;
 }

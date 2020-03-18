@@ -44,7 +44,7 @@ public class SystemPermissionController extends AbstractBaseController<SystemPer
         } catch (Exception e) {
             return ResponseResult.resultFall(e.getMessage());
         }
-        target.setCreateUserId(currentUser.getUserId());
+        target.setCreateUserId(currentUser.getId());
         target.setCreateTime(new Date());
         SystemPermissionEntity entity = BeanUtils.transformFrom(target, SystemPermissionEntity.class);
         systemPermissionService.save(entity);
@@ -58,7 +58,7 @@ public class SystemPermissionController extends AbstractBaseController<SystemPer
             return ResponseResult.result(CodeStatusEnum.NON_LOGIN, "获取当前用户失败,请重新登录");
         }
         permissionMenuVO.setCreateTime(new Date());
-        permissionMenuVO.setCreateUserId(currentUser.getUserId());
+        permissionMenuVO.setCreateUserId(currentUser.getId());
         systemPermissionService.save(permissionMenuVO);
         return ResponseResult.resultSuccess("保存成功");
     }
@@ -127,7 +127,7 @@ public class SystemPermissionController extends AbstractBaseController<SystemPer
         }
         vo.setId(id);
         vo.setUpdateTime(new Date());
-        vo.setUpdateUserId(currentUser.getUserId());
+        vo.setUpdateUserId(currentUser.getId());
         SystemPermissionEntity entity = BeanUtils.transformFrom(vo, SystemPermissionEntity.class);
         systemPermissionService.updateById(entity);
         return ResponseResult.resultSuccess("修改成功");

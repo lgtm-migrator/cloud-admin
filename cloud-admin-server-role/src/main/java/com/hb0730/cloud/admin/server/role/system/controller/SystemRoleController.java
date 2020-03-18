@@ -12,8 +12,8 @@ import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
 import com.hb0730.cloud.admin.commons.model.security.UserDetail;
 import com.hb0730.cloud.admin.server.role.system.model.entity.SystemRoleEntity;
-import com.hb0730.cloud.admin.server.role.system.service.ISystemRoleService;
 import com.hb0730.cloud.admin.server.role.system.model.vo.SystemRoleVO;
+import com.hb0730.cloud.admin.server.role.system.service.ISystemRoleService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -44,7 +44,7 @@ public class SystemRoleController extends AbstractBaseController<SystemRoleVO> {
         verification(target);
         UserDetail currentUser = getCurrentUser();
         target.setCreateTime(new Date());
-        target.setCreateUserId(currentUser.getUserId());
+        target.setCreateUserId(currentUser.getId());
         target.setVersion(1);
         SystemRoleEntity entity = BeanUtils.transformFrom(target, SystemRoleEntity.class);
         systemRoleService.save(entity);
@@ -119,7 +119,7 @@ public class SystemRoleController extends AbstractBaseController<SystemRoleVO> {
         SystemRoleEntity entity = systemRoleService.getById(id);
         BeanUtils.updateProperties(vo, entity);
         entity.setUpdateTime(new Date());
-        entity.setUpdateUserId(getCurrentUser().getUserId());
+        entity.setUpdateUserId(getCurrentUser().getId());
         systemRoleService.updateById(entity);
         return ResponseResult.resultSuccess("修改成功");
     }

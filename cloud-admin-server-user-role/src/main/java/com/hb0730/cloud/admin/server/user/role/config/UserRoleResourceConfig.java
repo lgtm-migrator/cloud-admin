@@ -14,6 +14,8 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 
 import javax.annotation.Resource;
 
+import static com.hb0730.cloud.admin.common.util.RequestMappingConstants.USER_ROLE_SERVER_REQUEST;
+
 /**
  * <p>
  * </P>
@@ -42,7 +44,7 @@ public class UserRoleResourceConfig extends ResourceServerConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-//                .antMatchers(USER_SERVER_REQUEST + "/findUser/**").permitAll()
+                .antMatchers(USER_ROLE_SERVER_REQUEST + "/getRoleId/**").permitAll()
                 .antMatchers("/**").hasAnyAuthority("USER");
     }
 

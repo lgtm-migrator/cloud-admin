@@ -8,8 +8,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.hb0730.cloud.admin.server.user.system.model.vo.UserParams;
 import com.hb0730.cloud.admin.server.user.system.model.vo.UserSaveVO;
 import org.springframework.lang.NonNull;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -29,6 +31,12 @@ public interface ISystemUserService extends IService<SystemUserEntity> {
      */
     boolean save(@NonNull UserSaveVO saveVO, @NonNull UserDetail currentUser);
 
+    /**
+     * 根据账号获取用户信息
+     * @param username 用户账号
+     * @return 登录信息
+     */
+    UserDetail findUserByUserName(@PathVariable String username);
     /**
      * 获取用户信息
      *
@@ -80,4 +88,5 @@ public interface ISystemUserService extends IService<SystemUserEntity> {
      * @return 权限信息
      */
     List<SystemPermissionVO> getPermissionByUserId(@NonNull Long id);
+
 }

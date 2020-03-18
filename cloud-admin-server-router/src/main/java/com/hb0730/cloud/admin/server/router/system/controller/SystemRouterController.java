@@ -69,7 +69,7 @@ public class SystemRouterController extends AbstractBaseController<SystemRouterV
         SystemRouterEntity entity = BeanUtils.transformFrom(target, SystemRouterEntity.class);
         assert entity != null;
         entity.setCreateTime(new Date());
-        entity.setCreateUserId(currentUser.getUserId());
+        entity.setCreateUserId(currentUser.getId());
         entity.setVersion(1);
         systemRouterService.save(entity);
         return ResponseResult.resultSuccess("保存成功");
@@ -95,7 +95,7 @@ public class SystemRouterController extends AbstractBaseController<SystemRouterV
         SystemRouterEntity entity = systemRouterService.getById(target.getId());
         assert targetEntity != null;
         targetEntity.setUpdateTime(new Date());
-        targetEntity.setUpdateUserId(Objects.requireNonNull(getCurrentUser()).getUserId());
+        targetEntity.setUpdateUserId(Objects.requireNonNull(getCurrentUser()).getId());
         BeanUtils.updateProperties(targetEntity, entity);
         systemRouterService.updateById(entity);
         return ResponseResult.resultSuccess("更新成功");
@@ -113,7 +113,7 @@ public class SystemRouterController extends AbstractBaseController<SystemRouterV
         }
         SystemRouterEntity entity = new SystemRouterEntity();
         if (!Objects.isNull(currentUser)) {
-            entity.setUpdateUserId(currentUser.getUserId());
+            entity.setUpdateUserId(currentUser.getId());
         }
         entity.setUpdateTime(new Date());
         entity.setId(Long.valueOf(id.toString()));

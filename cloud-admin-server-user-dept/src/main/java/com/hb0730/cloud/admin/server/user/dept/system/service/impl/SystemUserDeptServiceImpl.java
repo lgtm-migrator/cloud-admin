@@ -39,7 +39,7 @@ public class SystemUserDeptServiceImpl extends BaseServiceImpl<SystemUserDeptMap
             SystemUserDeptEntity e1 = new SystemUserDeptEntity();
             e1.setUserId(userId);
             e1.setDeptId(deptId);
-            e1.setCreateUserId(userDetail.getUserId());
+            e1.setCreateUserId(userDetail.getId());
             e1.setCreateTime(new Date());
             e1.setIsEnabled(1);
             e1.setVersion(1);

@@ -117,6 +117,16 @@
             <artifactId>cloud-admin-api-permission-menu</artifactId>
             <version>${parent.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.hb0730</groupId>
+            <artifactId>cloud-admin-api-dept</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hb0730</groupId>
+            <artifactId>cloud-admin-commons-model-dept</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>mysql</groupId>

@@ -42,7 +42,7 @@ public class SystemUserRoleServiceImpl extends BaseServiceImpl<SystemUserRoleMap
             e1.setIsEnabled(1);
             e1.setIsDelete(0);
             e1.setCreateTime(new Date());
-            e1.setCreateUserId(userDetail.getUserId());
+            e1.setCreateUserId(userDetail.getId());
             e1.setVersion(1);
             entities.add(e1);
         });

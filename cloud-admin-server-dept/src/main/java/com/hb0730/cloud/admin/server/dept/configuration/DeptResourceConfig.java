@@ -14,6 +14,8 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 
 import javax.annotation.Resource;
 
+import static com.hb0730.cloud.admin.common.util.RequestMappingConstants.DEPT_SERVER_REQUEST;
+
 /**
  * <p>
  * oauth2认证资源
@@ -38,11 +40,13 @@ public class DeptResourceConfig extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
+        ;
         http.exceptionHandling()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
+                .antMatchers(DEPT_SERVER_REQUEST + "/getDeptById/**").permitAll()
                 .antMatchers("/**").hasAnyAuthority("USER");
     }
 

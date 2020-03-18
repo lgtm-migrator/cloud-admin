@@ -106,7 +106,7 @@ public class SystemUserRoleController extends AbstractBaseController<SystemUserR
             return ResponseResult.resultSuccess("获取当前用户失败，请重新登录");
         }
         entity.setCreateTime(new Date());
-        entity.setCreateUserId(currentUser.getUserId());
+        entity.setCreateUserId(currentUser.getId());
         //创建时间
         systemUserRoleService.save(entity);
 

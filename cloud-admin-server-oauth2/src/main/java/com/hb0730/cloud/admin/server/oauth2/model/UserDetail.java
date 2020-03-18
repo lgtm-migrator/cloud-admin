@@ -1,13 +1,18 @@
 package com.hb0730.cloud.admin.server.oauth2.model;
 
 import com.hb0730.cloud.admin.common.util.SecurityCommonConstant;
+import com.hb0730.cloud.admin.commons.permission.model.vo.SystemPermissionVO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -21,11 +26,6 @@ import java.util.Collection;
 @EqualsAndHashCode(callSuper = true)
 public class UserDetail extends com.hb0730.cloud.admin.commons.model.security.UserDetail implements UserDetails {
     private static final long serialVersionUID = 1L;
-    private Long userId;
-    private String username;
-    private String password;
-    private Integer status;
-    private String perms;
 
     public UserDetail() {
     }
@@ -35,18 +35,23 @@ public class UserDetail extends com.hb0730.cloud.admin.commons.model.security.Us
      */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-
-        return AuthorityUtils.commaSeparatedStringToAuthorityList(this.perms);
+        List<SystemPermissionVO> userPermission = getUserPermission();
+        String perms = "";
+        if (!CollectionUtils.isEmpty(userPermission)) {
+            List<String> permissions = userPermission.parallelStream().map(SystemPermissionVO::getUrl).collect(Collectors.toList());
+            perms = StringUtils.join(permissions.toArray(), ",");
+        }
+        return AuthorityUtils.commaSeparatedStringToAuthorityList(perms);
     }
 
     @Override
     public String getPassword() {
-        return this.password;
+        return super.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return this.username;
+        return super.getUsername();
     }
 
     /**
@@ -62,7 +67,7 @@ public class UserDetail extends com.hb0730.cloud.admin.commons.model.security.Us
      */
     @Override
     public boolean isAccountNonLocked() {
-        return SecurityCommonConstant.USER_STATUS_NORMAL.intValue() == this.status;
+        return SecurityCommonConstant.USER_STATUS_NORMAL.intValue() == super.getIsEnabled();
     }
 
     /**
@@ -78,7 +83,7 @@ public class UserDetail extends com.hb0730.cloud.admin.commons.model.security.Us
      */
     @Override
     public boolean isEnabled() {
-        return SecurityCommonConstant.USER_STATUS_NORMAL.intValue() == this.status;
+        return SecurityCommonConstant.USER_STATUS_NORMAL.intValue() == super.getIsEnabled();
     }
 
 

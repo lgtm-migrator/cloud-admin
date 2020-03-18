@@ -2,15 +2,14 @@ package com.hb0730.cloud.admin.server.user.system.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.github.pagehelper.PageInfo;
-import com.google.common.primitives.Longs;
 import com.hb0730.cloud.admin.common.util.BeanUtils;
 import com.hb0730.cloud.admin.common.web.controller.AbstractBaseController;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
 import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
 import com.hb0730.cloud.admin.commons.model.security.UserDetail;
+import com.hb0730.cloud.admin.commons.permission.model.vo.SystemPermissionVO;
 import com.hb0730.cloud.admin.server.user.system.model.entity.SystemUserEntity;
 import com.hb0730.cloud.admin.server.user.system.model.vo.SettingPasswordParams;
 import com.hb0730.cloud.admin.server.user.system.model.vo.SystemUserVO;
@@ -23,6 +22,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import static com.hb0730.cloud.admin.common.util.RequestMappingConstants.USER_SERVER_REQUEST;
@@ -81,7 +81,7 @@ public class SystemUserController extends AbstractBaseController<SystemUserVO> {
             return ResponseResult.resultFall("获取当前认证用户失败,请重新登录");
         }
         target.setCreateTime(new Date());
-        target.setCreateUserId(currentUser.getUserId());
+        target.setCreateUserId(currentUser.getId());
         SystemUserEntity entity = BeanUtils.transformFrom(target, SystemUserEntity.class);
         systemUserService.save(entity);
         return ResponseResult.resultSuccess("新增成功");
@@ -139,7 +139,7 @@ public class SystemUserController extends AbstractBaseController<SystemUserVO> {
         if (Objects.isNull(currentUser)) {
             return ResponseResult.result(CodeStatusEnum.NON_LOGIN, "获取当前用户失败");
         }
-        SystemUserEntity entity = systemUserService.getById(currentUser.getUserId());
+        SystemUserEntity entity = systemUserService.getById(currentUser.getId());
         if (!passwordMatches(passwordParams.getOldPassword(), entity.getPassword())) {
             return ResponseResult.resultFall("密码不正确");
         }
@@ -153,10 +153,10 @@ public class SystemUserController extends AbstractBaseController<SystemUserVO> {
         }
         String newPd = passwordEncode(newPassword2);
         SystemUserEntity entity1 = new SystemUserEntity();
-        entity1.setId(currentUser.getUserId());
+        entity1.setId(currentUser.getId());
         entity1.setPassword(newPd);
         entity1.setUpdateTime(new Date());
-        entity1.setUpdateUserId(currentUser.getUserId());
+        entity1.setUpdateUserId(currentUser.getId());
         systemUserService.updateById(entity1);
         return ResponseResult.resultSuccess("修改成功");
     }
@@ -180,7 +180,7 @@ public class SystemUserController extends AbstractBaseController<SystemUserVO> {
             return ResponseResult.resultFall("获取用户id失败");
         }
         userVO.setUpdateTime(new Date());
-        userVO.setUpdateUserId(currentUser.getUserId());
+        userVO.setUpdateUserId(currentUser.getId());
         SystemUserEntity entity = BeanUtils.transformFrom(userVO, SystemUserEntity.class);
         systemUserService.updateById(entity);
         return ResponseResult.resultSuccess("修改成功");
@@ -194,11 +194,26 @@ public class SystemUserController extends AbstractBaseController<SystemUserVO> {
      * @param login 登录账号
      * @return 用户
      */
-    @GetMapping("/findUser/{login}")
+//    @GetMapping("/findUser/{login}")
+    @Deprecated
     public ResultJson findUserByLogin(@PathVariable String login) {
         SystemUserEntity userEntity = getUserEntity(login);
         SystemUserVO vo = BeanUtils.transformFrom(userEntity, SystemUserVO.class);
         return ResponseResult.resultSuccess(vo);
+    }
+
+    /**
+     * <p>
+     * 根据账号登录
+     * </p>
+     *
+     * @param username 账号
+     * @return oauth登录信息
+     */
+    @GetMapping("/findUser/{username}")
+    public ResultJson findUserByUserName(@PathVariable String username) {
+        UserDetail userDetail = systemUserService.findUserByUserName(username);
+        return ResponseResult.resultSuccess(userDetail);
     }
 
     /**
@@ -243,6 +258,20 @@ public class SystemUserController extends AbstractBaseController<SystemUserVO> {
     public ResultJson updateById(@PathVariable Long userId, @RequestBody UserSaveVO saveVO) {
         systemUserService.updateById(userId, saveVO, getCurrentUser());
         return ResponseResult.resultSuccess("更新成功");
+    }
+
+    /**
+     * <p>
+     * 根据用户id获取权限
+     * </p>
+     *
+     * @param userId 用户id
+     * @return 权限
+     */
+    @GetMapping("/permission/{userId}")
+    public ResultJson getPermissionByUserId(@PathVariable Long userId) {
+        List<SystemPermissionVO> permissionByUserId = systemUserService.getPermissionByUserId(userId);
+        return ResponseResult.resultSuccess(permissionByUserId);
     }
 
     /**

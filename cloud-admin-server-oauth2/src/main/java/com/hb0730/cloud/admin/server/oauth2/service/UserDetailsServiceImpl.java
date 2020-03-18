@@ -32,20 +32,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         ResultJson result = remoteUser.findUserByUserName(userName);
         if (CodeStatusEnum.SUCCESS.getCode().equals(result.getErrCode())) {
-            SystemUserVO data = GsonUtils.json2Bean(GsonUtils.json2String(result.getData()), SystemUserVO.class);
-            if (!Objects.isNull(data)) {
-                //密码校验
-                UserDetail userDetail = new UserDetail();
-                userDetail.setUserId(data.getId());
-                userDetail.setName(data.getName());
-                userDetail.setUsername(data.getUsername());
-                userDetail.setPassword(data.getPassword());
-                userDetail.setEmail(data.getEmail());
-                userDetail.setAvatar(data.getPortraits());
-                userDetail.setStatus(data.getIsEnabled());
-                userDetail.setPerms("USER");
-                return userDetail;
-            }
+            return GsonUtils.json2Bean(GsonUtils.json2String(result.getData()), UserDetail.class);
         }
         return null;
     }

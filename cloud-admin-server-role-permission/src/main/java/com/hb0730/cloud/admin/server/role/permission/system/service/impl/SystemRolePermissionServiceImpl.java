@@ -47,7 +47,7 @@ public class SystemRolePermissionServiceImpl extends BaseServiceImpl<SystemRoleP
             entity.setPermissionId(permissionId);
             entity.setRoleId(id);
             entity.setCreateTime(new Date());
-            entity.setCreateUserId(userDetail.getUserId());
+            entity.setCreateUserId(userDetail.getId());
             entitys.add(entity);
         });
         saveBatch(entitys);
