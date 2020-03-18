@@ -59,19 +59,14 @@ public class SystemRouterController extends AbstractBaseController<SystemRouterV
 
     @PostMapping("/add")
     @Override
+    @PreAuthorize("hasAnyAuthority('router:save')")
     public ResultJson save(@RequestBody SystemRouterVO target) {
-        UserDetail currentUser = null;
-        try {
-            currentUser = getCurrentUser();
-
-        } catch (Oauth2Exception e) {
-            return ResponseResult.result(CodeStatusEnum.NON_LOGIN, e.getMessage());
-        }
         SystemRouterEntity entity = BeanUtils.transformFrom(target, SystemRouterEntity.class);
         assert entity != null;
         entity.setCreateTime(new Date());
-        entity.setCreateUserId(currentUser.getId());
+        entity.setCreateUserId(getCurrentUser().getId());
         entity.setVersion(1);
+        entity.setIsEnabled(1);
         systemRouterService.save(entity);
         return ResponseResult.resultSuccess("保存成功");
     }
@@ -107,17 +102,8 @@ public class SystemRouterController extends AbstractBaseController<SystemRouterV
     @Override
     @PreAuthorize("hasAnyAuthority('router:remove')")
     public ResultJson delete(@PathVariable Object id) {
-        UserDetail currentUser = null;
-        try {
-            currentUser = getCurrentUser();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseResult.result(CodeStatusEnum.NON_LOGIN, "获取当前用户失败,请重新登录");
-        }
         SystemRouterEntity entity = new SystemRouterEntity();
-        if (!Objects.isNull(currentUser)) {
-            entity.setUpdateUserId(currentUser.getId());
-        }
+        entity.setUpdateUserId(getCurrentUser().getId());
         entity.setUpdateTime(new Date());
         entity.setId(Long.valueOf(id.toString()));
         systemRouterService.updateById(entity);
