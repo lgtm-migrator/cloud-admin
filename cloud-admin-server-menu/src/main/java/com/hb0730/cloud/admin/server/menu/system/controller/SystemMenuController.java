@@ -43,16 +43,12 @@ public class SystemMenuController extends AbstractBaseController<SystemMenuVO> {
 
     @PostMapping("/save")
     @Override
+    @PreAuthorize("hasAnyAuthority('menu:save')")
     public ResultJson save(@RequestBody SystemMenuVO target) {
-        UserDetail currentUser = null;
-        try {
-            currentUser = getCurrentUser();
-        } catch (Oauth2Exception e) {
-            return ResponseResult.resultFall(e.getMessage());
-        }
-        target.setCreateUserId(currentUser.getId());
+        target.setCreateUserId(getCurrentUser().getId());
         target.setCreateTime(new Date());
         target.setVersion(1);
+        target.setIsEnabled(1);
         SystemMenuEntity entity = BeanUtils.transformFrom(target, SystemMenuEntity.class);
         systemMenuService.save(entity);
         return ResponseResult.resultSuccess("保存成功");
@@ -60,13 +56,10 @@ public class SystemMenuController extends AbstractBaseController<SystemMenuVO> {
 
     @Override
     @GetMapping("/delete/{id}")
+    @PreAuthorize("hasAnyAuthority('menu:remove')")
     public ResultJson delete(@PathVariable Object id) {
-        UserDetail currentUser = getCurrentUser();
-        if (Objects.isNull(currentUser)) {
-            return ResponseResult.result(CodeStatusEnum.NON_LOGIN, "获取用户失败,请重新登录");
-        }
         SystemMenuEntity entity = new SystemMenuEntity();
-        entity.setUpdateUserId(currentUser.getId());
+        entity.setUpdateUserId(getCurrentUser().getId());
         entity.setUpdateTime(new Date());
         systemMenuService.removeById(entity);
         return ResponseResult.resultSuccess("删除成功");
@@ -141,6 +134,7 @@ public class SystemMenuController extends AbstractBaseController<SystemMenuVO> {
      * @return 菜单
      */
     @GetMapping("/menus/tree/{type}")
+    @PreAuthorize("hasAnyAuthority('menu:query')")
     public ResultJson getMenusTree(@PathVariable Integer type) {
         if (type == 1) {
             return null;
@@ -159,6 +153,7 @@ public class SystemMenuController extends AbstractBaseController<SystemMenuVO> {
      * @return 是否成功
      */
     @PostMapping("/update/{id}")
+    @PreAuthorize("hasAnyAuthority('menu:update')")
     public ResultJson updateById(@PathVariable Long id, @RequestBody SystemMenuVO vo) {
         UserDetail currentUser = getCurrentUser();
         if (Objects.isNull(currentUser)) {
