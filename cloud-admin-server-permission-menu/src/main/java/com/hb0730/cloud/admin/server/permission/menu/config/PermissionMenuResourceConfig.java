@@ -41,7 +41,8 @@ public class PermissionMenuResourceConfig extends ResourceServerConfigurerAdapte
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeRequests();
+                .authorizeRequests()
+                .antMatchers("/**").authenticated();
     }
 
     @Override

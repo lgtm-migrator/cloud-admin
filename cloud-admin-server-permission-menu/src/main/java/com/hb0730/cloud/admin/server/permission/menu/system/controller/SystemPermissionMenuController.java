@@ -16,6 +16,7 @@ import com.hb0730.cloud.admin.server.permission.menu.system.model.vo.PermissionM
 import com.hb0730.cloud.admin.server.permission.menu.system.model.vo.SystemPermissionMenuVO;
 import com.hb0730.cloud.admin.server.permission.menu.system.service.ISystemPermissionMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,7 +50,7 @@ public class SystemPermissionMenuController extends AbstractBaseController<Syste
         } catch (Oauth2Exception e) {
             return ResponseResult.resultFall("获取当前用户失败,请重新登录");
         }
-        target.setCreateUserId(currentUser.getUserId());
+        target.setCreateUserId(currentUser.getId());
         target.setCreateTime(new Date());
         SystemPermissionMenuEntity entity = BeanUtils.transformFrom(target, SystemPermissionMenuEntity.class);
         systemPermissionMenuService.save(entity);
@@ -68,6 +69,7 @@ public class SystemPermissionMenuController extends AbstractBaseController<Syste
 
     @GetMapping("/permission/menu/{id}")
     @Override
+    @PreAuthorize("hasAnyAuthority('permission:query')")
     public ResultJson getInfo(@PathVariable Object id) {
         SystemPermissionMenuEntity result = systemPermissionMenuService.getById(id.toString());
         return ResponseResult.resultSuccess(result);
