@@ -138,6 +138,7 @@ public class SystemPermissionMenuController extends AbstractBaseController<Syste
      * @return 是否成功
      */
     @GetMapping("/unBinding/{permissionId}/{menuId}")
+    @PreAuthorize("hasAnyAuthority('permission:remove',hasAnyAuthority('menu:remove'))")
     public ResultJson unBinding(@PathVariable Long permissionId, @PathVariable Long menuId) {
         systemPermissionMenuService.unBinding(permissionId, menuId);
         return ResponseResult.resultSuccess("解绑成功");

@@ -59,6 +59,7 @@ public class SystemPermissionController extends AbstractBaseController<SystemPer
         if (Objects.isNull(currentUser)) {
             return ResponseResult.result(CodeStatusEnum.NON_LOGIN, "获取当前用户失败,请重新登录");
         }
+        permissionMenuVO.setVersion(1);
         permissionMenuVO.setCreateTime(new Date());
         permissionMenuVO.setCreateUserId(currentUser.getId());
         systemPermissionService.save(permissionMenuVO);
@@ -146,6 +147,7 @@ public class SystemPermissionController extends AbstractBaseController<SystemPer
      * @return 是否成功
      */
     @GetMapping("/unBinding/{id}/{menuId}")
+    @PreAuthorize("hasAnyAuthority('permission:remove')")
     public ResultJson deleteByIdAndMenuId(@PathVariable Long id, @PathVariable Long menuId) {
         systemPermissionService.unBinding(id, menuId);
         return ResponseResult.resultSuccess("删除成功");
