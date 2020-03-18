@@ -51,6 +51,7 @@ public class SystemRoleController extends AbstractBaseController<SystemRoleVO> {
         target.setCreateTime(new Date());
         target.setCreateUserId(currentUser.getId());
         target.setVersion(1);
+        target.setIsEnabled(1);
         SystemRoleEntity entity = BeanUtils.transformFrom(target, SystemRoleEntity.class);
         systemRoleService.save(entity);
         return ResponseResult.resultSuccess("保存成功");
