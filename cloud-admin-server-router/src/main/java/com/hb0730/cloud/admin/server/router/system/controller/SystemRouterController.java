@@ -59,7 +59,7 @@ public class SystemRouterController extends AbstractBaseController<SystemRouterV
 
     @PostMapping("/add")
     @Override
-    @PreAuthorize("hasAnyAuthority('router:save')")
+    @PreAuthorize("hasAnyAuthority('router:add')")
     public ResultJson save(@RequestBody SystemRouterVO target) {
         SystemRouterEntity entity = BeanUtils.transformFrom(target, SystemRouterEntity.class);
         assert entity != null;
