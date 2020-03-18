@@ -15,19 +15,9 @@ import org.springframework.stereotype.Component;
  * @since V1.0
  */
 @Component
-public class FeignFactory implements FallbackFactory<IRemotePermissionMenu> {
+public class RemotePermissionMenuFallbackFactory implements FallbackFactory<IRemotePermissionMenu> {
     @Override
     public IRemotePermissionMenu create(Throwable throwable) {
-        return new IRemotePermissionMenu() {
-            @Override
-            public ResultJson save(SystemPermissionMenuVO vo) {
-                return ResponseResult.resultFall("保存菜单权限失败（熔断）");
-            }
-
-            @Override
-            public ResultJson unBinding(Long permissionId, Long menuId) {
-                return ResponseResult.resultFall("解除菜单与权限绑定失败(熔断)");
-            }
-        };
+        return new RemotePermissionFallback(throwable);
     }
 }

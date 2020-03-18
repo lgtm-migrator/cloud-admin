@@ -2,7 +2,7 @@ package com.hb0730.cloud.admin.server.permission.feign;
 
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.commons.feign.configuration.FeignConfiguration;
-import com.hb0730.cloud.admin.server.permission.feign.fallback.FeignFactory;
+import com.hb0730.cloud.admin.server.permission.feign.fallback.RemotePermissionMenuFallbackFactory;
 import com.hb0730.cloud.admin.server.permission.system.model.vo.SystemPermissionMenuVO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +19,7 @@ import static com.hb0730.cloud.admin.common.util.ServerNameConstants.PERMISSION_
  * @author bing_huang
  * @since V1.0
  */
-@FeignClient(name = PERMISSION_MENU_SERVER, path = PERMISSION_MENU_SERVER_REQUEST, configuration = FeignConfiguration.class, fallbackFactory = FeignFactory.class)
+@FeignClient(name = PERMISSION_MENU_SERVER, path = PERMISSION_MENU_SERVER_REQUEST, configuration = FeignConfiguration.class, fallbackFactory = RemotePermissionMenuFallbackFactory.class)
 public interface IRemotePermissionMenu {
 
     /**

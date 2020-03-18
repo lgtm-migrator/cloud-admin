@@ -43,6 +43,7 @@ public class SystemPermissionMenuController extends AbstractBaseController<Syste
 
     @PostMapping("/save")
     @Override
+    @PreAuthorize("hasAnyAuthority('permission:save','menu:save')")
     public ResultJson save(@RequestBody SystemPermissionMenuVO target) {
         UserDetail currentUser = null;
         try {
@@ -69,7 +70,7 @@ public class SystemPermissionMenuController extends AbstractBaseController<Syste
 
     @GetMapping("/permission/menu/{id}")
     @Override
-    @PreAuthorize("hasAnyAuthority('permission:query')")
+    @PreAuthorize("hasAnyAuthority('permission:query','menu:query')")
     public ResultJson getInfo(@PathVariable Object id) {
         SystemPermissionMenuEntity result = systemPermissionMenuService.getById(id.toString());
         return ResponseResult.resultSuccess(result);
