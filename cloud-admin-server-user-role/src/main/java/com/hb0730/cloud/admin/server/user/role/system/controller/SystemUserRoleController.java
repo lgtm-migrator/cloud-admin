@@ -230,7 +230,7 @@ public class SystemUserRoleController extends AbstractBaseController<SystemUserR
      * @return 是否正确
      */
     private ResultJson verification(ResultJson result, String message) {
-        if (!CodeStatusEnum.SUCCESS.getCode().equals(result.getErrCode())) {
+        if (!CodeStatusEnum.SUCCESS.getCode().equals(result.getStatusCode())) {
             return ResponseResult.resultFall(result.getData());
         } else {
             if (Objects.isNull(result.getData())) {

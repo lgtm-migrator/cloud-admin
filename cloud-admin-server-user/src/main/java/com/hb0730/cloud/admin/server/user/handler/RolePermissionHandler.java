@@ -39,7 +39,7 @@ public class RolePermissionHandler {
     public List<SystemPermissionVO> getPermission(List<Long> roleIds) {
         List<Long> permissionIds = getPermissionIds(roleIds);
         ResultJson resultPermission = remotePermission.getPermissionByIds(permissionIds);
-        if (!CodeStatusEnum.SUCCESS.getCode().equals(resultPermission.getErrCode())) {
+        if (!CodeStatusEnum.SUCCESS.getCode().equals(resultPermission.getStatusCode())) {
             throw new BusinessException(resultPermission.getData().toString());
         }
         return GsonUtils.json2List(GsonUtils.json2String(resultPermission.getData()), SystemPermissionVO.class);
@@ -58,7 +58,7 @@ public class RolePermissionHandler {
             return Lists.newArrayList();
         }
         ResultJson resultPermissionIds = remoteRolePermission.getPermissionIdByRoleIds(roleIds);
-        if (!CodeStatusEnum.SUCCESS.getCode().equals(resultPermissionIds.getErrCode())) {
+        if (!CodeStatusEnum.SUCCESS.getCode().equals(resultPermissionIds.getStatusCode())) {
             throw new BusinessException(resultPermissionIds.getData().toString());
         }
         return GsonUtils.json2List(GsonUtils.json2String(resultPermissionIds.getData()), Long.class);

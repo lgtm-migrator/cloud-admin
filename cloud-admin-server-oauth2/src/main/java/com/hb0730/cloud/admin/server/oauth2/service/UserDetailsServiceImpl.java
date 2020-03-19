@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.hb0730.cloud.admin.common.util.GsonUtils;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
+import com.hb0730.cloud.admin.common.web.utils.JsonConvertBeanUtils;
 import com.hb0730.cloud.admin.commons.user.model.vo.SystemUserVO;
 import com.hb0730.cloud.admin.server.oauth2.feign.IRemoteUser;
 import com.hb0730.cloud.admin.server.oauth2.model.UserDetail;
@@ -31,9 +32,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         ResultJson result = remoteUser.findUserByUserName(userName);
-        if (CodeStatusEnum.SUCCESS.getCode().equals(result.getErrCode())) {
-            return GsonUtils.json2Bean(GsonUtils.json2String(result.getData()), UserDetail.class);
-        }
-        return null;
+        return JsonConvertBeanUtils.convert(result, UserDetail.class);
     }
 }

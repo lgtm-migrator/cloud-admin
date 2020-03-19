@@ -236,7 +236,7 @@ public class SystemRouterController extends AbstractBaseController<SystemRouterV
             return null;
         }
         ResultJson resultJson = remoteUser.findUserById(userId);
-        if (CodeStatusEnum.SUCCESS.getCode().equals(resultJson.getErrCode())) {
+        if (CodeStatusEnum.SUCCESS.getCode().equals(resultJson.getStatusCode())) {
             Object data = resultJson.getData();
             if (data instanceof Map) {
                 Map map = (Map) data;

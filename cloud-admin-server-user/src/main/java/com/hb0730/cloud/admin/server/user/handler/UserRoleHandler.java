@@ -3,9 +3,9 @@ package com.hb0730.cloud.admin.server.user.handler;
 import com.google.common.collect.Lists;
 import com.hb0730.clou.admin.commons.model.role.SystemRoleVO;
 import com.hb0730.cloud.admin.common.exception.BusinessException;
-import com.hb0730.cloud.admin.common.util.GsonUtils;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
+import com.hb0730.cloud.admin.common.web.utils.JsonConvertBeanUtils;
 import com.hb0730.cloud.admin.server.user.feign.IRemoteRole;
 import com.hb0730.cloud.admin.server.user.feign.IRemoteUserRole;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,10 +38,7 @@ public class UserRoleHandler {
      */
     public List<Long> getRoleIdByUserId(@NonNull Long userId) {
         ResultJson resultUserRole = remoteUserRole.getRoleByUserId(userId);
-        if (!CodeStatusEnum.SUCCESS.getCode().equals(resultUserRole.getErrCode())) {
-            throw new BusinessException(resultUserRole.getData().toString());
-        }
-        return GsonUtils.json2List(GsonUtils.json2String(resultUserRole.getData()), Long.class);
+        return JsonConvertBeanUtils.convertList(resultUserRole, Long.class);
     }
 
     /**
@@ -58,10 +55,7 @@ public class UserRoleHandler {
             return Lists.newArrayList();
         }
         ResultJson result = remoteRole.getRolesByIds(roleIds);
-        if (!CodeStatusEnum.SUCCESS.getCode().equals(result.getErrCode())) {
-            throw new BusinessException(result.getData().toString());
-        }
-        return GsonUtils.json2List(GsonUtils.json2String(result.getData()), SystemRoleVO.class);
+        return JsonConvertBeanUtils.convertList(result, SystemRoleVO.class);
     }
 
     /**
@@ -73,7 +67,7 @@ public class UserRoleHandler {
      */
     public void removeByUserId(@NonNull Long userId) {
         ResultJson resultJson = remoteUserRole.removeByUserId(userId);
-        if (!CodeStatusEnum.SUCCESS.getCode().equals(resultJson.getErrCode())) {
+        if (!CodeStatusEnum.SUCCESS.getCode().equals(resultJson.getStatusCode())) {
             throw new BusinessException(resultJson.getData().toString());
         }
     }
@@ -88,7 +82,7 @@ public class UserRoleHandler {
      */
     public void bindingRoleByUserId(@NonNull Long userId, @NonNull List<Long> roleId) {
         ResultJson result = remoteUserRole.bindingRoleByUserId(userId, roleId);
-        if (!CodeStatusEnum.SUCCESS.getCode().equals(result.getErrCode())) {
+        if (!CodeStatusEnum.SUCCESS.getCode().equals(result.getStatusCode())) {
             throw new BusinessException(result.getData().toString());
         }
     }

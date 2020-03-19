@@ -75,9 +75,9 @@ public class SystemPermissionServiceImpl extends BaseServiceImpl<SystemPermissio
             throw new NullPointerException("菜单id为空");
         }
         ResultJson result = remotePermissionMenu.unBinding(permissionId, menuId);
-        int code = result.getErrCode();
+        String code = result.getStatusCode();
         if (!CodeStatusEnum.SUCCESS.getCode().equals(code)) {
-            throw new BusinessException(result.getErrorMessage());
+            throw new BusinessException(result.getData().toString());
         }
     }
 
@@ -101,9 +101,9 @@ public class SystemPermissionServiceImpl extends BaseServiceImpl<SystemPermissio
             throw new NullPointerException("菜单id为空");
         }
         ResultJson result = remotePermissionMenu.save(vo);
-        int code = result.getErrCode();
+        String code = result.getStatusCode();
         if (!CodeStatusEnum.SUCCESS.getCode().equals(code)) {
-            throw new BusinessException(result.getErrorMessage());
+            throw new BusinessException(result.getData().toString());
         }
     }
 }

@@ -4,6 +4,7 @@ import com.hb0730.cloud.admin.common.exception.BusinessException;
 import com.hb0730.cloud.admin.common.util.GsonUtils;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
+import com.hb0730.cloud.admin.common.web.utils.JsonConvertBeanUtils;
 import com.hb0730.cloud.admin.server.user.feign.IRemoteUserPost;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
@@ -33,7 +34,7 @@ public class UserPostHandler {
      */
     public void bindingPostByUserId(@NonNull Long userId, @NonNull List<Long> postIds) {
         ResultJson result = remoteUserPost.bindingPostByUserId(userId, postIds);
-        if (!CodeStatusEnum.SUCCESS.getCode().equals(result.getErrCode())) {
+        if (!CodeStatusEnum.SUCCESS.getCode().equals(result.getStatusCode())) {
             throw new BusinessException(result.getData().toString());
         }
     }
@@ -47,7 +48,7 @@ public class UserPostHandler {
      */
     public void removeByUserId(@NonNull Long userId) {
         ResultJson resultJson = remoteUserPost.removeByUserId(userId);
-        if (!CodeStatusEnum.SUCCESS.getCode().equals(resultJson.getErrCode())) {
+        if (!CodeStatusEnum.SUCCESS.getCode().equals(resultJson.getStatusCode())) {
             throw new BusinessException(resultJson.getData().toString());
         }
     }
@@ -62,9 +63,6 @@ public class UserPostHandler {
      */
     public List<Long> getPostIdByUserId(@NonNull Long userId) {
         ResultJson resultUserPosts = remoteUserPost.getPostByUserId(userId);
-        if (!CodeStatusEnum.SUCCESS.getCode().equals(resultUserPosts.getErrCode())) {
-            throw new BusinessException(resultUserPosts.getData().toString());
-        }
-        return GsonUtils.json2List(GsonUtils.json2String(resultUserPosts.getData()), Long.class);
+        return JsonConvertBeanUtils.convertList(resultUserPosts, Long.class);
     }
 }

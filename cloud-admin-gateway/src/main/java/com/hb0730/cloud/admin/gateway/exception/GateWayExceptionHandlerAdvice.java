@@ -60,7 +60,7 @@ public class GateWayExceptionHandlerAdvice {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResultJson handler(AbstractCloudAdminException e) {
         logger.error("Admin exception ：{}", e.getMessage());
-        return new ResultJson<>(e.getStatus(), e.getMessage(), e.getErrorData());
+        return ResponseResult.result(CodeStatusEnum.FAIL, e.getErrorData());
     }
 
     /**

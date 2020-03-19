@@ -7,74 +7,75 @@ package com.hb0730.cloud.admin.common.web.utils;
  *
  * @author bing_huang
  * @date 2020/02/13
+ * @since v1.1
  */
 public enum CodeStatusEnum {
     /**
      * 请求成功
      */
-    SUCCESS(200, "请求成功"),
+    SUCCESS("CA20000", "请求成功"),
     /**
      * 请求失败
      */
-    FAIL(202, "请求失败"),
+    FAIL("CA20002", "请求失败"),
     /**
      * 非法请求
      */
-    ILLEGAL_REQUEST(500, "非法请求"),
+    ILLEGAL_REQUEST("CA10001", "非法请求"),
     /**
      * 连接超时
      */
-    CONNECT_TIME_OUT(500, "连接超时"),
+    CONNECT_TIME_OUT("CA10002", "连接超时"),
     /**
      * 无权限
      */
-    AUTH_ERROR(5401, "抱歉，您没有操作权限"),
+    AUTH_ERROR("CA10003", "抱歉，您没有操作权限"),
     /**
      * 非法令牌
      */
-    ILLEGAL_TOKEN(508, "非法令牌"),
+    ILLEGAL_TOKEN("CA10004", "非法令牌"),
     /**
      * 其他客户端登录
      */
-    OTHER_CLIENTS_LOGGED_IN(512, "其他客户登录"),
+    OTHER_CLIENTS_LOGGED_IN("CA10005", "其他客户登录"),
     /**
      * 令牌已过期
      */
-    TOKEN_EXPIRED(514, "令牌已过期"),
+    TOKEN_EXPIRED("CA10006", "令牌已过期"),
     /**
      * 登录失败
      */
-    LOGIN_FAILURE(514, "登录失败"),
+    LOGIN_FAILURE("CA10007", "登录失败"),
     /**
      * 用户未登录
      */
-    NON_LOGIN(514, "用户未登录"),
+    NON_LOGIN("CA10008", "用户未登录"),
     /**
      * 未找到
      */
-    NOT_FONT(404, "未找到"),
+    NOT_FONT("CA10009", "未找到"),
     /**
      * 限流
      */
-    CURRENT_LIMITING(403, "限流"),
+    CURRENT_LIMITING("CA10010", "限流"),
     /**
      * 熔断
      */
-    FALL_BACK(433, "熔断");
-    private Integer code;
+    FALL_BACK("CA10011", "熔断");
+    private String status;
     private String message;
 
-    CodeStatusEnum(Integer code, String message) {
-        this.code = code;
+    CodeStatusEnum(String status, String message) {
+        this.status = status;
         this.message = message;
     }
 
-    public Integer getCode() {
-        return code;
+    public String getCode() {
+        return status;
     }
 
-    public void setCode(Integer code) {
-        this.code = code;
+    public void setCode(String status) {
+        this.status = status;
     }
 
     public String getMessage() {

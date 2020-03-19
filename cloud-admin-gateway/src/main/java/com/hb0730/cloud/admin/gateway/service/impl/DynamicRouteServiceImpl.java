@@ -62,7 +62,7 @@ public class DynamicRouteServiceImpl implements RouteDefinitionRepository, Appli
             assert router != null;
             router.setUri(r.getUri().toString());
             ResultJson save = remoteRouterClient.save(router);
-            if (!CodeStatusEnum.SUCCESS.getCode().equals(save.getErrCode())) {
+            if (!CodeStatusEnum.SUCCESS.getCode().equals(save.getStatusCode())) {
                 throw new GatewayException("保留路由失败" + save.getData());
             }
             load();
@@ -76,9 +76,9 @@ public class DynamicRouteServiceImpl implements RouteDefinitionRepository, Appli
         logger.debug("删除路由");
         return routeId.flatMap(id -> {
             ResultJson result = remoteRouterClient.delete(id);
-            if (!CodeStatusEnum.SUCCESS.getCode().equals(result.getErrCode())) {
+            if (!CodeStatusEnum.SUCCESS.getCode().equals(result.getStatusCode())) {
                 return Mono.defer(() -> Mono.error(
-                        new GatewayException("删除路由" + id + "失败," + result.getErrorMessage())));
+                        new GatewayException("删除路由" + id + "失败," + result.getData())));
             } else {
                 load();
                 return Mono.empty();
@@ -111,8 +111,8 @@ public class DynamicRouteServiceImpl implements RouteDefinitionRepository, Appli
             throw new NullPointerException("id为空");
         }
         ResultJson result = remoteRouterClient.update(routeDefinition);
-        if (!CodeStatusEnum.SUCCESS.getCode().equals(result.getErrCode())) {
-            throw new GatewayException("更新路由失败" + result.getErrorMessage());
+        if (!CodeStatusEnum.SUCCESS.getCode().equals(result.getStatusCode())) {
+            throw new GatewayException("更新路由失败" + result.getData());
         }
         load();
     }
@@ -140,7 +140,7 @@ public class DynamicRouteServiceImpl implements RouteDefinitionRepository, Appli
      */
     public void load() {
         ResultJson routers = remoteRouterClient.getRouters();
-        if (CodeStatusEnum.SUCCESS.getCode().equals(routers.getErrCode())) {
+        if (CodeStatusEnum.SUCCESS.getCode().equals(routers.getStatusCode())) {
             Object data = routers.getData();
             List<GatewayRouteDefinition> gatewayRouteDefinitions = GsonUtils.json2List(JSONArray.toJSONString(data), GatewayRouteDefinition.class);
             routeDefinitionList.clear();

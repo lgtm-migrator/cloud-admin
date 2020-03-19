@@ -9,6 +9,7 @@ import com.hb0730.cloud.admin.common.util.BeanUtils;
 import com.hb0730.cloud.admin.common.util.GsonUtils;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
+import com.hb0730.cloud.admin.common.web.utils.JsonConvertBeanUtils;
 import com.hb0730.cloud.admin.commons.menu.model.vo.MenuVO;
 import com.hb0730.cloud.admin.commons.menu.model.vo.SystemMenuVO;
 import com.hb0730.cloud.admin.commons.permission.model.vo.SystemPermissionVO;
@@ -221,10 +222,7 @@ public class SystemPermissionMenuServiceImpl extends BaseServiceImpl<SystemPermi
      */
     private List<PermissionMenuListVO> getMenusByParentId(@NonNull Long id) {
         ResultJson result = remoteMenu.getMenusByParentId(id);
-        if (!CodeStatusEnum.SUCCESS.getCode().equals(result.getErrCode())) {
-            throw new BusinessException(result.getData().toString());
-        }
-        List<SystemMenuVO> vos = GsonUtils.json2List(JSONArray.toJSONString(result.getData()), SystemMenuVO.class);
+        List<SystemMenuVO> vos = JsonConvertBeanUtils.convertList(result, SystemMenuVO.class);
         if (CollectionUtils.isEmpty(vos)) {
             return null;
         }
@@ -252,10 +250,7 @@ public class SystemPermissionMenuServiceImpl extends BaseServiceImpl<SystemPermi
             return null;
         }
         ResultJson result = remotePermission.getPermissionByIds(permissionIds);
-        if (!CodeStatusEnum.SUCCESS.getCode().equals(result.getErrCode())) {
-            throw new BusinessException(result.getErrorMessage());
-        }
-        return GsonUtils.json2List(JSONArray.toJSONString(result.getData()), SystemPermissionVO.class);
+        return JsonConvertBeanUtils.convertList(result, SystemPermissionVO.class);
     }
 
     /**
@@ -271,9 +266,6 @@ public class SystemPermissionMenuServiceImpl extends BaseServiceImpl<SystemPermi
             return null;
         }
         ResultJson result = remoteMenu.getMenuById(menuId);
-        if (!CodeStatusEnum.SUCCESS.getCode().equals(result.getErrCode())) {
-            throw new BusinessException(result.getErrorMessage());
-        }
-        return GsonUtils.gsonToBean(GsonUtils.gson2String(result.getData()), SystemMenuVO.class);
+        return JsonConvertBeanUtils.convert(result, SystemMenuVO.class);
     }
 }
