@@ -21,11 +21,11 @@ public class RemoteMenuFallback implements IRemoteMenu {
 
     @Override
     public ResultJson getMenuById(Long id) {
-        return ResponseResult.result(CodeStatusEnum.FALL_BACK, "获取菜单失败，fallback:" + throwable.getClass().getSimpleName());
+        return ResponseResult.result(CodeStatusEnum.FALL_BACK, "获取菜单失败，fallback message:" + throwable.getMessage());
     }
 
     @Override
     public ResultJson getMenusByParentId(Long parentId) {
-        return ResponseResult.result(CodeStatusEnum.FALL_BACK, "根据父id获取菜单失败，fallback:" + throwable.getClass().getSimpleName());
+        return ResponseResult.result(CodeStatusEnum.FALL_BACK, "根据父id获取菜单失败，fallback message:" + throwable.getMessage());
     }
 }

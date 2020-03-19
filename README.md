@@ -66,3 +66,12 @@ spring alibaba cloud admin Template
 前端采用前后分离Vue基于d2-admin框架之上进行开发
 
 前端地址: <https://github.com/hb0730/cloud-admin-ui>
+
+# 项目启动事项
+ 1. 首先启动`cloud-admin-server-router` 路由服务
+ 
+ 2. 在启动`cloud-admin-server-user`用户服务(路由服务包含了组织菜单权限等)
+ 
+ 3. 再启动 `cloud-admin-server-user-dept` `cloud-admin-server-user-post` `cloud-admin-server-user-role` `cloud-admin-server-dept` `cloud-admin-server-permission` `cloud-admin-server-permission-menu` `cloud-admin-server-role` `cloud-admin-server-role-permission` 等服务(因为用户服务依赖这些服务在登录是会自动获取用户关联信息)
+ 
+ 4. 启动 `cloud-admin-server-oauth2` 和`cloud-admin-gateway`

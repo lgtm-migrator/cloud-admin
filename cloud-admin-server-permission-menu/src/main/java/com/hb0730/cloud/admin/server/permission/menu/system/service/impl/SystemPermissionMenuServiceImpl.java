@@ -201,7 +201,7 @@ public class SystemPermissionMenuServiceImpl extends BaseServiceImpl<SystemPermi
             return null;
         }
         List<PermissionMenuListVO> permissionMenus = Lists.newArrayList();
-        permissions.forEach(permission->{
+        permissions.forEach(permission -> {
             PermissionMenuListVO vo = new PermissionMenuListVO();
             vo.setType(1);
             vo.setName(permission.getName());
@@ -222,7 +222,7 @@ public class SystemPermissionMenuServiceImpl extends BaseServiceImpl<SystemPermi
     private List<PermissionMenuListVO> getMenusByParentId(@NonNull Long id) {
         ResultJson result = remoteMenu.getMenusByParentId(id);
         if (!CodeStatusEnum.SUCCESS.getCode().equals(result.getErrCode())) {
-            throw new BusinessException(result.getErrorMessage());
+            throw new BusinessException(result.getData().toString());
         }
         List<SystemMenuVO> vos = GsonUtils.json2List(JSONArray.toJSONString(result.getData()), SystemMenuVO.class);
         if (CollectionUtils.isEmpty(vos)) {

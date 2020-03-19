@@ -113,14 +113,8 @@ public class SystemMenuServiceImpl extends BaseServiceImpl<SystemMenuMapper, Sys
         return ids;
     }
 
-    /**
-     * 获取树形菜单
-     *
-     * @param menuIds 菜单id
-     * @return 树形菜单
-     */
     @Override
-    public List<Map<String, Object>> getVueTree(List<Long> menuIds) {
+    public List<Map<String, Object>> getVueTreeByMenuId(List<Long> menuIds) {
         if (CollectionUtils.isEmpty(menuIds)) {
             return Lists.newArrayList();
         }

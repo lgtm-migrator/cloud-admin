@@ -37,7 +37,7 @@ public class SystemMenuServiceImplTest {
     @Test
     public void getTree() {
         List<Long> ids = Lists.list(1239376788206804994L, 1232536626407628802L, 1239376133786329090L);
-        List<Map<String, Object>> tree = systemMenuService.getVueTree(ids);
+        List<Map<String, Object>> tree = systemMenuService.getVueTreeByMenuId(ids);
         System.out.println(tree);
     }
 }

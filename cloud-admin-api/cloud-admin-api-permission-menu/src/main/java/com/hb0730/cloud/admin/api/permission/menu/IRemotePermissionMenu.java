@@ -18,7 +18,7 @@ public interface IRemotePermissionMenu {
      * </p>
      *
      * @param permissionIds 权限id
-     * @return 菜单id
+     * @return 根据权限获取所有的菜单id(非树形结构)
      */
     ResultJson getMenuByPermission(List<Long> permissionIds);
 }

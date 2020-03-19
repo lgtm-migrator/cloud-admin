@@ -44,7 +44,7 @@ public class SystemPostController extends AbstractBaseController<SystemPostVO> {
         UserDetail currentUser = getCurrentUser();
         target.setVersion(1);
         target.setCreateTime(new Date());
-        target.setCreateUserId(currentUser.getUserId());
+        target.setCreateUserId(currentUser.getId());
         SystemPostEntity entity = BeanUtils.transformFrom(target, SystemPostEntity.class);
         systemPostService.save(entity);
         return ResponseResult.resultSuccess("保存成功");
@@ -58,7 +58,7 @@ public class SystemPostController extends AbstractBaseController<SystemPostVO> {
             return ResponseResult.resultFall("当前数据不存在,删除失败");
         }
         entity.setUpdateTime(new Date());
-        entity.setUpdateUserId(getCurrentUser().getUserId());
+        entity.setUpdateUserId(getCurrentUser().getId());
         systemPostService.updateById(entity);
         systemPostService.removeById(entity.getId());
         return ResponseResult.resultSuccess("删除成功");
@@ -120,7 +120,7 @@ public class SystemPostController extends AbstractBaseController<SystemPostVO> {
             return ResponseResult.resultFall("根据id获取参数失败,请确认数据是否正确");
         }
         BeanUtils.updateProperties(params, entity);
-        entity.setUpdateUserId(getCurrentUser().getUserId());
+        entity.setUpdateUserId(getCurrentUser().getId());
         entity.setUpdateTime(new Date());
         systemPostService.updateById(entity);
         return ResponseResult.resultSuccess("更新成功");

@@ -1,10 +1,11 @@
-package com.hb0730.cloud.admin.server.user.feign;
+package com.hb0730.cloud.admin.server.menu.feign;
 
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.commons.feign.configuration.FeignConfiguration;
-import com.hb0730.cloud.admin.server.user.feign.fallback.RemotePermissionMenuFallbackFactory;
+import com.hb0730.cloud.admin.server.menu.feign.fallback.RemotePermissionMenuFallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -20,15 +21,16 @@ import static com.hb0730.cloud.admin.common.util.ServerNameConstants.PERMISSION_
  */
 @FeignClient(name = PERMISSION_MENU_SERVER, path = PERMISSION_MENU_SERVER_REQUEST, configuration = FeignConfiguration.class, fallbackFactory = RemotePermissionMenuFallbackFactory.class)
 public interface IRemotePermissionMenu extends com.hb0730.cloud.admin.api.permission.menu.IRemotePermissionMenu {
+
     /**
      * <p>
      * 根据权限id获取菜单id
-     * </p>
+     * </P>
      *
      * @param permissionIds 权限id
-     * @return 根据权限获取所有的菜单id(非树形结构)
+     * @return 菜单id
      */
     @PostMapping("/menus")
     @Override
-    ResultJson getMenuByPermission(List<Long> permissionIds);
+    ResultJson getMenuByPermission(@RequestBody List<Long> permissionIds);
 }

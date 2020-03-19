@@ -2,20 +2,21 @@ package com.hb0730.cloud.admin.server.menu.system.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.hb0730.cloud.admin.common.exception.Oauth2Exception;
 import com.hb0730.cloud.admin.common.util.BeanUtils;
 import com.hb0730.cloud.admin.common.web.controller.AbstractBaseController;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
 import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
 import com.hb0730.cloud.admin.commons.model.security.UserDetail;
+import com.hb0730.cloud.admin.commons.permission.model.vo.SystemPermissionVO;
+import com.hb0730.cloud.admin.server.menu.handler.PermissionMenuHandler;
 import com.hb0730.cloud.admin.server.menu.system.model.entity.SystemMenuEntity;
 import com.hb0730.cloud.admin.server.menu.system.model.vo.MenuVO;
 import com.hb0730.cloud.admin.server.menu.system.model.vo.SystemMenuVO;
 import com.hb0730.cloud.admin.server.menu.system.service.ISystemMenuService;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.parameters.P;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +24,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.hb0730.cloud.admin.common.util.RequestMappingConstants.MENU_SERVER_REQUEST;
 
@@ -40,6 +43,8 @@ public class SystemMenuController extends AbstractBaseController<SystemMenuVO> {
 
     @Autowired
     private ISystemMenuService systemMenuService;
+    @Autowired
+    private PermissionMenuHandler permissionMenuHandler;
 
     @PostMapping("/save")
     @Override
@@ -88,7 +93,7 @@ public class SystemMenuController extends AbstractBaseController<SystemMenuVO> {
      * @return 菜单
      */
     @GetMapping("/menu/{parentId}")
-    @PreAuthorize("hasAnyAuthority('menu:query')")
+//    @PreAuthorize("hasAnyAuthority('menu:query')")
     public ResultJson getMenusByParentId(@PathVariable Long parentId) {
         SystemMenuEntity entity = new SystemMenuEntity();
         entity.setParentId(parentId);
@@ -181,8 +186,25 @@ public class SystemMenuController extends AbstractBaseController<SystemMenuVO> {
      */
     @PostMapping("/vueMenuTree")
     public ResultJson getVueMenuTree(@RequestBody List<Long> menuIds) {
-        List<Map<String, Object>> vueTree = systemMenuService.getVueTree(menuIds);
+        List<Map<String, Object>> vueTree = systemMenuService.getVueTreeByMenuId(menuIds);
         return ResponseResult.resultSuccess(vueTree);
+    }
+
+    /**
+     * <p>
+     * 根据当前用户获vue树形菜单
+     * </p>
+     *
+     * @return vue菜单
+     */
+    @GetMapping("/vueMenuTree/current")
+    public ResultJson getVueMenuByCurrentUser() {
+        UserDetail currentUser = getCurrentUser();
+        List<SystemPermissionVO> userPermission = currentUser.getUserPermission();
+        List<Long> permissionId = userPermission.parallelStream().map(SystemPermissionVO::getId).collect(Collectors.toList());
+        List<Long> menuIds = permissionMenuHandler.getMenuIdByPermissionId(permissionId);
+        List<Map<String, Object>> vueTreeByMenuId = systemMenuService.getVueTreeByMenuId(menuIds);
+        return ResponseResult.resultSuccess(vueTreeByMenuId);
     }
 
     /**

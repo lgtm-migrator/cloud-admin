@@ -45,7 +45,7 @@ public class UserResourceConfig extends ResourceServerConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers(USER_SERVER_REQUEST + "/findUser/**").permitAll()
-                .antMatchers("/**").hasAnyAuthority("USER");
+                .antMatchers("/**").authenticated();
     }
 
     @Override

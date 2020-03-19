@@ -1,7 +1,7 @@
 package com.hb0730.cloud.admin.server.menu.system.service;
 
-import com.hb0730.cloud.admin.server.menu.system.model.entity.SystemMenuEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.hb0730.cloud.admin.server.menu.system.model.entity.SystemMenuEntity;
 import com.hb0730.cloud.admin.server.menu.system.model.vo.MenuVO;
 
 import java.util.List;
@@ -47,13 +47,12 @@ public interface ISystemMenuService extends IService<SystemMenuEntity> {
      */
     Set<Long> getChildrenId(Long id);
 
+
     /**
-     * <p>
-     * 获取树形菜单
-     * </p>
+     * 根据菜单id获取vue所需树形
      *
      * @param menuIds 菜单id
      * @return 树形菜单
      */
-    List<Map<String, Object>> getVueTree(List<Long> menuIds);
+    List<Map<String, Object>> getVueTreeByMenuId(List<Long> menuIds);
 }

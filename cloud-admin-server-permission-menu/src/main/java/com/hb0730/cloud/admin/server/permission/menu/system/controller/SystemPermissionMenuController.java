@@ -149,7 +149,7 @@ public class SystemPermissionMenuController extends AbstractBaseController<Syste
      * 获取所有菜单权限
      * </P>
      *
-     * @return 菜单权限
+     * @return 菜单权限(树形结构)
      */
     @GetMapping("/getAll")
     public ResultJson getAllPermissionMenu() {
@@ -163,23 +163,23 @@ public class SystemPermissionMenuController extends AbstractBaseController<Syste
      * </p>
      *
      * @param permissionIds 权限id
-     * @return 树形菜单
+     * @return 根据权限获取所有的菜单id(非树形结构)
      */
     @PostMapping("/menus")
-    public ResultJson getMenuByPermission(List<Long> permissionIds) {
-        if (!CollectionUtils.isEmpty(permissionIds)) {
+    public ResultJson getMenuByPermission(@RequestBody List<Long> permissionIds) {
+        if (CollectionUtils.isEmpty(permissionIds)) {
             return ResponseResult.resultSuccess(Lists.newArrayList());
         }
+        SystemPermissionMenuEntity entity = new SystemPermissionMenuEntity();
+        entity.setIsEnabled(1);
+        QueryWrapper<SystemPermissionMenuEntity> queryWrapper = new QueryWrapper<>(entity);
         Set<Long> menuIds = Sets.newConcurrentHashSet();
-        permissionIds.parallelStream().forEach(permissionId -> {
-            SystemPermissionMenuEntity entity = new SystemPermissionMenuEntity();
+        permissionIds.forEach(permissionId -> {
             entity.setPermissionId(permissionId);
-            entity.setIsEnabled(1);
-            QueryWrapper<SystemPermissionMenuEntity> queryWrapper = new QueryWrapper<>(entity);
-            List<SystemPermissionMenuEntity> result = systemPermissionMenuService.list(queryWrapper);
-            if (!CollectionUtils.isEmpty(result)) {
-                Set<Long> resultMenuIds = result.parallelStream().map(SystemPermissionMenuEntity::getMenuId).collect(Collectors.toSet());
-                menuIds.addAll(resultMenuIds);
+            queryWrapper.setEntity(entity);
+            List<SystemPermissionMenuEntity> list = systemPermissionMenuService.list(queryWrapper);
+            if (!CollectionUtils.isEmpty(list)) {
+                menuIds.addAll(list.parallelStream().map(SystemPermissionMenuEntity::getMenuId).collect(Collectors.toSet()));
             }
         });
         return ResponseResult.resultSuccess(Lists.newArrayList(menuIds));
