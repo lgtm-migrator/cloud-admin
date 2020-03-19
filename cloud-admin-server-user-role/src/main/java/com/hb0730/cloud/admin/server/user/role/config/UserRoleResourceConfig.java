@@ -45,7 +45,7 @@ public class UserRoleResourceConfig extends ResourceServerConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers(USER_ROLE_SERVER_REQUEST + "/getRoleId/**").permitAll()
-                .antMatchers("/**").hasAnyAuthority("USER");
+                .antMatchers("/**").authenticated();
     }
 
     @Override
