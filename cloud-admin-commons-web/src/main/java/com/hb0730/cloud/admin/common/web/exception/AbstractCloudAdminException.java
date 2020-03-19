@@ -1,5 +1,6 @@
-package com.hb0730.cloud.admin.common.exception;
+package com.hb0730.cloud.admin.common.web.exception;
 
+import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
 import lombok.NonNull;
 import org.springframework.lang.Nullable;
 
@@ -11,7 +12,7 @@ import org.springframework.lang.Nullable;
  * @since V1.0
  */
 public abstract class AbstractCloudAdminException extends RuntimeException {
-    private Object errorData;
+    private String errorMessage;
 
     public AbstractCloudAdminException(String message) {
         super(message);
@@ -27,22 +28,22 @@ public abstract class AbstractCloudAdminException extends RuntimeException {
      * @return 状态码
      */
     @NonNull
-    public abstract int getStatus();
+    public abstract CodeStatusEnum getStatus();
 
     @Nullable
-    public Object getErrorData() {
-        return errorData;
+    public String getErrorData() {
+        return errorMessage;
     }
 
     /**
      * Sets error errorData.
      *
-     * @param errorData error data
+     * @param errorMessage error data
      * @return current exception.
      */
     @NonNull
-    public AbstractCloudAdminException setErrorData(@Nullable Object errorData) {
-        this.errorData = errorData;
+    public AbstractCloudAdminException setErrorData(@Nullable String errorMessage) {
+        this.errorMessage = errorMessage;
         return this;
     }
 }

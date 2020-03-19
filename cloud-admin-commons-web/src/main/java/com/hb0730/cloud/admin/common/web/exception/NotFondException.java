@@ -1,5 +1,6 @@
-package com.hb0730.cloud.admin.common.exception;
+package com.hb0730.cloud.admin.common.web.exception;
 
+import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
 import lombok.NonNull;
 
 /**
@@ -20,7 +21,7 @@ public class NotFondException extends AbstractCloudAdminException {
     }
 
     @Override
-    public @NonNull int getStatus() {
-        return 404;
+    public @NonNull CodeStatusEnum getStatus() {
+        return CodeStatusEnum.NOT_FONT;
     }
 }

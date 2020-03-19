@@ -61,7 +61,18 @@ public enum CodeStatusEnum {
     /**
      * 熔断
      */
-    FALL_BACK("CA10011", "熔断");
+    FALL_BACK("CA10011", "熔断"),
+
+    BEAN_EXCEPTION("CA10012", "bean异常"),
+
+    BUSINESS_EXCEPTION("CA10012", "业务异常"),
+
+    GATEWAY_EXCEPTION("CA10013", "网关异常"),
+
+    NULL_EXCEPTION("CA10014", "空指针异常"),
+
+    OAUTH2_EXCEPTION("CA10015", "认证异常"),
+    UNKNOWN_EXCEPTION("CA99999", "未知");
     private String status;
     private String message;
 

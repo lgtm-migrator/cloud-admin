@@ -1,5 +1,6 @@
-package com.hb0730.cloud.admin.common.exception;
+package com.hb0730.cloud.admin.common.web.exception;
 
+import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
 import lombok.NonNull;
 
 /**
@@ -19,7 +20,7 @@ public class Oauth2Exception extends AbstractCloudAdminException {
     }
 
     @Override
-    public @NonNull int getStatus() {
-        return 500;
+    public @NonNull CodeStatusEnum getStatus() {
+        return CodeStatusEnum.OAUTH2_EXCEPTION;
     }
 }
