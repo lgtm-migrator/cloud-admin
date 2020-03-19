@@ -4,18 +4,16 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.hb0730.clou.admin.commons.model.role.SystemRoleVO;
-import com.hb0730.cloud.admin.common.exception.BusinessException;
 import com.hb0730.cloud.admin.common.util.BeanUtils;
 import com.hb0730.cloud.admin.common.util.GsonUtils;
-import com.hb0730.cloud.admin.common.web.response.ResultJson;
-import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
+import com.hb0730.cloud.admin.common.web.exception.BusinessException;
+import com.hb0730.cloud.admin.common.web.exception.NullPointerException;
 import com.hb0730.cloud.admin.commons.dept.model.vo.SystemDeptVO;
 import com.hb0730.cloud.admin.commons.model.security.UserDetail;
 import com.hb0730.cloud.admin.commons.permission.model.vo.SystemPermissionVO;
 import com.hb0730.cloud.admin.commons.service.BaseServiceImpl;
 import com.hb0730.cloud.admin.commons.user.dept.model.vo.SystemUserDeptVO;
 import com.hb0730.cloud.admin.commons.user.dept.model.vo.UserDeptParamsVO;
-import com.hb0730.cloud.admin.server.user.feign.IRemoteUserRole;
 import com.hb0730.cloud.admin.server.user.handler.DeptHandler;
 import com.hb0730.cloud.admin.server.user.handler.RolePermissionHandler;
 import com.hb0730.cloud.admin.server.user.handler.UserPostHandler;
@@ -85,7 +83,7 @@ public class SystemUserServiceImpl extends BaseServiceImpl<SystemUserMapper, Sys
         QueryWrapper<SystemUserEntity> queryWrapper = new QueryWrapper<>(entity);
         SystemUserEntity e1 = getOne(queryWrapper);
         if (Objects.isNull(e1)) {
-            throw new BusinessException("根据用户账号获取用户失败,用户为空");
+            throw new NullPointerException("根据用户账号获取用户失败,用户为空");
         }
         UserDetail userDetail = BeanUtils.transformFrom(e1, UserDetail.class);
         //获取权限
@@ -192,13 +190,13 @@ public class SystemUserServiceImpl extends BaseServiceImpl<SystemUserMapper, Sys
     private void verify(SystemUserVO saveVO, Boolean isUpdate) {
         //参数校验
         if (Objects.isNull(saveVO)) {
-            throw new BusinessException("参数为空");
+            throw new NullPointerException("参数为空");
         }
         if (StringUtils.isBlank(saveVO.getUsername()) && StringUtils.isBlank(saveVO.getEmail())) {
-            throw new BusinessException("用户账号或者email为空");
+            throw new NullPointerException("用户账号或者email为空");
         }
         if (!isUpdate && StringUtils.isBlank(saveVO.getPassword())) {
-            throw new BusinessException("用户密码为空");
+            throw new NullPointerException("用户密码为空");
         }
         //判断用户名或者邮箱是否已绑定
         List<SystemUserEntity> userEntity = getUserEntity(saveVO.getUsername());

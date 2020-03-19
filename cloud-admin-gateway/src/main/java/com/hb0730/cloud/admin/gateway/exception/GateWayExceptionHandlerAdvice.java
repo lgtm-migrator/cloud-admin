@@ -1,6 +1,6 @@
 package com.hb0730.cloud.admin.gateway.exception;
 
-import com.hb0730.cloud.admin.common.exception.AbstractCloudAdminException;
+import com.hb0730.cloud.admin.common.web.exception.AbstractCloudAdminException;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
 import com.hb0730.cloud.admin.common.web.utils.ResponseResult;

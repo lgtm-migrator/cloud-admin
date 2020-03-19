@@ -1,7 +1,8 @@
 package com.hb0730.cloud.admin.common.web.utils;
 
-import com.hb0730.cloud.admin.common.exception.BusinessException;
 import com.hb0730.cloud.admin.common.util.GsonUtils;
+import com.hb0730.cloud.admin.common.web.exception.BeanUtilsException;
+import com.hb0730.cloud.admin.common.web.exception.BusinessException;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class JsonConvertBeanUtils {
             return new ArrayList<T>();
         }
         if (!CodeStatusEnum.SUCCESS.getCode().equals(result.getStatusCode())) {
-            throw new BusinessException(result.getData().toString());
+            throw new BeanUtilsException(result.getData().toString());
         }
         return convertList(result.getData(), clazz);
     }

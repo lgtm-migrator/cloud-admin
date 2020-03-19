@@ -1,6 +1,7 @@
 package com.hb0730.cloud.admin.common.util;
 
-import com.hb0730.cloud.admin.common.exception.BeanUtilsException;
+import org.apache.commons.beanutils.BeanAccessLanguageException;
+import org.springframework.beans.BeanInstantiationException;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.BeansException;
 import org.springframework.lang.NonNull;
@@ -49,7 +50,7 @@ public class BeanUtils {
             // Return the target instance
             return targetInstance;
         } catch (Exception e) {
-            throw new BeanUtilsException("Failed to new " + targetClass.getName() + " instance or copy properties", e);
+            throw new BeanInstantiationException(targetClass, "Failed to new " + targetClass.getName() + " instance or copy properties", e);
         }
     }
 
@@ -78,7 +79,6 @@ public class BeanUtils {
      *
      * @param source 源目标
      * @param target 对象目标
-     * @throws BeanUtilsException if copying failed
      */
     public static void updateProperties(@NonNull Object source, @NonNull Object target) {
         Assert.notNull(source, "source object must not be null");
@@ -88,7 +88,7 @@ public class BeanUtils {
         try {
             org.springframework.beans.BeanUtils.copyProperties(source, target, getNullPropertyNames(source));
         } catch (BeansException e) {
-            throw new BeanUtilsException("Failed to copy properties", e);
+            throw new BeanAccessLanguageException("Failed to copy properties");
         }
     }
 

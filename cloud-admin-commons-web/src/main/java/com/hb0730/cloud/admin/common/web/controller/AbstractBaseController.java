@@ -1,6 +1,6 @@
 package com.hb0730.cloud.admin.common.web.controller;
 
-import com.hb0730.cloud.admin.common.exception.Oauth2Exception;
+import com.hb0730.cloud.admin.common.web.exception.Oauth2Exception;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.SecurityContextUtils;
 import com.hb0730.cloud.admin.common.web.vo.BaseDomainVO;

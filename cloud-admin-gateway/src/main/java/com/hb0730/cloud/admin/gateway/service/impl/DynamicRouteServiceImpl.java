@@ -2,9 +2,9 @@ package com.hb0730.cloud.admin.gateway.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.google.common.collect.Lists;
-import com.hb0730.cloud.admin.common.exception.GatewayException;
 import com.hb0730.cloud.admin.common.util.BeanUtils;
 import com.hb0730.cloud.admin.common.util.GsonUtils;
+import com.hb0730.cloud.admin.common.web.exception.BusinessException;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
 import com.hb0730.cloud.admin.commons.router.model.vo.GatewayFilterDefinition;
@@ -63,7 +63,7 @@ public class DynamicRouteServiceImpl implements RouteDefinitionRepository, Appli
             router.setUri(r.getUri().toString());
             ResultJson save = remoteRouterClient.save(router);
             if (!CodeStatusEnum.SUCCESS.getCode().equals(save.getStatusCode())) {
-                throw new GatewayException("保留路由失败" + save.getData());
+                throw new BusinessException("保留路由失败" + save.getData());
             }
             load();
             return Mono.empty();
@@ -78,7 +78,7 @@ public class DynamicRouteServiceImpl implements RouteDefinitionRepository, Appli
             ResultJson result = remoteRouterClient.delete(id);
             if (!CodeStatusEnum.SUCCESS.getCode().equals(result.getStatusCode())) {
                 return Mono.defer(() -> Mono.error(
-                        new GatewayException("删除路由" + id + "失败," + result.getData())));
+                        new BusinessException("删除路由" + id + "失败," + result.getData())));
             } else {
                 load();
                 return Mono.empty();
@@ -112,7 +112,7 @@ public class DynamicRouteServiceImpl implements RouteDefinitionRepository, Appli
         }
         ResultJson result = remoteRouterClient.update(routeDefinition);
         if (!CodeStatusEnum.SUCCESS.getCode().equals(result.getStatusCode())) {
-            throw new GatewayException("更新路由失败" + result.getData());
+            throw new BusinessException("更新路由失败" + result.getData());
         }
         load();
     }

@@ -2,7 +2,6 @@ package com.hb0730.cloud.admin.server.menu.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.collect.Lists;
-import com.hb0730.cloud.admin.common.exception.NullPointerException;
 import com.hb0730.cloud.admin.commons.service.BaseServiceImpl;
 import com.hb0730.cloud.admin.server.menu.system.mapper.SystemMenuMapper;
 import com.hb0730.cloud.admin.server.menu.system.model.entity.SystemMenuEntity;

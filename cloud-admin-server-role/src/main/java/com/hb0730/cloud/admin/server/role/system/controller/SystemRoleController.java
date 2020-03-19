@@ -4,11 +4,10 @@ package com.hb0730.cloud.admin.server.role.system.controller;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
-import com.hb0730.cloud.admin.common.exception.BusinessException;
-import com.hb0730.cloud.admin.common.exception.UserNonLoginException;
 import com.hb0730.cloud.admin.common.util.BeanUtils;
 import com.hb0730.cloud.admin.common.util.PageInfoUtil;
 import com.hb0730.cloud.admin.common.web.controller.AbstractBaseController;
+import com.hb0730.cloud.admin.common.web.exception.NullPointerException;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
 import com.hb0730.cloud.admin.commons.model.security.UserDetail;
@@ -160,15 +159,15 @@ public class SystemRoleController extends AbstractBaseController<SystemRoleVO> {
     private void verification(SystemRoleVO vo) {
         UserDetail currentUser = getCurrentUser();
         if (Objects.isNull(currentUser)) {
-            throw new UserNonLoginException("当前用户未登录,操作失败");
+            throw new NullPointerException("当前用户未登录,操作失败");
         }
         String name = vo.getName();
         if (StringUtils.isBlank(name)) {
-            throw new BusinessException("角色名称为空");
+            throw new NullPointerException("角色名称为空");
         }
         String enname = vo.getEnname();
         if (StringUtils.isBlank(enname)) {
-            throw new BusinessException("角色标识为空");
+            throw new NullPointerException("角色标识为空");
         }
     }
 }

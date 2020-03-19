@@ -2,7 +2,7 @@ package com.hb0730.cloud.admin.server.user.handler;
 
 import com.google.common.collect.Lists;
 import com.hb0730.clou.admin.commons.model.role.SystemRoleVO;
-import com.hb0730.cloud.admin.common.exception.BusinessException;
+import com.hb0730.cloud.admin.common.web.exception.BusinessException;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
 import com.hb0730.cloud.admin.common.web.utils.JsonConvertBeanUtils;

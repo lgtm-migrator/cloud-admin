@@ -4,12 +4,10 @@ package com.hb0730.cloud.admin.server.permission.menu.system.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.hb0730.cloud.admin.common.exception.Oauth2Exception;
 import com.hb0730.cloud.admin.common.util.BeanUtils;
 import com.hb0730.cloud.admin.common.web.controller.AbstractBaseController;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
-import com.hb0730.cloud.admin.commons.model.security.UserDetail;
 import com.hb0730.cloud.admin.server.permission.menu.system.model.entity.SystemPermissionMenuEntity;
 import com.hb0730.cloud.admin.server.permission.menu.system.model.vo.PermissionMenuListVO;
 import com.hb0730.cloud.admin.server.permission.menu.system.model.vo.PermissionMenuVO;
@@ -45,13 +43,7 @@ public class SystemPermissionMenuController extends AbstractBaseController<Syste
     @Override
     @PreAuthorize("hasAnyAuthority('permission:save','menu:save')")
     public ResultJson save(@RequestBody SystemPermissionMenuVO target) {
-        UserDetail currentUser = null;
-        try {
-            currentUser = getCurrentUser();
-        } catch (Oauth2Exception e) {
-            return ResponseResult.resultFall("获取当前用户失败,请重新登录");
-        }
-        target.setCreateUserId(currentUser.getId());
+        target.setCreateUserId(getCurrentUser().getId());
         target.setCreateTime(new Date());
         SystemPermissionMenuEntity entity = BeanUtils.transformFrom(target, SystemPermissionMenuEntity.class);
         systemPermissionMenuService.save(entity);

@@ -1,8 +1,8 @@
 package com.hb0730.cloud.admin.server.user.handler;
 
 import com.google.common.collect.Lists;
-import com.hb0730.cloud.admin.common.exception.BusinessException;
 import com.hb0730.cloud.admin.common.util.GsonUtils;
+import com.hb0730.cloud.admin.common.web.exception.BusinessException;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
 import com.hb0730.cloud.admin.commons.permission.model.vo.SystemPermissionVO;

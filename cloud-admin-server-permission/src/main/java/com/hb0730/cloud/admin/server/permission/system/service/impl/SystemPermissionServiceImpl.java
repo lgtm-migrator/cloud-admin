@@ -1,8 +1,7 @@
 package com.hb0730.cloud.admin.server.permission.system.service.impl;
 
-import com.hb0730.cloud.admin.common.exception.BusinessException;
-import com.hb0730.cloud.admin.common.exception.NullPointerException;
 import com.hb0730.cloud.admin.common.util.BeanUtils;
+import com.hb0730.cloud.admin.common.web.exception.BusinessException;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
 import com.hb0730.cloud.admin.commons.service.BaseServiceImpl;
