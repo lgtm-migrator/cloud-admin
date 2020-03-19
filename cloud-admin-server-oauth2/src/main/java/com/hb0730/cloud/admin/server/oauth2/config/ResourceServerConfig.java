@@ -37,10 +37,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(OAUTH2_SERVER_REQUEST + "/user/login", "/actuator/**").permitAll()
                 // 增加了授权访问配置
-                .antMatchers("/user/info").hasAuthority("USER")
-                .antMatchers("/user/logout").hasAuthority("USER")
+                .antMatchers("/**").authenticated()
                 .and().httpBasic()
-                .and().csrf().disable().requestMatchers().antMatchers("/**");
+                .and().csrf().disable();
     }
 
     @Override
