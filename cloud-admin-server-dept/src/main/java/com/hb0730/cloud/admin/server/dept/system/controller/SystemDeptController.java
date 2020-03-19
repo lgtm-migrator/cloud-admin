@@ -132,6 +132,24 @@ public class SystemDeptController extends AbstractBaseController<SystemDeptVO> {
     }
 
     /**
+     * <p>
+     * 根据id删除组织
+     * </P>
+     *
+     * @param ids id
+     * @return 组织
+     */
+    @RequestMapping("/delete")
+    @PreAuthorize("hasAnyAuthority('dept:remove')")
+    public ResultJson deleteById(@RequestBody List<Long> ids) {
+        if (CollectionUtils.isEmpty(ids)) {
+            return ResponseResult.resultSuccess("删除成功");
+        }
+        systemDeptService.removeByIds(ids);
+        return ResponseResult.resultSuccess("删除成功");
+    }
+
+    /**
      * 根据id获取组织信息
      *
      * @param ids id集合
