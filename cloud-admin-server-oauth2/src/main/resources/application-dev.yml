@@ -1,0 +1,114 @@
+spring:
+  application:
+    name: cloud-admin-oauth2-server
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    url: jdbc:mysql://${cloud.admin.datasource.url:localhost:3306}/cloud-admin?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8
+    username: ${cloud.admin.datasource.username:root}
+    password: ${cloud.admin.datasource.password:Admin1234}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    platform: mysql
+    type: com.zaxxer.hikari.HikariDataSource
+    # 数据库连接池
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 10
+      pool-name: MyHikariCP
+      connection-test-query: SELECT 1
+  # jackson时间
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+  #redis
+  redis:
+    host: ${cloud.admin.redis.host:localhost}
+    password: ${cloud.admin.redis.password:Admin1234}
+    port: 6379
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
+  # 注册中心
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${cloud.admin.discovery.server-addr:localhost:8848}
+        namespace: aff3eac8-1bcc-4272-ba98-94b54fb1c016
+        group: cloud-admin-group
+    sentinel:
+      transport:
+        port: 8721
+        dashboard: ${cloud.admin.sentinel.dashboard:localhost:8080}
+      filter:
+        url-patterns: /**
+feign:
+  sentinel:
+    enabled: true
+  client:
+    config:
+      default:
+        connectTimeout: 50000
+        readTimeout: 50000
+        loggerLevel: BASIC
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
+server:
+  port: 1040
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+# okhttp远程登录 模拟oauth2
+cloud:
+  admin:
+    oauth2:
+      grantType: password
+      clientId: client
+      clientSecret: secret
+      loginUrl:  http://127.0.0.1:1040/oauth/token
+    discovery:
+      server-addr: localhost:8848
+    sentinel:
+      dashboard: localhost:8408
+    rocketmq:
+      name-server: localhost:9876
+    datasource:
+      url: localhost:3306
+      username: root
+      password: Admin123
+    redis:
+      host: localhost
+      password: Admin123
+logging:
+  level:
+    com:
+      hb0730:
+        cloud:
+          admin:
+            server:
+              oauth2: debug
+
+# jetcache 操作redis
+jetcache:
+  statIntervalMinutes: 15
+  areaInCacheName: true
+  hiddenPackages: com.hb0730.cloud.admin.server
+  local:
+    default:
+      limit: 100
+      keyConvertor: fastjson
+      expireAfterWriteInMillis: 100000
+  remote:
+    cloud-admin:
+      type: redis.lettuce
+      keyConvertor: fastjson
+      valueEncoder: java
+      valueDecoder: java
+      uri: redis://${spring.redis.password}@${spring.redis.host}:${spring.redis.port}

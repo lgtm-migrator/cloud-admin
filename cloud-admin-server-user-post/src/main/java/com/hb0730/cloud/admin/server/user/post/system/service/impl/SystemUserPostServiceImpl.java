@@ -42,7 +42,7 @@ public class SystemUserPostServiceImpl extends BaseServiceImpl<SystemUserPostMap
             e1.setIsEnabled(1);
             e1.setVersion(1);
             e1.setCreateTime(new Date());
-            e1.setCreateUserId(userDetail.getUserId());
+            e1.setCreateUserId(userDetail.getId());
             entities.add(e1);
         });
         return saveBatch(entities);

@@ -9,4 +9,4 @@ spring:
         server-addr: 47.96.79.54:8848
         namespace: aff3eac8-1bcc-4272-ba98-94b54fb1c016
         file-extension: yaml
-        group: cloud-admin-router
+        group: cloud-admin-group

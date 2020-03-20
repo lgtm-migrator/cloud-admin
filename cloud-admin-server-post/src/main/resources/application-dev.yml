@@ -1,7 +1,8 @@
 spring:
   application:
-    name: cloud-admin-router-server
-  # 数据连接
+    name: cloud-admin-post-server
+  main:
+    allow-bean-definition-overriding: true
   datasource:
     url: jdbc:mysql://${cloud.admin.datasource.url:localhost:3306}/cloud-admin?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8
     username: ${cloud.admin.datasource.username:root}
@@ -9,17 +10,12 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     platform: mysql
     type: com.zaxxer.hikari.HikariDataSource
-    # 数据库连接池
     hikari:
       minimum-idle: 5
       maximum-pool-size: 10
-      idle-timeout: 600000
       auto-commit: true
       pool-name: MyHikariCP
-      max-lifetime: 1800000
-      connection-timeout: 30000
       connection-test-query: SELECT 1
-    # jackson时间
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
@@ -44,54 +40,10 @@ spring:
       transport:
         port: 8721
         dashboard: ${cloud.admin.sentinel.dashboard:localhost:8080}
+        heartbeat-interval-ms: 3000
       filter:
         url-patterns: /**
-    stream:
-      default-binder: rocketmq
-      rocketmq:
-        binder:
-          name-server: ${cloud.admin.rocketmq.name-server:localhost:9876}
-        bindings:
-          output-router:
-            producer:
-              group: cloud-admin-router
-              send-message-timeout: 30000
-              sync: true
-      bindings:
-        output-router:
-          destination: router-topic
-          content-type: application/json
 
-feign:
-  sentinel:
-    enabled: true
-  client:
-    config:
-      default:
-        connectTimeout: 50000
-        readTimeout: 50000
-        loggerLevel: BASIC
-  okhttp:
-    enabled: true
-  httpclient:
-    enabled: false
-# jetcache 操作redis
-jetcache:
-  statIntervalMinutes: 15
-  areaInCacheName: true
-  hiddenPackages: com.hb0730.cloud.admin.server.router
-  local:
-    default:
-      limit: 100
-      keyConvertor: fastjson
-      expireAfterWriteInMillis: 100000
-  remote:
-    cloud-admin:
-      type: redis.lettuce
-      keyConvertor: fastjson
-      valueEncoder: java
-      valueDecoder: java
-      uri: redis://${spring.redis.password}@${spring.redis.host}:${spring.redis.port}
 #mybatis-plus
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*Mapper.xml
@@ -116,14 +68,34 @@ pagehelper:
     pageSize=countSql
   offset-as-page-num: true
   row-bounds-with-count: true
-server:
-  port: 1020
 
 management:
   endpoints:
     web:
       exposure:
         include: '*'
+
+server:
+  port: 1130
+
+# jetcache 操作redis
+jetcache:
+  statIntervalMinutes: 15
+  areaInCacheName: true
+  hiddenPackages: com.hb0730.cloud.admin.server.post
+  local:
+    default:
+      limit: 100
+      keyConvertor: fastjson
+      expireAfterWriteInMillis: 100000
+  remote:
+    cloud-admin:
+      type: redis.lettuce
+      keyConvertor: fastjson
+      valueEncoder: java
+      valueDecoder: java
+      uri: redis://${spring.redis.password}@${spring.redis.host}:${spring.redis.port}
+
 security:
   oauth2:
     client:
@@ -134,14 +106,6 @@ security:
     resource:
       token-info-uri: http://localhost:1010/oauth/check_token
 
-logging:
-  level:
-    com:
-      alibaba:
-        cloud:
-          stream:
-            binder:
-              rocketmq: debug
 cloud:
   admin:
     discovery:
