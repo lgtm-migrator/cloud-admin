@@ -1,16 +1,23 @@
 package com.hb0730.cloud.admin.gateway.filter;
 
+import com.google.common.base.Charsets;
 import com.hb0730.cloud.admin.common.util.GsonUtils;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
+import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.buffer.DataBuffer;
+import org.springframework.core.io.buffer.DataBufferFactory;
+import org.springframework.core.io.buffer.DataBufferUtils;
+import org.springframework.core.io.buffer.DefaultDataBufferFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.http.MediaType;
+import org.springframework.http.server.reactive.ServerHttpResponse;
+import org.springframework.http.server.reactive.ServerHttpResponseDecorator;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 import org.springframework.web.server.ServerWebExchange;
@@ -27,7 +34,7 @@ import java.util.List;
  * @author bing_huang
  * @since V1.0
  */
-//@Configuration
+@Configuration
 public class AccessGatewayFilter implements GlobalFilter {
     private static Logger logger = LoggerFactory.getLogger(AccessGatewayFilter.class);
 
@@ -43,34 +50,46 @@ public class AccessGatewayFilter implements GlobalFilter {
      */
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        ServerHttpRequest request = exchange.getRequest();
-        String method = request.getMethodValue();
-        String url = request.getPath().value();
-        //不需要网关签权的url
-        //        //不需要网关签权的url
-//        if (authService.ignoreAuthentication(url)) {
-//            return chain.filter(exchange);
-//        }
-//        if (null != authentication) {
-//            String token = authentication.substring(7);
-//            if (authService.validToken(token)) {//如果验证token通过
-//                ServerHttpRequest.Builder builder = request.mutate();
-//                OAuth2AccessToken oAuth2AccessToken = (OAuth2AccessToken) redisUtil.get(SecurityConstants.USER_TOKEN + token);
-//                List<String> btns = oAuth2AccessToken.getBtns();
-//                String userJson = GsonUtils.gson2String(oAuth2AccessToken);
-//                if (method.equals(HttpMethod.GET.toString())) {//如果是get请求，放行
-//                    builder.header(SecurityConstants.AUTH_HEADER, userJson);
-//                    return chain.filter(exchange.mutate().request(builder.build()).build());
-//                }else {
-//                    if (havePermission(btns, url)) {//如果有权限，放行
-//                        builder.header(SecurityConstants.AUTH_HEADER, userJson);
-//                        return chain.filter(exchange.mutate().request(builder.build()).build());
-//                    }
-//                    return unauthorized(exchange);
-//                }
-//            }
-//        }
-        return invalidtoken(exchange);
+        try {
+            //获取response的 返回数据
+            ServerHttpResponse originalResponse = exchange.getResponse();
+            DataBufferFactory bufferFactory = originalResponse.bufferFactory();
+            HttpStatus statusCode = originalResponse.getStatusCode();
+
+            ServerHttpResponseDecorator decoratedResponse = new ServerHttpResponseDecorator(originalResponse) {
+                @Override
+                public Mono<Void> writeWith(Publisher<? extends DataBuffer> body) {
+                    // 判断服务返回的数据类型进行拦截，根据自己的业务进行修改
+                    if (MediaType.APPLICATION_JSON.isCompatibleWith(getDelegate().getHeaders().getContentType())) {
+                        Flux<? extends DataBuffer> fluxBody = Flux.from(body);
+                        return super.writeWith(fluxBody.buffer().map(dataBuffers -> {
+                            DataBufferFactory dataBufferFactory = new DefaultDataBufferFactory();
+                            DataBuffer join = dataBufferFactory.join(dataBuffers);
+                            byte[] content = new byte[join.readableByteCount()];
+                            join.read(content);
+                            DataBufferUtils.release(join);
+                            String responseData = new String(content, Charsets.UTF_8);
+                            if (logger.isDebugEnabled()) {
+                                logger.debug("响应转前:{}", responseData);
+                            }
+                            responseData = responseData.replaceAll(":null", ":\"\"");
+                            if (logger.isDebugEnabled()) {
+                                logger.debug("响应转后:{}", responseData);
+                            }
+                            byte[] uppedContent = responseData.getBytes(Charsets.UTF_8);
+
+                            return bufferFactory.wrap(uppedContent);
+                        }));
+                    } else {
+                        return chain.filter(exchange);
+                    }
+                }
+            };
+            return chain.filter(exchange.mutate().response(decoratedResponse).build());
+        } catch (Exception e) {
+            logger.error(" ReplaceNullFilter 异常", e);
+            return chain.filter(exchange);
+        }
     }
 
     /**

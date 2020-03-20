@@ -83,59 +83,25 @@
         </dependency>
         <dependency>
             <groupId>com.hb0730</groupId>
-            <artifactId>cloud-admin-commons-feign-configuration</artifactId>
+            <artifactId>cloud-admin-api-feign-dept</artifactId>
             <version>${parent.version}</version>
         </dependency>
         <dependency>
             <groupId>com.hb0730</groupId>
-            <artifactId>cloud-admin-api-user-dept</artifactId>
+            <artifactId>cloud-admin-api-feign-role-permission</artifactId>
             <version>${parent.version}</version>
         </dependency>
         <dependency>
             <groupId>com.hb0730</groupId>
-            <artifactId>cloud-admin-api-user-post</artifactId>
+            <artifactId>cloud-admin-api-feign-user-role</artifactId>
             <version>${parent.version}</version>
         </dependency>
         <dependency>
             <groupId>com.hb0730</groupId>
-            <artifactId>cloud-admin-api-user-role</artifactId>
+            <artifactId>cloud-admin-api-feign-user-post</artifactId>
             <version>${parent.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.hb0730</groupId>
-            <artifactId>cloud-admin-commons-model-user-dept</artifactId>
-            <version>${parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.hb0730</groupId>
-            <artifactId>cloud-admin-api-role-permission</artifactId>
-            <version>${parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.hb0730</groupId>
-            <artifactId>cloud-admin-api-permission</artifactId>
-            <version>${parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.hb0730</groupId>
-            <artifactId>cloud-admin-api-permission-menu</artifactId>
-            <version>${parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.hb0730</groupId>
-            <artifactId>cloud-admin-api-dept</artifactId>
-            <version>${parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.hb0730</groupId>
-            <artifactId>cloud-admin-commons-model-dept</artifactId>
-            <version>${parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.hb0730</groupId>
-            <artifactId>cloud-admin-api-role</artifactId>
-            <version>${parent.version}</version>
-        </dependency>
+
 
         <dependency>
             <groupId>mysql</groupId>

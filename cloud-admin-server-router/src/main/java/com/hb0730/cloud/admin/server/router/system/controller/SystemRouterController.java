@@ -11,10 +11,8 @@ import com.hb0730.cloud.admin.common.util.GsonUtils;
 import com.hb0730.cloud.admin.common.util.PageInfoUtil;
 import com.hb0730.cloud.admin.common.web.controller.AbstractBaseController;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
-import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
 import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
-import com.hb0730.cloud.admin.commons.user.model.vo.SystemUserVO;
-import com.hb0730.cloud.admin.server.router.feign.IRemoteUser;
+import com.hb0730.cloud.admin.server.router.handler.FeignUserHandler;
 import com.hb0730.cloud.admin.server.router.system.model.entity.SystemRouterEntity;
 import com.hb0730.cloud.admin.server.router.system.model.vo.*;
 import com.hb0730.cloud.admin.server.router.system.service.ISystemRouterService;
@@ -28,7 +26,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import static com.hb0730.cloud.admin.common.util.RequestMappingConstants.ROUTER_SERVER_REQUEST;
@@ -49,7 +46,7 @@ public class SystemRouterController extends AbstractBaseController<SystemRouterV
     private ISystemRouterService systemRouterService;
 
     @Autowired
-    private IRemoteUser remoteUser;
+    private FeignUserHandler userHandler;
 
     public SystemRouterController(ISystemRouterService systemRouterService) {
         this.systemRouterService = systemRouterService;
@@ -233,19 +230,7 @@ public class SystemRouterController extends AbstractBaseController<SystemRouterV
         if (Objects.isNull(userId)) {
             return null;
         }
-        ResultJson resultJson = remoteUser.findUserById(userId);
-        if (CodeStatusEnum.SUCCESS.getCode().equals(resultJson.getStatusCode())) {
-            Object data = resultJson.getData();
-            if (data instanceof Map) {
-                Map map = (Map) data;
-                return map.get("name").toString();
-            } else {
-                SystemUserVO userVO = BeanUtils.transformFrom(data, SystemUserVO.class);
-                return userVO == null ? null : userVO.getName();
-            }
-        } else {
-            return null;
-        }
+        return userHandler.findUserNameById(userId);
     }
 }
 

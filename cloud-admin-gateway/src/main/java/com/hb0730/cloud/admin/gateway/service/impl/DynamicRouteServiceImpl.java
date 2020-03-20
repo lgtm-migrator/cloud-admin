@@ -1,16 +1,11 @@
 package com.hb0730.cloud.admin.gateway.service.impl;
 
-import com.alibaba.fastjson.JSONArray;
 import com.google.common.collect.Lists;
+import com.hb0730.cloud.admin.api.feign.router.handler.RemoteRouterHandler;
 import com.hb0730.cloud.admin.common.util.BeanUtils;
-import com.hb0730.cloud.admin.common.util.GsonUtils;
-import com.hb0730.cloud.admin.common.web.exception.BusinessException;
-import com.hb0730.cloud.admin.common.web.response.ResultJson;
-import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
 import com.hb0730.cloud.admin.commons.router.model.vo.GatewayFilterDefinition;
 import com.hb0730.cloud.admin.commons.router.model.vo.GatewayPredicateDefinition;
 import com.hb0730.cloud.admin.commons.router.model.vo.GatewayRouteDefinition;
-import com.hb0730.cloud.admin.gateway.feign.IRemoteRouterClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +41,7 @@ public class DynamicRouteServiceImpl implements RouteDefinitionRepository, Appli
     private ApplicationEventPublisher publisher;
     private List<RouteDefinition> routeDefinitionList = new ArrayList<>();
     @Autowired
-    private IRemoteRouterClient remoteRouterClient;
+    private RemoteRouterHandler routerHandler;
 
     @Override
     public Flux<RouteDefinition> getRouteDefinitions() {
@@ -61,10 +56,7 @@ public class DynamicRouteServiceImpl implements RouteDefinitionRepository, Appli
             GatewayRouteDefinition router = BeanUtils.transformFrom(r, GatewayRouteDefinition.class);
             assert router != null;
             router.setUri(r.getUri().toString());
-            ResultJson save = remoteRouterClient.save(router);
-            if (!CodeStatusEnum.SUCCESS.getCode().equals(save.getStatusCode())) {
-                throw new BusinessException("保留路由失败" + save.getData());
-            }
+            routerHandler.save(router);
             load();
             return Mono.empty();
         });
@@ -75,14 +67,9 @@ public class DynamicRouteServiceImpl implements RouteDefinitionRepository, Appli
     public Mono<Void> delete(Mono<String> routeId) {
         logger.debug("删除路由");
         return routeId.flatMap(id -> {
-            ResultJson result = remoteRouterClient.delete(id);
-            if (!CodeStatusEnum.SUCCESS.getCode().equals(result.getStatusCode())) {
-                return Mono.defer(() -> Mono.error(
-                        new BusinessException("删除路由" + id + "失败," + result.getData())));
-            } else {
-                load();
-                return Mono.empty();
-            }
+            routerHandler.delete(id);
+            load();
+            return Mono.empty();
         });
     }
 
@@ -110,10 +97,7 @@ public class DynamicRouteServiceImpl implements RouteDefinitionRepository, Appli
         if (Objects.isNull(routeDefinition.getId())) {
             throw new NullPointerException("id为空");
         }
-        ResultJson result = remoteRouterClient.update(routeDefinition);
-        if (!CodeStatusEnum.SUCCESS.getCode().equals(result.getStatusCode())) {
-            throw new BusinessException("更新路由失败" + result.getData());
-        }
+        routerHandler.update(routeDefinition);
         load();
     }
 
@@ -139,13 +123,9 @@ public class DynamicRouteServiceImpl implements RouteDefinitionRepository, Appli
      * 初始化
      */
     public void load() {
-        ResultJson routers = remoteRouterClient.getRouters();
-        if (CodeStatusEnum.SUCCESS.getCode().equals(routers.getStatusCode())) {
-            Object data = routers.getData();
-            List<GatewayRouteDefinition> gatewayRouteDefinitions = GsonUtils.json2List(JSONArray.toJSONString(data), GatewayRouteDefinition.class);
-            routeDefinitionList.clear();
-            gatewayRouteDefinitions.forEach(definition -> convertToRouter(definition, routeDefinitionList));
-        }
+        List<GatewayRouteDefinition> routers = routerHandler.getRouters();
+        routeDefinitionList.clear();
+        routers.forEach(definition -> convertToRouter(definition, routeDefinitionList));
     }
 
     /**

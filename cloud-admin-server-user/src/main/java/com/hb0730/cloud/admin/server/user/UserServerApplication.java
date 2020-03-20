@@ -19,7 +19,8 @@ import org.springframework.context.annotation.ComponentScan;
 @EnableDiscoveryClient
 @EnableMethodCache(basePackages = "com.hb0730.cloud.admin.server.user")
 @EnableCreateCacheAnnotation
-@EnableFeignClients
+@EnableFeignClients(basePackages = "com.hb0730.cloud.admin")
+@ComponentScan(basePackages = "com.hb0730.cloud.admin")
 public class UserServerApplication {
     public static void main(String[] args) {
         SpringApplication.run(UserServerApplication.class, args);

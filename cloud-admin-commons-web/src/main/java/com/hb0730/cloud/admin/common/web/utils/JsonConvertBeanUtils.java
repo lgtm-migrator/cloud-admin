@@ -34,7 +34,7 @@ public class JsonConvertBeanUtils {
             return new ArrayList<T>();
         }
         if (!CodeStatusEnum.SUCCESS.getCode().equals(result.getStatusCode())) {
-            throw new BeanUtilsException(result.getData().toString());
+            throw new BusinessException(result.getData().toString());
         }
         return convertList(result.getData(), clazz);
     }

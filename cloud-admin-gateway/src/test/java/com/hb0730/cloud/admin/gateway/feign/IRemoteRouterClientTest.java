@@ -1,5 +1,6 @@
 package com.hb0730.cloud.admin.gateway.feign;
 
+import com.hb0730.cloud.admin.api.feign.router.handler.RemoteRouterHandler;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +11,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @SpringBootTest
 public class IRemoteRouterClientTest {
     @Autowired
-    private IRemoteRouterClient remoteRouterClient;
+    private RemoteRouterHandler routerHandler;
 
     @Test
-    public  void getRouters(){
-        remoteRouterClient.getRouters();
+    public void getRouters() {
+        routerHandler.getRouters();
     }
 }

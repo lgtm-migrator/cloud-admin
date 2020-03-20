@@ -1,9 +1,8 @@
 package com.hb0730.cloud.admin.commons.feign.configuration;
 
-import feign.codec.*;
-import feign.Feign;
 import feign.Logger;
 import feign.RequestInterceptor;
+import feign.codec.Decoder;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
@@ -44,6 +43,11 @@ public class FeignConfiguration {
         return new FeignRequestInterceptor();
     }
 
+    /**
+     * 异常
+     *
+     * @return
+     */
     @Bean
     public Decoder feignDecoder() {
         return new ResponseEntityDecoder(new SpringDecoder(feignHttpMessageConverter()));
