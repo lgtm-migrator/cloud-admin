@@ -4,6 +4,7 @@ import com.hb0730.cloud.admin.api.feign.permission.remote.IRemotePermission;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.JsonConvertBeanUtils;
 import com.hb0730.cloud.admin.commons.model.security.permission.SystemPermissionVO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.List;
  */
 @Component
 public class PermissionHandler {
+    @Autowired
     private IRemotePermission remotePermission;
 
     /**
