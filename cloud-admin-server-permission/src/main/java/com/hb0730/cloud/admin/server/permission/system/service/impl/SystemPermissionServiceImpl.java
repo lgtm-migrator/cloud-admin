@@ -1,15 +1,12 @@
 package com.hb0730.cloud.admin.server.permission.system.service.impl;
 
+import com.hb0730.cloud.admin.api.feign.permission.menu.handler.PermissionMenuHandler;
+import com.hb0730.cloud.admin.api.feign.permission.menu.model.vo.SystemPermissionMenuVO;
 import com.hb0730.cloud.admin.common.util.BeanUtils;
-import com.hb0730.cloud.admin.common.web.exception.BusinessException;
-import com.hb0730.cloud.admin.common.web.response.ResultJson;
-import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
 import com.hb0730.cloud.admin.commons.service.BaseServiceImpl;
-import com.hb0730.cloud.admin.server.permission.feign.IRemotePermissionMenu;
 import com.hb0730.cloud.admin.server.permission.system.mapper.SystemPermissionMapper;
 import com.hb0730.cloud.admin.server.permission.system.model.entity.SystemPermissionEntity;
 import com.hb0730.cloud.admin.server.permission.system.model.vo.PermissionMenuVO;
-import com.hb0730.cloud.admin.server.permission.system.model.vo.SystemPermissionMenuVO;
 import com.hb0730.cloud.admin.server.permission.system.service.ISystemPermissionService;
 import io.seata.spring.annotation.GlobalTransactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +26,7 @@ import java.util.Objects;
 @Service
 public class SystemPermissionServiceImpl extends BaseServiceImpl<SystemPermissionMapper, SystemPermissionEntity> implements ISystemPermissionService {
     @Autowired
-    private IRemotePermissionMenu remotePermissionMenu;
+    private PermissionMenuHandler permissionMenuHandler;
 
     @Override
     @GlobalTransactional(name = "cloud-admin-permission-seata")
@@ -73,11 +70,7 @@ public class SystemPermissionServiceImpl extends BaseServiceImpl<SystemPermissio
         if (Objects.isNull(menuId)) {
             throw new NullPointerException("菜单id为空");
         }
-        ResultJson result = remotePermissionMenu.unBinding(permissionId, menuId);
-        String code = result.getStatusCode();
-        if (!CodeStatusEnum.SUCCESS.getCode().equals(code)) {
-            throw new BusinessException(result.getData().toString());
-        }
+        permissionMenuHandler.unBinding(permissionId, menuId);
     }
 
     /**
@@ -99,10 +92,6 @@ public class SystemPermissionServiceImpl extends BaseServiceImpl<SystemPermissio
         if (Objects.isNull(menuId)) {
             throw new NullPointerException("菜单id为空");
         }
-        ResultJson result = remotePermissionMenu.save(vo);
-        String code = result.getStatusCode();
-        if (!CodeStatusEnum.SUCCESS.getCode().equals(code)) {
-            throw new BusinessException(result.getData().toString());
-        }
+        permissionMenuHandler.save(vo);
     }
 }

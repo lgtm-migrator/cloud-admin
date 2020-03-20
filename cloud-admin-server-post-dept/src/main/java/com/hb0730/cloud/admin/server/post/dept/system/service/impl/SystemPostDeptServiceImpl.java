@@ -2,14 +2,10 @@ package com.hb0730.cloud.admin.server.post.dept.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.collect.Lists;
-import com.hb0730.cloud.admin.common.util.GsonUtils;
-import com.hb0730.cloud.admin.common.web.exception.BusinessException;
-import com.hb0730.cloud.admin.common.web.response.ResultJson;
-import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
+import com.hb0730.cloud.admin.api.feign.dept.handler.DeptHandler;
 import com.hb0730.cloud.admin.commons.dept.model.vo.SystemDeptVO;
 import com.hb0730.cloud.admin.commons.model.security.UserDetail;
 import com.hb0730.cloud.admin.commons.service.BaseServiceImpl;
-import com.hb0730.cloud.admin.server.post.dept.feign.IRemoteDept;
 import com.hb0730.cloud.admin.server.post.dept.system.mapper.SystemPostDeptMapper;
 import com.hb0730.cloud.admin.server.post.dept.system.model.entity.SystemPostDeptEntity;
 import com.hb0730.cloud.admin.server.post.dept.system.service.ISystemPostDeptService;
@@ -34,7 +30,7 @@ import java.util.stream.Collectors;
 @Service
 public class SystemPostDeptServiceImpl extends BaseServiceImpl<SystemPostDeptMapper, SystemPostDeptEntity> implements ISystemPostDeptService {
     @Autowired
-    private IRemoteDept remoteDept;
+    private DeptHandler deptHandler;
 
     @Override
     public List<SystemDeptVO> getDeptByPostId(@NonNull Long postId) {
@@ -46,12 +42,7 @@ public class SystemPostDeptServiceImpl extends BaseServiceImpl<SystemPostDeptMap
             return Lists.newArrayList();
         }
         List<Long> deptIds = list.parallelStream().map(SystemPostDeptEntity::getDeptId).collect(Collectors.toList());
-        ResultJson result = remoteDept.getDeptByIds(deptIds);
-        if (!CodeStatusEnum.SUCCESS.getCode().equals(result.getStatusCode())) {
-            throw new BusinessException(result.getData().toString());
-        }
-        String jsonResult = GsonUtils.gson2String(result.getData());
-        return GsonUtils.json2List(jsonResult, SystemDeptVO.class);
+        return deptHandler.getDeptsById(deptIds);
     }
 
     @Override

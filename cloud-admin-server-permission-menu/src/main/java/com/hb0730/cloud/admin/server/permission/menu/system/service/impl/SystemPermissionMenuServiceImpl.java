@@ -2,14 +2,12 @@ package com.hb0730.cloud.admin.server.permission.menu.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.collect.Lists;
+import com.hb0730.cloud.admin.api.feign.menu.handler.MenuHandler;
+import com.hb0730.cloud.admin.api.feign.permission.handler.PermissionHandler;
 import com.hb0730.cloud.admin.common.util.BeanUtils;
-import com.hb0730.cloud.admin.common.web.response.ResultJson;
-import com.hb0730.cloud.admin.common.web.utils.JsonConvertBeanUtils;
 import com.hb0730.cloud.admin.commons.menu.model.vo.SystemMenuVO;
 import com.hb0730.cloud.admin.commons.permission.model.vo.SystemPermissionVO;
 import com.hb0730.cloud.admin.commons.service.BaseServiceImpl;
-import com.hb0730.cloud.admin.server.permission.menu.feign.IRemoteMenu;
-import com.hb0730.cloud.admin.server.permission.menu.feign.IRemotePermission;
 import com.hb0730.cloud.admin.server.permission.menu.system.mapper.SystemPermissionMenuMapper;
 import com.hb0730.cloud.admin.server.permission.menu.system.model.entity.SystemPermissionMenuEntity;
 import com.hb0730.cloud.admin.server.permission.menu.system.model.vo.PermissionMenuListVO;
@@ -41,9 +39,9 @@ import java.util.stream.Collectors;
 public class SystemPermissionMenuServiceImpl extends BaseServiceImpl<SystemPermissionMenuMapper, SystemPermissionMenuEntity> implements ISystemPermissionMenuService {
     private Logger logger = LoggerFactory.getLogger(SystemPermissionMenuServiceImpl.class);
     @Autowired
-    private IRemotePermission remotePermission;
+    private PermissionHandler permissionHandler;
     @Autowired
-    private IRemoteMenu remoteMenu;
+    private MenuHandler menuHandler;
 
     @Override
     public boolean save(SystemPermissionMenuEntity entity) {
@@ -213,11 +211,7 @@ public class SystemPermissionMenuServiceImpl extends BaseServiceImpl<SystemPermi
      * @return 菜单权限vo
      */
     private List<PermissionMenuListVO> getMenusByParentId(@NonNull Long id) {
-        ResultJson result = remoteMenu.getMenusByParentId(id);
-        List<SystemMenuVO> vos = JsonConvertBeanUtils.convertList(result, SystemMenuVO.class);
-        if (CollectionUtils.isEmpty(vos)) {
-            return null;
-        }
+        List<SystemMenuVO> vos = menuHandler.getMenusByParentId(id);
         List<PermissionMenuListVO> permissionMenus = Lists.newArrayList();
         vos.forEach(menu -> {
             PermissionMenuListVO vo = new PermissionMenuListVO();
@@ -241,8 +235,7 @@ public class SystemPermissionMenuServiceImpl extends BaseServiceImpl<SystemPermi
         if (CollectionUtils.isEmpty(permissionIds)) {
             return null;
         }
-        ResultJson result = remotePermission.getPermissionByIds(permissionIds);
-        return JsonConvertBeanUtils.convertList(result, SystemPermissionVO.class);
+        return permissionHandler.getPermissionByIds(permissionIds);
     }
 
     /**
@@ -257,7 +250,6 @@ public class SystemPermissionMenuServiceImpl extends BaseServiceImpl<SystemPermi
         if (Objects.isNull(menuId)) {
             return null;
         }
-        ResultJson result = remoteMenu.getMenuById(menuId);
-        return JsonConvertBeanUtils.convert(result, SystemMenuVO.class);
+        return menuHandler.getMenuById(menuId);
     }
 }

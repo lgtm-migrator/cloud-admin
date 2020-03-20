@@ -21,6 +21,7 @@
         <module>cloud-admin-api-feign-role-permission</module>
         <module>cloud-admin-api-feign-user-role</module>
         <module>cloud-admin-api-feign-user-post</module>
+        <module>cloud-admin-api-feign-menu</module>
     </modules>
 
     <dependencies>
@@ -34,6 +35,12 @@
             <groupId>com.hb0730</groupId>
             <artifactId>cloud-admin-commons-feign-configuration</artifactId>
             <version>${parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hb0730</groupId>
+            <artifactId>cloud-admin-commons-web</artifactId>
+            <version>${parent.version}</version>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>

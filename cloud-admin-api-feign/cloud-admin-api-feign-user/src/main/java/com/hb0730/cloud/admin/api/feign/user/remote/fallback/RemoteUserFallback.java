@@ -30,4 +30,9 @@ public class RemoteUserFallback implements IRemoteUser {
         throwable.printStackTrace();
         return ResponseResult.result(CodeStatusEnum.FALL_BACK, "根据用户账号获取用户失败 fallback message:" + throwable.getMessage());
     }
+
+    @Override
+    public ResultJson getPermissionByUserId(Long userId) {
+        return ResponseResult.result(CodeStatusEnum.FALL_BACK, "根据用户获取权限失败, fallback message:" + throwable.getMessage());
+    }
 }

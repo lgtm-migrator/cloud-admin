@@ -48,6 +48,19 @@ public class DeptHandler {
 
     /**
      * <p>
+     * 根据id获取组织
+     * </p>
+     *
+     * @param ids id
+     * @return 组织集信息
+     */
+    public List<SystemDeptVO> getDeptsById(@NonNull List<Long> ids) {
+        ResultJson result = remoteDept.getDeptByIds(ids);
+        return JsonConvertBeanUtils.convertList(result, SystemDeptVO.class);
+    }
+
+    /**
+     * <p>
      * 根据用户id获取组织id
      * </p>
      *

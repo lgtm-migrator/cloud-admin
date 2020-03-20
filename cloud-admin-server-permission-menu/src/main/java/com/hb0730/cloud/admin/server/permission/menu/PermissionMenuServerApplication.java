@@ -6,6 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * <p>
@@ -18,7 +19,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableDiscoveryClient
 @EnableMethodCache(basePackages = "com.hb0730.cloud.admin.server.permission.menu")
 @EnableCreateCacheAnnotation
-@EnableFeignClients
+@EnableFeignClients(basePackages = "com.hb0730.cloud.admin.api.feign")
+@ComponentScan(basePackages = "com.hb0730.cloud.admin")
 public class PermissionMenuServerApplication {
 
     public static void main(String[] args) {

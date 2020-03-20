@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * <p>
@@ -19,7 +20,8 @@ import org.springframework.cloud.openfeign.FeignClient;
 @EnableDiscoveryClient
 @EnableMethodCache(basePackages = "com.hb0730.cloud.admin.server.permission")
 @EnableCreateCacheAnnotation
-@EnableFeignClients
+@EnableFeignClients(basePackages = "com.hb0730.cloud.admin.api.feign")
+@ComponentScan(basePackages = "com.hb0730.cloud.admin")
 public class PermissionServerApplication {
     public static void main(String[] args) {
         SpringApplication.run(PermissionServerApplication.class, args);

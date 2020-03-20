@@ -84,9 +84,12 @@
         </dependency>
         <dependency>
             <groupId>com.hb0730</groupId>
-            <artifactId>cloud-admin-commons-feign-configuration</artifactId>
+            <artifactId>cloud-admin-api-feign-permission-menu</artifactId>
             <version>${parent.version}</version>
         </dependency>
+
+
+
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
