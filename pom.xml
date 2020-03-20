@@ -49,7 +49,6 @@
         <module>cloud-admin-commons-domain</module>
         <module>cloud-admin-commons-service</module>
         <module>cloud-admin-server-user</module>
-        <module>cloud-admin-commons-generator</module>
         <module>cloud-admin-server-oauth2</module>
         <module>cloud-admin-commons-configuration</module>
         <module>cloud-admin-server-menu</module>
