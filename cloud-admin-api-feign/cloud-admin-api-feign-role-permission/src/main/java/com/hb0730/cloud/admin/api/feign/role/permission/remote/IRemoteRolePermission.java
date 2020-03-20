@@ -21,9 +21,8 @@ import static com.hb0730.cloud.admin.common.util.ServerNameConstants.ROLE_PERMIS
  * @since V1.0
  */
 @FeignClient(name = ROLE_PERMISSION_SERVER, path = ROLE_PERMISSION_SERVER_REQUEST, configuration = FeignConfiguration.class, fallbackFactory = RemoteRolePermissionFallbackFactory.class)
-public interface IRemoteRolePermission extends com.hb0730.cloud.admin.api.role.permission.IRemoteRolePermission {
+public interface IRemoteRolePermission {
 
-    @Override
     @PostMapping("/getPermission/roleId")
     ResultJson getPermissionIdByRoleIds(@RequestBody List<Long> roleIds);
 }

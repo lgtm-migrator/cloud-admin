@@ -4,7 +4,7 @@ import com.hb0730.cloud.admin.api.feign.user.remote.IRemoteUser;
 import com.hb0730.cloud.admin.common.util.BeanUtils;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
-import com.hb0730.cloud.admin.commons.user.model.vo.SystemUserVO;
+import com.hb0730.cloud.admin.commons.model.security.user.SystemUserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;

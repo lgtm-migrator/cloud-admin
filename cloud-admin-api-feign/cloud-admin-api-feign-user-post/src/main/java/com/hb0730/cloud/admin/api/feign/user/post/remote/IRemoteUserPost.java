@@ -22,7 +22,7 @@ import static com.hb0730.cloud.admin.common.util.ServerNameConstants.USER_POST_S
  * @since V1.0
  */
 @FeignClient(value = USER_POST_SERVER, path = USER_POST_SERVER_REQUEST, configuration = FeignConfiguration.class, fallbackFactory = RemoteUserPostFallbackFactory.class)
-public interface IRemoteUserPost extends com.hb0730.cloud.admin.api.user.post.IRemoteUserPost {
+public interface IRemoteUserPost {
     /**
      * <p>
      * 根据用户id获取岗位id
@@ -31,7 +31,6 @@ public interface IRemoteUserPost extends com.hb0730.cloud.admin.api.user.post.IR
      * @param userId 用户id
      * @return 岗位id
      */
-    @Override
     @GetMapping("/getPostId/{userId}")
     ResultJson getPostByUserId(@PathVariable("userId") Long userId);
 
@@ -44,7 +43,6 @@ public interface IRemoteUserPost extends com.hb0730.cloud.admin.api.user.post.IR
      * @param postIds 岗位id
      * @return 是否成功
      */
-    @Override
     @PostMapping("/bindingPostId/{userId}")
     ResultJson bindingPostByUserId(@PathVariable("userId") Long userId, @RequestBody List<Long> postIds);
 
@@ -54,7 +52,6 @@ public interface IRemoteUserPost extends com.hb0730.cloud.admin.api.user.post.IR
      * @param userId 用户id
      * @return 是否成功
      */
-    @Override
     @GetMapping("/delete/user/{id}")
     ResultJson removeByUserId(@PathVariable("id") Long userId);
 }

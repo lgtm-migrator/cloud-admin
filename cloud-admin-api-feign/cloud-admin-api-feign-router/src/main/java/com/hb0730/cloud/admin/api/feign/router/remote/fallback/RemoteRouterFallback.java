@@ -1,10 +1,10 @@
 package com.hb0730.cloud.admin.api.feign.router.remote.fallback;
 
+import com.hb0730.cloud.admin.api.feign.router.model.vo.GatewayRouteDefinition;
 import com.hb0730.cloud.admin.api.feign.router.remote.IRemoteRouter;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
 import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
-import com.hb0730.cloud.admin.commons.router.model.vo.GatewayRouteDefinition;
 
 /**
  * <p>

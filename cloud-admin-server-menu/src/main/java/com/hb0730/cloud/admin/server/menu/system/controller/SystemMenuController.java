@@ -9,7 +9,7 @@ import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
 import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
 import com.hb0730.cloud.admin.commons.model.security.UserDetail;
-import com.hb0730.cloud.admin.commons.permission.model.vo.SystemPermissionVO;
+import com.hb0730.cloud.admin.commons.model.security.permission.SystemPermissionVO;
 import com.hb0730.cloud.admin.server.menu.system.model.entity.SystemMenuEntity;
 import com.hb0730.cloud.admin.server.menu.system.model.vo.MenuVO;
 import com.hb0730.cloud.admin.server.menu.system.model.vo.SystemMenuVO;

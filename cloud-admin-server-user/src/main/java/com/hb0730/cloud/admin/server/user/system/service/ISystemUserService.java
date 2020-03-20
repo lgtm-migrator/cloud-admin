@@ -2,9 +2,9 @@ package com.hb0730.cloud.admin.server.user.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.PageInfo;
-import com.hb0730.clou.admin.commons.model.role.SystemRoleVO;
 import com.hb0730.cloud.admin.commons.model.security.UserDetail;
-import com.hb0730.cloud.admin.commons.permission.model.vo.SystemPermissionVO;
+import com.hb0730.cloud.admin.commons.model.security.permission.SystemPermissionVO;
+import com.hb0730.cloud.admin.commons.model.security.role.SystemRoleVO;
 import com.hb0730.cloud.admin.server.user.system.model.entity.SystemUserEntity;
 import com.hb0730.cloud.admin.server.user.system.model.vo.UserParams;
 import com.hb0730.cloud.admin.server.user.system.model.vo.UserSaveVO;

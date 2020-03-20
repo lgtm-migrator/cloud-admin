@@ -20,7 +20,7 @@ import static com.hb0730.cloud.admin.common.util.ServerNameConstants.USER_SERVER
  * @since V1.0
  */
 @FeignClient(value = USER_SERVER, path = USER_SERVER_REQUEST, configuration = FeignConfiguration.class, fallbackFactory = RemoteUserFallbackFactory.class)
-public interface IRemoteUser extends com.hb0730.cloud.admin.api.user.IRemoteUser {
+public interface IRemoteUser {
 
     /**
      * <p>
@@ -31,7 +31,6 @@ public interface IRemoteUser extends com.hb0730.cloud.admin.api.user.IRemoteUser
      * @return 用户信息
      */
     @GetMapping("/{id}")
-    @Override
     ResultJson findUserById(@PathVariable("id") Long id);
 
     /**
@@ -43,11 +42,11 @@ public interface IRemoteUser extends com.hb0730.cloud.admin.api.user.IRemoteUser
      * @return 用户
      */
     @RequestMapping(value = "findUser/{login}", method = RequestMethod.GET)
-    @Override
     ResultJson findUserByUserName(@PathVariable("login") String login);
 
     /**
      * 根据用户id获取权限
+     *
      * @param userId 用户id
      * @return 权限
      */

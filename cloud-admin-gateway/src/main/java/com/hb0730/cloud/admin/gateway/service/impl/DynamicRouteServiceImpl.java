@@ -2,10 +2,10 @@ package com.hb0730.cloud.admin.gateway.service.impl;
 
 import com.google.common.collect.Lists;
 import com.hb0730.cloud.admin.api.feign.router.handler.RemoteRouterHandler;
+import com.hb0730.cloud.admin.api.feign.router.model.vo.GatewayFilterDefinition;
+import com.hb0730.cloud.admin.api.feign.router.model.vo.GatewayPredicateDefinition;
+import com.hb0730.cloud.admin.api.feign.router.model.vo.GatewayRouteDefinition;
 import com.hb0730.cloud.admin.common.util.BeanUtils;
-import com.hb0730.cloud.admin.commons.router.model.vo.GatewayFilterDefinition;
-import com.hb0730.cloud.admin.commons.router.model.vo.GatewayPredicateDefinition;
-import com.hb0730.cloud.admin.commons.router.model.vo.GatewayRouteDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

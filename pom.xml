@@ -59,7 +59,6 @@
         <module>cloud-admin-server-role-permission</module>
         <module>cloud-admin-server-user-role</module>
         <module>cloud-admin-commons-model</module>
-        <module>cloud-admin-api</module>
         <module>cloud-admin-server-dept</module>
         <module>cloud-admin-server-post</module>
         <module>cloud-admin-server-post-dept</module>

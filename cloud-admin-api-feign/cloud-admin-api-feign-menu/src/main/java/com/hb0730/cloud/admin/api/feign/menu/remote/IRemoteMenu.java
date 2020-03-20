@@ -19,7 +19,7 @@ import static com.hb0730.cloud.admin.common.util.ServerNameConstants.MENU_SERVER
  * @since V1.0
  */
 @FeignClient(name = MENU_SERVER, path = MENU_SERVER_REQUEST, configuration = FeignConfiguration.class, fallbackFactory = RemoteMenuFallbackFactory.class)
-public interface IRemoteMenu extends com.hb0730.cloud.admin.api.menu.IRemoteMenu {
+public interface IRemoteMenu {
 
     /**
      * <p>
@@ -30,7 +30,6 @@ public interface IRemoteMenu extends com.hb0730.cloud.admin.api.menu.IRemoteMenu
      * @return 菜单
      */
     @GetMapping("/{id}")
-    @Override
     ResultJson getMenuById(@PathVariable("id") Long id);
 
     /**
@@ -42,6 +41,5 @@ public interface IRemoteMenu extends com.hb0730.cloud.admin.api.menu.IRemoteMenu
      * @return 菜单
      */
     @GetMapping("/menu/{parentId}")
-    @Override
     ResultJson getMenusByParentId(@PathVariable("parentId") Long parentId);
 }

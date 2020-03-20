@@ -1,10 +1,10 @@
 package com.hb0730.cloud.admin.api.feign.dept.remote.fallback;
 
+import com.hb0730.cloud.admin.api.feign.dept.mode.vo.UserDeptParamsVO;
 import com.hb0730.cloud.admin.api.feign.dept.remote.IRemoteUserDept;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
 import com.hb0730.cloud.admin.common.web.utils.ResponseResult;
-import com.hb0730.cloud.admin.commons.user.dept.model.vo.UserDeptParamsVO;
 
 import java.util.List;
 

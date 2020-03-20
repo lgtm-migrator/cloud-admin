@@ -1,9 +1,9 @@
 package com.hb0730.cloud.admin.api.feign.dept.remote;
 
+import com.hb0730.cloud.admin.api.feign.dept.mode.vo.UserDeptParamsVO;
 import com.hb0730.cloud.admin.api.feign.dept.remote.fallback.RemoteUserDeptFallbackFactory;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.commons.feign.configuration.FeignConfiguration;
-import com.hb0730.cloud.admin.commons.user.dept.model.vo.UserDeptParamsVO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,7 +24,7 @@ import static com.hb0730.cloud.admin.common.util.ServerNameConstants.USER_DEPT_S
  * @since V1.0
  */
 @FeignClient(value = USER_DEPT_SERVER, path = USER_DEPT_SERVER_REQUEST, configuration = FeignConfiguration.class, fallbackFactory = RemoteUserDeptFallbackFactory.class)
-public interface IRemoteUserDept extends com.hb0730.cloud.admin.api.user.dept.IRemoteUserDept {
+public interface IRemoteUserDept {
     /**
      * <p>
      * 根据用户获组织id
@@ -33,7 +33,6 @@ public interface IRemoteUserDept extends com.hb0730.cloud.admin.api.user.dept.IR
      * @param userId 用户id
      * @return 组织id
      */
-    @Override
     @GetMapping("/getDeptId/{userId}")
     ResultJson getDeptByUserId(@PathVariable("userId") Long userId);
 
@@ -46,7 +45,6 @@ public interface IRemoteUserDept extends com.hb0730.cloud.admin.api.user.dept.IR
      * @param deptIds 组织id
      * @return 是否成功
      */
-    @Override
     @PostMapping("/bindingDeptId/{userId}")
     ResultJson bindingDeptByUserId(@PathVariable("userId") Long userId, @RequestBody List<Long> deptIds);
 
@@ -70,7 +68,6 @@ public interface IRemoteUserDept extends com.hb0730.cloud.admin.api.user.dept.IR
      * @param userId 用户id
      * @return 是否成功
      */
-    @Override
     @GetMapping("/delete/user/{id}")
     ResultJson removeByUserId(@PathVariable("id") Long userId);
 }

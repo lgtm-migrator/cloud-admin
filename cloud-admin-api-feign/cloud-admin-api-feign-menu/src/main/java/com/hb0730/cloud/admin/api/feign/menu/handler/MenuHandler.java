@@ -1,11 +1,10 @@
 package com.hb0730.cloud.admin.api.feign.menu.handler;
 
+import com.hb0730.cloud.admin.api.feign.menu.model.vo.SystemMenuVO;
 import com.hb0730.cloud.admin.api.feign.menu.remote.IRemoteMenu;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.JsonConvertBeanUtils;
-import com.hb0730.cloud.admin.commons.menu.model.vo.SystemMenuVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 

@@ -1,12 +1,10 @@
 package com.hb0730.cloud.admin.server.post.dept.system.service;
 
-import com.hb0730.cloud.admin.commons.dept.model.vo.SystemDeptVO;
-import com.hb0730.cloud.admin.commons.model.security.UserDetail;
-import com.hb0730.cloud.admin.server.post.dept.system.model.entity.SystemPostDeptEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.hb0730.cloud.admin.commons.model.security.UserDetail;
+import com.hb0730.cloud.admin.commons.model.security.dept.SystemDeptVO;
+import com.hb0730.cloud.admin.server.post.dept.system.model.entity.SystemPostDeptEntity;
 import org.springframework.lang.NonNull;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 

@@ -20,7 +20,7 @@ import static com.hb0730.cloud.admin.common.util.ServerNameConstants.PERMISSION_
  * @since V1.0
  */
 @FeignClient(name = PERMISSION_SERVER, path = PERMISSION_SERVER_REQUEST, configuration = FeignConfiguration.class, fallbackFactory = RemotePermissionFallbackFactory.class)
-public interface IRemotePermission extends com.hb0730.cloud.admin.api.permission.IRemotePermission {
+public interface IRemotePermission {
     /**
      * <p>
      * 根据ids获取权限
@@ -30,6 +30,5 @@ public interface IRemotePermission extends com.hb0730.cloud.admin.api.permission
      * @return 权限级
      */
     @PostMapping("/permission/ids")
-    @Override
     ResultJson getPermissionByIds(@RequestBody List<Long> id);
 }

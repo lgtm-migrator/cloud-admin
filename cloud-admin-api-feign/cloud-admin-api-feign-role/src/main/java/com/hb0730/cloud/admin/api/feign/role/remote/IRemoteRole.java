@@ -20,7 +20,7 @@ import static com.hb0730.cloud.admin.common.util.ServerNameConstants.ROLE_SERVER
  * @since V1.0
  */
 @FeignClient(name = ROLE_SERVER, path = ROLE_SERVER_REQUEST, configuration = FeignConfiguration.class, fallbackFactory = RemoteRoleFallbackFactory.class)
-public interface IRemoteRole extends com.hb0730.cloud.admin.api.role.IRemoteRole {
+public interface IRemoteRole {
 
     /**
      * <p>
@@ -31,6 +31,5 @@ public interface IRemoteRole extends com.hb0730.cloud.admin.api.role.IRemoteRole
      * @return 角色信息
      */
     @PostMapping("/roles")
-    @Override
     ResultJson getRolesByIds(@RequestBody List<Long> ids);
 }

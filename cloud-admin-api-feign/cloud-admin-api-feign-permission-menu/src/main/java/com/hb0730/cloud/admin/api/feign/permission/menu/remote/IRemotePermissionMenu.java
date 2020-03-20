@@ -23,7 +23,7 @@ import static com.hb0730.cloud.admin.common.util.ServerNameConstants.PERMISSION_
  * @since V1.0
  */
 @FeignClient(name = PERMISSION_MENU_SERVER, path = PERMISSION_MENU_SERVER_REQUEST, configuration = FeignConfiguration.class, fallbackFactory = RemotePermissionMenuFallbackFactory.class)
-public interface IRemotePermissionMenu extends com.hb0730.cloud.admin.api.permission.menu.IRemotePermissionMenu {
+public interface IRemotePermissionMenu {
 
     /**
      * <p>
@@ -34,7 +34,6 @@ public interface IRemotePermissionMenu extends com.hb0730.cloud.admin.api.permis
      * @return 菜单id
      */
     @PostMapping("/menus")
-    @Override
     ResultJson getMenuByPermission(@RequestBody List<Long> permissionIds);
 
     /**

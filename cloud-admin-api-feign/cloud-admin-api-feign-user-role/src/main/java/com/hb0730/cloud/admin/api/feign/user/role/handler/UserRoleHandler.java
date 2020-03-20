@@ -1,13 +1,13 @@
 package com.hb0730.cloud.admin.api.feign.user.role.handler;
 
 import com.google.common.collect.Lists;
-import com.hb0730.clou.admin.commons.model.role.SystemRoleVO;
 import com.hb0730.cloud.admin.api.feign.role.remote.IRemoteRole;
 import com.hb0730.cloud.admin.api.feign.user.role.remote.IRemoteUserRole;
 import com.hb0730.cloud.admin.common.web.exception.BusinessException;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
 import com.hb0730.cloud.admin.common.web.utils.JsonConvertBeanUtils;
+import com.hb0730.cloud.admin.commons.model.security.role.SystemRoleVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;

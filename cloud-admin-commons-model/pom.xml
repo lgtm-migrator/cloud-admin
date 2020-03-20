@@ -14,14 +14,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>cloud-admin-commons-model-security</module>
-        <module>cloud-admin-commons-model-router</module>
-        <module>cloud-admin-commons-model-user</module>
         <module>cloud-admin-commons-model-web</module>
-        <module>cloud-admin-commons-model-menu</module>
-        <module>cloud-admin-commons-model-permission</module>
-        <module>cloud-admin-commons-model-dept</module>
-        <module>cloud-admin-commons-model-user-dept</module>
-        <module>cloud-admin-commons-model-role</module>
     </modules>
 
     <dependencies>

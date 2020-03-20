@@ -1,9 +1,9 @@
 package com.hb0730.cloud.admin.commons.model.security;
 
-import com.hb0730.clou.admin.commons.model.role.SystemRoleVO;
-import com.hb0730.cloud.admin.commons.dept.model.vo.SystemDeptVO;
-import com.hb0730.cloud.admin.commons.permission.model.vo.SystemPermissionVO;
-import com.hb0730.cloud.admin.commons.user.model.vo.SystemUserVO;
+import com.hb0730.cloud.admin.commons.model.security.dept.SystemDeptVO;
+import com.hb0730.cloud.admin.commons.model.security.permission.SystemPermissionVO;
+import com.hb0730.cloud.admin.commons.model.security.role.SystemRoleVO;
+import com.hb0730.cloud.admin.commons.model.security.user.SystemUserVO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

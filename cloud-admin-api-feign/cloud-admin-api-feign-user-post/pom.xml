@@ -11,11 +11,5 @@
 
     <artifactId>cloud-admin-api-feign-user-post</artifactId>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.hb0730</groupId>
-            <artifactId>cloud-admin-api-user-post</artifactId>
-            <version>${parent.version}</version>
-        </dependency>
-    </dependencies>
+
 </project>

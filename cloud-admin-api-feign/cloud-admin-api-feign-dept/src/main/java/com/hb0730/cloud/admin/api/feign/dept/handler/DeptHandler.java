@@ -2,14 +2,14 @@ package com.hb0730.cloud.admin.api.feign.dept.handler;
 
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
+import com.hb0730.cloud.admin.api.feign.dept.mode.vo.UserDeptParamsVO;
 import com.hb0730.cloud.admin.api.feign.dept.remote.IRemoteDept;
 import com.hb0730.cloud.admin.api.feign.dept.remote.IRemoteUserDept;
 import com.hb0730.cloud.admin.common.web.exception.BusinessException;
 import com.hb0730.cloud.admin.common.web.response.ResultJson;
 import com.hb0730.cloud.admin.common.web.utils.CodeStatusEnum;
 import com.hb0730.cloud.admin.common.web.utils.JsonConvertBeanUtils;
-import com.hb0730.cloud.admin.commons.dept.model.vo.SystemDeptVO;
-import com.hb0730.cloud.admin.commons.user.dept.model.vo.UserDeptParamsVO;
+import com.hb0730.cloud.admin.commons.model.security.dept.SystemDeptVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;

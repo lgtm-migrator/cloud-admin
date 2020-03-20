@@ -1,9 +1,9 @@
 package com.hb0730.cloud.admin.server.oauth2.model;
 
 import com.google.common.collect.Sets;
-import com.hb0730.clou.admin.commons.model.role.SystemRoleVO;
 import com.hb0730.cloud.admin.common.util.SecurityCommonConstant;
-import com.hb0730.cloud.admin.commons.permission.model.vo.SystemPermissionVO;
+import com.hb0730.cloud.admin.commons.model.security.permission.SystemPermissionVO;
+import com.hb0730.cloud.admin.commons.model.security.role.SystemRoleVO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.apache.commons.lang.StringUtils;

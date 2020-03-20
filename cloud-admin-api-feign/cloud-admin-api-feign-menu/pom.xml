@@ -11,16 +11,4 @@
 
     <artifactId>cloud-admin-api-feign-menu</artifactId>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.hb0730</groupId>
-            <artifactId>cloud-admin-commons-model-menu</artifactId>
-            <version>${parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.hb0730</groupId>
-            <artifactId>cloud-admin-api-menu</artifactId>
-            <version>${parent.version}</version>
-        </dependency>
-    </dependencies>
 </project>

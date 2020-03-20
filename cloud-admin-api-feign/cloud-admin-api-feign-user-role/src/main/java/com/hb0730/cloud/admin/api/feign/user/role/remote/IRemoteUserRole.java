@@ -22,7 +22,7 @@ import static com.hb0730.cloud.admin.common.util.ServerNameConstants.USER_ROLE_S
  * @since V1.0
  */
 @FeignClient(value = USER_ROLE_SERVER, path = USER_ROLE_SERVER_REQUEST, configuration = FeignConfiguration.class, fallbackFactory = RemoteUserRoleFallbackFactory.class)
-public interface IRemoteUserRole extends com.hb0730.clou.admin.api.user.role.IRemoteUserRole {
+public interface IRemoteUserRole {
 
     /**
      * <p>
@@ -32,7 +32,6 @@ public interface IRemoteUserRole extends com.hb0730.clou.admin.api.user.role.IRe
      * @param userId 用户id
      * @return 岗位id
      */
-    @Override
     @GetMapping("/getRoleId/{userId}")
     public ResultJson getRoleByUserId(@PathVariable("userId") Long userId);
 
@@ -45,7 +44,6 @@ public interface IRemoteUserRole extends com.hb0730.clou.admin.api.user.role.IRe
      * @param postIds 岗位id
      * @return 是否成功
      */
-    @Override
     @PostMapping("/bindingRoleId/{userId}")
     ResultJson bindingRoleByUserId(@PathVariable("userId") Long userId, @RequestBody List<Long> postIds);
 
@@ -55,7 +53,6 @@ public interface IRemoteUserRole extends com.hb0730.clou.admin.api.user.role.IRe
      * @param userId 用户id
      * @return 是否成功
      */
-    @Override
     @GetMapping("/delete/user/{id}")
     ResultJson removeByUserId(@PathVariable("id") Long userId);
 }

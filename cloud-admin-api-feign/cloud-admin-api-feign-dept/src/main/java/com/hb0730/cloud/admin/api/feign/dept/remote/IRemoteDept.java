@@ -20,7 +20,7 @@ import static com.hb0730.cloud.admin.common.util.ServerNameConstants.DEPT_SERVER
  * @since V1.0
  */
 @FeignClient(name = DEPT_SERVER, path = DEPT_SERVER_REQUEST, configuration = FeignConfiguration.class, fallbackFactory = RemoteDeptFallbackFactory.class)
-public interface IRemoteDept extends com.hb0730.cloud.admin.api.dept.IRemoteDept {
+public interface IRemoteDept {
 
     /**
      * 根据id获取组织
@@ -29,6 +29,5 @@ public interface IRemoteDept extends com.hb0730.cloud.admin.api.dept.IRemoteDept
      * @return 组织
      */
     @PostMapping("/getDeptById")
-    @Override
     ResultJson getDeptByIds(@RequestBody List<Long> ids);
 }

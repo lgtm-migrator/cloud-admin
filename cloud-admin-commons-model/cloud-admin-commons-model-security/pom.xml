@@ -15,24 +15,13 @@
     <dependencies>
         <dependency>
             <groupId>com.hb0730</groupId>
-            <artifactId>cloud-admin-commons-model-user</artifactId>
+            <artifactId>cloud-admin-commons-model-web</artifactId>
             <version>${parent.version}</version>
         </dependency>
+
         <dependency>
-            <groupId>com.hb0730</groupId>
-            <artifactId>cloud-admin-commons-model-dept</artifactId>
-            <version>${parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.hb0730</groupId>
-            <artifactId>cloud-admin-commons-model-permission</artifactId>
-            <version>${parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.hb0730</groupId>
-            <artifactId>cloud-admin-commons-model-role</artifactId>
-            <version>${parent.version}</version>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
         </dependency>
     </dependencies>
-
 </project>
