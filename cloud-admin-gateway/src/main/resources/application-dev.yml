@@ -1,0 +1,76 @@
+spring:
+  application:
+    name: cloud-admin-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${cloud.admin.discovery.server-addr:localhost:8848}
+        namespace: aff3eac8-1bcc-4272-ba98-94b54fb1c016
+        group: cloud-admin-group
+    sentinel:
+      transport:
+        port: 8721
+        dashboard: ${cloud.admin.sentinel.dashboard:localhost:8848}
+      filter:
+        enabled: false
+        url-patterns: /**
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+    stream:
+      rocketmq:
+        binder:
+          name-server: ${cloud.admin.rocketmq.name-server:localhost:9876}
+        bindings:
+          input-router:
+            consumer:
+              orderly: true
+      bindings:
+        input-router:
+          destination: router-topic
+          content-type: text/plain
+          group: cloud-admin-router
+          consumer:
+            maxAttempts: 10
+
+  main:
+    allow-bean-definition-overriding: true
+server:
+  port: 1010
+feign:
+  sentinel:
+    enabled: true
+  client:
+    config:
+      default:
+        connectTimeout: 50000
+        readTimeout: 50000
+        loggerLevel: BASIC
+  okhttp:
+    enabled: true
+  httpclient:
+    enabled: false
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+logging:
+  level:
+    com:
+      hb0730:
+        cloud:
+          admin:
+            gateway: debug
+
+
+cloud:
+  admin:
+    discovery:
+      server-addr: localhost:8848
+    sentinel:
+      dashboard: localhost:8408
+    rocketmq:
+      name-server: localhost:9876
