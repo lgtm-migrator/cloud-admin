@@ -25,11 +25,11 @@ public class PostDeptGenerator {
         AutoGenerator mpg = new AutoGenerator();
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl(mysqlProperties.MYSQL_URL);
+        dsc.setUrl(MysqlProperties.MYSQL_URL);
         dsc.setDbType(DbType.MYSQL);
-        dsc.setDriverName(mysqlProperties.DRIVER_NAME);
-        dsc.setUsername(mysqlProperties.MYSQL_USERNAME);
-        dsc.setPassword(mysqlProperties.MYSQL_PASSWORD);
+        dsc.setDriverName(MysqlProperties.DRIVER_NAME);
+        dsc.setUsername(MysqlProperties.MYSQL_USERNAME);
+        dsc.setPassword(MysqlProperties.MYSQL_PASSWORD);
         mpg.setDataSource(dsc);
         //生成策略
         StrategyConfig strategy = new StrategyConfig();
@@ -39,13 +39,13 @@ public class PostDeptGenerator {
         //数据库表字段映射到实体的命名策略, 未指定按照 naming 执行
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         //公共字段
-        strategy.setSuperEntityColumns(mysqlProperties.SUPER_ENTITY_COLUMNS);
+        strategy.setSuperEntityColumns(MysqlProperties.SUPER_ENTITY_COLUMNS);
         //自定义继承的Entity类全称，带包名
         strategy.setSuperEntityClass(BaseDomain.class);
         //自定义继承的Controller类全称，带包名
-        strategy.setSuperControllerClass(mysqlProperties.SUPER_CONTROLLER_CLASS);
+        strategy.setSuperControllerClass(MysqlProperties.SUPER_CONTROLLER_CLASS);
         //自定义继承Service类
-        strategy.setSuperServiceImplClass(mysqlProperties.SUPER_SERVICE_IMPL_CLASS);
+        strategy.setSuperServiceImplClass(MysqlProperties.SUPER_SERVICE_IMPL_CLASS);
         //常量字段
         strategy.setEntityColumnConstant(true);
         //【实体】是否为lombok模型（默认 false）
