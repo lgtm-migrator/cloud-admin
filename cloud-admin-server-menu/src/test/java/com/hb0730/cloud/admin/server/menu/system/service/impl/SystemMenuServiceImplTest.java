@@ -25,8 +25,8 @@ public class SystemMenuServiceImplTest {
 
     @Test
     public void getChildrenId() {
-        Set<Long> childrenId = systemMenuService.getChildrenId(0L);
-        childrenId.remove(0L);
+        Set<Long> childrenId = systemMenuService.getChildrenId(-1L);
+        childrenId.remove(-1L);
     }
 
     @Test

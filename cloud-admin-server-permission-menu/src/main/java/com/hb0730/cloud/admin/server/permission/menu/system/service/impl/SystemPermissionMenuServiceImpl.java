@@ -123,7 +123,7 @@ public class SystemPermissionMenuServiceImpl extends BaseServiceImpl<SystemPermi
     @Override
     public List<PermissionMenuListVO> getAllPermissionMenu() {
         List<PermissionMenuListVO> permissionMenus = Lists.newArrayList();
-        List<PermissionMenuListVO> menus = getMenusByParentId(0L);
+        List<PermissionMenuListVO> menus = getMenusByParentId(-1L);
         if (CollectionUtils.isEmpty(menus)) {
             return permissionMenus;
         }

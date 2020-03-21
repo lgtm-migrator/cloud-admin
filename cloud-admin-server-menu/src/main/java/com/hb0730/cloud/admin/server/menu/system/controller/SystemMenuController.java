@@ -2,6 +2,7 @@ package com.hb0730.cloud.admin.server.menu.system.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.google.common.collect.Lists;
 import com.hb0730.cloud.admin.api.feign.permission.menu.handler.PermissionMenuHandler;
 import com.hb0730.cloud.admin.common.util.BeanUtils;
 import com.hb0730.cloud.admin.common.web.controller.AbstractBaseController;
@@ -67,6 +68,35 @@ public class SystemMenuController extends AbstractBaseController<SystemMenuVO> {
         entity.setId(new Long(id.toString()));
         systemMenuService.removeById(entity);
         return ResponseResult.resultSuccess("删除成功");
+    }
+
+    /**
+     * <p>
+     * 根据id删除菜单
+     * </p>
+     *
+     * @param ids id
+     * @return 是否成功
+     */
+    @PostMapping("/delete")
+    @PreAuthorize("hasAnyAuthority('menu:remove')")
+    public ResultJson deleteByIds(@RequestBody List<Long> ids) {
+        if (CollectionUtils.isEmpty(ids)) {
+            return ResponseResult.resultSuccess("删除成功");
+        }
+        List<SystemMenuEntity> entityList = Lists.newArrayList();
+        UserDetail currentUser = getCurrentUser();
+        ids.forEach(id -> {
+            SystemMenuEntity entity = new SystemMenuEntity();
+            entity.setId(id);
+            entity.setUpdateTime(new Date());
+            entity.setUpdateUserId(currentUser.getId());
+            entityList.add(entity);
+        });
+        systemMenuService.updateBatchById(entityList);
+        systemMenuService.removeByIds(ids);
+        return ResponseResult.resultSuccess("删除成功");
+
     }
 
     @Override

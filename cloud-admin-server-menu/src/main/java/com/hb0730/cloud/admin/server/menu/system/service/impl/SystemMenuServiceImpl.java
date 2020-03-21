@@ -85,7 +85,7 @@ public class SystemMenuServiceImpl extends BaseServiceImpl<SystemMenuMapper, Sys
 
     @Override
     public List<MenuVO> getThreeMenus() {
-        return MenuUtils.getMenusTreeByParentId(0L);
+        return MenuUtils.getMenusTreeByParentId(-1L);
     }
 
     @Override
@@ -127,7 +127,7 @@ public class SystemMenuServiceImpl extends BaseServiceImpl<SystemMenuMapper, Sys
             SystemMenuEntity entity = getById(id);
             MenuUtils.getParentNodeInfoByChildrenNode(entity, allMenu, ids);
         });
-        List<MenuVO> menuTree = MenuUtils.getMenusTreeByParentId(0L);
+        List<MenuVO> menuTree = MenuUtils.getMenusTreeByParentId(-1L);
         List<MenuVO> treeByNodeId = MenuUtils.getTreeByNodeId(menuTree, ids);
         List<Map<String, Object>> maps = Lists.newArrayList();
         MenuUtils.getVueModel(treeByNodeId, maps);
