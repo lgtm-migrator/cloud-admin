@@ -83,7 +83,6 @@ fabric.properties
 .mtj.tmp/
 
 # Package Files #
-*.jar
 *.war
 *.nar
 *.ear
@@ -217,5 +216,4 @@ local.properties
 .scala_dependencies
 .worksheet
 
-/*.iml
 /*.iml
