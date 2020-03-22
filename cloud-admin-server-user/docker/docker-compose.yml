@@ -1,0 +1,13 @@
+version: '3.1'
+services:
+  hohofast:
+    restart: always
+    image: cloud-admin-user-server
+    environment:
+      - SPRING_PROFILES_ACTIVE=test
+      - SERVER_NAME=cloud-admin-user-server
+      - SKYWALKING_URL=localhost
+    volumes:
+      - ./log-skywalking:/agent/skywalking/logs
+    ports:
+      - 88089:1030
